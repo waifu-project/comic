@@ -1,19 +1,13 @@
 # 18comic
 
-## Project setup
-```
-yarn install
-```
+**仅供学习参考**
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+基于 `uniapp` + `typescript` 开发的一个看漫画的软件(雾)
 
-### Compiles and minifies for production
-```
-yarn build
-```
+自豪的使用 `vscode` 来开发
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+![](https://img.shields.io/badge/style-hello--world-green?logo=visual-studio-code&style=for-the-badge&label=vscode)
+
+# 界面
+
+完全借(chao)鉴(xi)了 `picacg`

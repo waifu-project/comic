@@ -1,16 +1,71 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [
 		{
-			"path": "pages/index/index",
+			"path": "views/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "Dong"
+			},
+			"meta": {
+				"description": "首页"
 			}
+		},
+		{
+			"path": "views/switch/flow",
+			"style": {
+				"navigationStyle": "custom",
+				"disableScroll": true
+			},
+			"meta": {
+				"description": "首次启动切换分流"
+			}
+		},
+		{
+			"path": "views/text"
 		}
 	],
+	"tabBar": {
+		"color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+		"list": [
+			{
+				"pagePath": "views/index/index",
+				"text": "首页"
+				// "iconPath": "static/images/cate.png",
+				// "selectedIconPath": "static/images/cate-selected.png"
+			},
+			{
+				"pagePath": "views/text",
+				"text": "分类"
+			}
+			// {
+			// 	"pagePath": "views/text",
+			// 	"text": "我的"
+			// },
+			// {
+			// 	"pagePath": "views/text",
+			// 	"text": "设置"
+			// }
+		]
+	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
+	},
+	"condition": {
+		"current": 0,
+		"list": [
+			{
+				"name": "首页",
+				"path":"views/index/index"
+			},
+			{
+				"name":"首页切换流",
+				"path":"views/switch/flow"
+			}
+		]
 	}
 }
