@@ -11,3 +11,10 @@
 # 界面
 
 完全借(chao)鉴(xi)了 `picacg`
+
+|    |            |   |
+|----------|:-------------:|------:|
+| ![](./design/1.jpg) |  ![](./design/2.jpg) |  ![](./design/3.jpg) |
+| ![](./design/4.jpg) |  ![](./design/5.jpg) |  ![](./design/6.jpg) |
+| ![](./design/7.jpg) |  ![](./design/8.jpg) |  ![](./design/9.jpg) |
+| ![](./design/10.jpg) |  ![](./design/11.jpg) |  ![](./design/12.jpg) |
