@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "open": "open -a Google Chrome --args --disable-web-security --user-data-dir='/tmp/ctx'",
     "dev": "yarn serve",
     "serve": "npm run dev:h5",
     "build": "npm run build:h5",
@@ -46,6 +47,7 @@
     "@dcloudio/uni-quickapp-native": "^2.0.0-27520200518001",
     "@dcloudio/uni-quickapp-webview": "^2.0.0-27520200518001",
     "@dcloudio/uni-stat": "^2.0.0-27520200518001",
+    "cheerio": "^1.0.0-rc.3",
     "core-js": "^3.6.4",
     "dayjs": "^1.8.27",
     "flyio": "^0.6.2",
@@ -67,6 +69,7 @@
     "@dcloudio/vue-cli-plugin-uni-optimize": "^2.0.0-27520200518001",
     "@dcloudio/webpack-uni-mp-loader": "^2.0.0-27520200518001",
     "@dcloudio/webpack-uni-pages-loader": "^2.0.0-27520200518001",
+    "@types/cheerio": "^0.22.18",
     "@vue/cli-plugin-babel": "^4.3.0",
     "@vue/cli-plugin-typescript": "*",
     "@vue/cli-service": "^4.3.0",
