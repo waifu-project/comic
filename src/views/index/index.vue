@@ -7,12 +7,12 @@
 					<video :src="item.url" autoplay loop muted :show-play-btn="false" :controls="false" objectFit="cover" v-if="item.type=='video'"></video>
 				</swiper-item>
 			</swiper>
-			<view class="padding-sm bg-pink">
-				{{ 'BIKA' }}
+			<view class="padding-sm bg-green">
+				{{ '18comic' }}
 			</view>
 		</view>
 
-		<x-list :data="swiperList" itemClass="text-white padding-sm solid-bottom">
+		<x-list v-if="false" :data="swiperList" itemClass="text-white padding-sm solid-bottom">
 			<template slot="item" slot-scope="{ row }">
 				<view class="cu-avatar xl diy-cover margin-right-sm" :style="{ backgroundImage: `url(${ cover })` }" />
         <view class="content diy-cover">
@@ -26,7 +26,7 @@
 			</template>
 		</x-list>
 
-		<Card title="本子神推荐" :data="swiperList" />
+		<Card title="本子神推荐" :data="tempList" />
 
 		<dialog-box
 		:show.sync="model.startup"
@@ -90,11 +90,12 @@ export default Vue.extend({
 					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big39000.jpg'
 				}],
 				dotStyle: true,
+				tempList: []
 		}
 	},
 	async created() {
 		const data = await getIndexData()
-		console.log('data: ', data);
+		this.tempList = data
 	},
 	methods: {
 		handleDialogAction(item: any) {

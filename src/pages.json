@@ -20,6 +20,18 @@
 			}
 		},
 		{
+			"path": "views/detail/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "views/reader/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "views/text"
 		}
 	],
@@ -32,21 +44,19 @@
 			{
 				"pagePath": "views/index/index",
 				"text": "首页"
-				// "iconPath": "static/images/cate.png",
-				// "selectedIconPath": "static/images/cate-selected.png"
 			},
 			{
 				"pagePath": "views/text",
 				"text": "分类"
+			},
+			{
+				"pagePath": "views/text",
+				"text": "我的"
+			},
+			{
+				"pagePath": "views/text",
+				"text": "设置"
 			}
-			// {
-			// 	"pagePath": "views/text",
-			// 	"text": "我的"
-			// },
-			// {
-			// 	"pagePath": "views/text",
-			// 	"text": "设置"
-			// }
 		]
 	},
 	"globalStyle": {
@@ -56,11 +66,20 @@
 		"backgroundColor": "#F8F8F8"
 	},
 	"condition": {
-		"current": 0,
+		"current": 2,
 		"list": [
 			{
 				"name": "首页",
 				"path":"views/index/index"
+			},
+			{
+				"name": "详情",
+				"path": "views/detail/index",
+				"query": "id=1"
+			},
+			{
+				"name": "阅读器",
+				"path": "views/reader/index"
 			},
 			{
 				"name":"首页切换流",

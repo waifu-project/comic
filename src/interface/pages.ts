@@ -22,4 +22,5 @@ export interface indexDataFace {
   swiperList: any[]
   dotStyle: boolean
   cover?: string
+  tempList: any[]
 }
