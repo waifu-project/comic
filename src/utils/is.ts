@@ -29,3 +29,8 @@ export const isURL = (str: string): boolean=> {
     '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
   return !!pattern.test(str);
 }
+
+// 判断全屏
+export const isFullScreen = (): boolean=> {
+  return plus.navigator.isFullscreen()
+}

@@ -3,3 +3,7 @@ export const setTitle = (title: string) => {
     title
   })
 }
+
+export const setFullScreen = (flag: boolean = true): void=> {
+  plus.navigator.setFullscreen(true)
+}
