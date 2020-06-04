@@ -1,17 +1,20 @@
 {
-    "name": "18comic",
-    "appid": "",
-    "description": "",
-    "versionName": "1.0.0",
-    "versionCode": "100",
-	"transformPx":false,
-    "app-plus": { /* 5+App特有相关 */
-        "modules": { /* 模块配置 */
-
-        },
-        "distribute": { /* 应用发布信息 */
-            "android": { /* android打包配置 */
-                "permissions": ["<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
+    "name" : "18comic",
+    "appid" : "__UNI__4D582C0",
+    "description" : "",
+    "versionName" : "1.0.0",
+    "versionCode" : "100",
+    "transformPx" : false,
+    "app-plus" : {
+        /* 5+App特有相关 */
+        "modules" : {},
+        /* 模块配置 */
+        "distribute" : {
+            /* 应用发布信息 */
+            "android" : {
+                /* android打包配置 */
+                "permissions" : [
+                    "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
                     "<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
                     "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
@@ -35,23 +38,26 @@
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
                 ]
             },
-            "ios": { /* ios打包配置 */
-
-            },
-            "sdkConfigs": { /* SDK配置 */
-
+            "ios" : {},
+            /* ios打包配置 */
+            "sdkConfigs" : {
+                "ad" : {}
             }
         },
-        "usingComponents":true
+        /* SDK配置 */
+        "usingComponents" : true,
+        "splashscreen" : {
+            "alwaysShowBeforeRender" : false
+        }
     },
-    "quickapp": { /* 快应用特有相关 */
-
-    },
-    "mp-weixin": { /* 小程序特有相关 */
-        "usingComponents":true,
-        "appid": "wx8a0f33010a52d157",
+    "quickapp" : {},
+    /* 快应用特有相关 */
+    "mp-weixin" : {
+        /* 小程序特有相关 */
+        "usingComponents" : true,
+        "appid" : "wx8a0f33010a52d157",
         "setting" : {
-        	"urlCheck" : true
+            "urlCheck" : true
         }
     },
     "mp-alipay" : {
