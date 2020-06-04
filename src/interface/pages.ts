@@ -15,12 +15,12 @@ export interface flowDataFace {
 }
 
 export interface indexDataFace {
-  tempUrl: string
   footerButtonStyle: css.Properties
   model: any
   dialogButtons: any[]
   swiperList: any[]
   dotStyle: boolean
+  lists: any[]
   cover?: string
-  tempList: any[]
+  body?: string
 }
