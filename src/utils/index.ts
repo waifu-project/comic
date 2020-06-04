@@ -1,5 +1,7 @@
+import qs from 'qs-stringify'
 import dayjs from 'dayjs'
-import { isNumber } from './is'
+import { isNumber, isObject } from './is'
+import { colors } from '@/const'
 
 // 获取网络状态
 export const getNetwork = (): Promise<any> => {
@@ -99,23 +101,27 @@ export const getCurrentTime = (): string=> {
 // https://stackoverflow.com/a/46352326/10272586
 export const createID = ()=> Math.random().toString(26).slice(2)
 
+export const createRandomLen = (len: number): number=> {
+  return Math.floor(Math.random()*len)
+}
+
+// 返回随机的颜色
+export const createRandomColor = ()=> colors[createRandomLen(colors.length)]
+
 // 路由
 export const router = {
-  push(url: string) {
+  push(url: string, query: any) {
     try {
-      // TODO 防止页面栈溢出, 存在该页之后, 将跳转过去
-      const list = getCurrentPages()
-      let redirectToFlag = false
-      for (let index = 0; index < list.length; index++) {
-        const element = list[index]
-        if (element.route && element.route.search(url) > -1) {
-          redirectToFlag = true
-          break
-        }
-      }
-      let key: any = redirectToFlag ? 'redirectTo' : 'navigateTo';
-      (uni as any)[key]({ url: `/pages/${url}` })
+      if (isObject(query)) query = qs(query)
+      const _c = `/views/${ url }?${ query }`
+      uni.navigateTo({
+        url: _c
+      })
     } catch (error) {
+      uni.showModal({
+        title: '跳转错误, 未知错误',
+        content: error
+      })
       throw new Error(error)
     }
   },
@@ -124,5 +130,17 @@ export const router = {
   },
   redirect(url: string) {
     uni.redirectTo({ url })
+  },
+  // https://blog.csdn.net/liuxin00020/article/details/104842217
+  // 获取当前路由信息
+  current() {
+    let curRoute: any
+    try {
+      curRoute  = (this as any).$mp.page; // 直接获取当前页面路由
+    } catch (error) {
+      let routes = getCurrentPages(); // 获取当前打开过的页面路由数组
+      curRoute = routes[routes.length - 1]
+    }
+    return curRoute
   }
 }
