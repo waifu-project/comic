@@ -1,29 +1,28 @@
 <template>
   <view>
+    <topbar bgColor="bg-gradual-pink" :isBack="true">
+      <block slot="backText">返回</block>
+      <!-- <block slot="content">18comic</block> -->
+    </topbar>
     <rich-text :nodes="_nodes" />
   </view>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import topbar from '@/components/topbar.vue'
 import { setFullScreen } from '@/utils/uni'
-import { getIndexData } from '@/api/v1'
-let hpjs: any
-try {
-  hpjs = require('@/plugins/html_parse')
-} catch (error) {
-  throw new Error(error)
-}
+import { getComicPic } from '@/api/v1'
+let hpjs: any = require('@/plugins/html_parse') 
 
 export default Vue.extend({
   data() {
     return {
-      imgs: [
-        'https://cdn-msp.18comic.biz/media/photos/104333/00017.jpg',
-        'https://cdn-msp.18comic.biz/media/photos/104333/00067.jpg',
-        'https://cdn-msp.18comic.biz/media/photos/104333/00012.jpg'
-      ]
+      imgs: [],
     }
+  },
+  components: {
+    topbar
   },
   computed: {
     _nodes() {
@@ -34,15 +33,17 @@ export default Vue.extend({
       return hpjs(result)
     }
   },
-  onShow() {
-    setFullScreen(true)
+  methods: {
+    async getData(id: string | number, page?: number) {
+      const data = await getComicPic(id)
+      this.imgs = data
+    },
   },
-  onHide() {
-    setFullScreen(false)
-  },
-  async created() {
-		
-	},
+  async onLoad(ops: any) {
+    let { id } = ops
+    id = id ? id : 195491
+    await this.getData(id)
+  }
 })
 </script>
 

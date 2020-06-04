@@ -3,7 +3,7 @@
 		{
 			"path": "views/index/index",
 			"style": {
-				"navigationBarTitleText": "Dong"
+				"navigationStyle": "custom"
 			},
 			"meta": {
 				"description": "首页"
@@ -32,25 +32,41 @@
 			}
 		},
 		{
+			"path": "views/theme/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "views/home/index",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "views/webview/index"
+		},
+		{
 			"path": "views/text"
 		}
 	],
 	"tabBar": {
+		"blurEffect":"extralight",
 		"color": "#7A7E83",
     "selectedColor": "#3cc51f",
-    "borderStyle": "black",
-    "backgroundColor": "#ffffff",
+		"borderStyle": "black",
+		"backgroundColor": "rgba(255, 255, 255, .4)",
 		"list": [
 			{
 				"pagePath": "views/index/index",
 				"text": "首页"
 			},
 			{
-				"pagePath": "views/text",
-				"text": "分类"
+				"pagePath": "views/theme/index",
+				"text": "主题"
 			},
 			{
-				"pagePath": "views/text",
+				"pagePath": "views/home/index",
 				"text": "我的"
 			},
 			{
@@ -66,7 +82,7 @@
 		"backgroundColor": "#F8F8F8"
 	},
 	"condition": {
-		"current": 2,
+		"current": 0,
 		"list": [
 			{
 				"name": "首页",
@@ -79,7 +95,16 @@
 			},
 			{
 				"name": "阅读器",
-				"path": "views/reader/index"
+				"path": "views/reader/index",
+				"query": "id=195582"
+			},
+			{
+				"name": "分类",
+				"path": "views/theme/index"
+			},
+			{
+				"name": "web-view",
+				"path": "views/webview/index"
 			},
 			{
 				"name":"首页切换流",

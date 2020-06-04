@@ -30,10 +30,8 @@
 <script lang="ts">
 import Vue from "vue"
 import { flowDataFace } from "@/interface/pages"
-// import glass from '@/components/glass.vue'
 
 export default Vue.extend({
-  // components: { glass },
   data(): flowDataFace {
     return {
       flowBg: "https://i.loli.net/2020/05/25/ynGRv1z5s7OCtw9.png",
