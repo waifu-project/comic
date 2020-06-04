@@ -5,11 +5,13 @@ import App from './App.vue'
 import glass from '@/components/glass.vue'
 import dialog from '@/components/dialog.vue'
 import xList from '@/components/list.vue'
+import wrapper from '@/components/wrapper.vue'
 // #######
 
 Vue.component('glass', glass)
 Vue.component('dialog-box', dialog)
 Vue.component('x-list', xList)
+Vue.component('wrapper', wrapper)
 
 Vue.config.productionTip = false
 
