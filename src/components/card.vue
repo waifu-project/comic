@@ -2,35 +2,64 @@
   <view>
     <view class="cu-bar bg-white">
       <view class="action">
-        <text class="cuIcon-titles text-green" />
+        <text class="cuIcon-titles" :class="`text-${ lineColor }`" />
         <text class="text-xl text-bold">{{ title }}</text>
       </view>
     </view>
     <scroll-view scroll-x class="bg-white nav" scroll-with-animation>
       <view class="grid col-3 diy-grid">
-        <view class="cu-item grid-card-item" v-for="(item,index) in data" :key="index">
-          <view class="bg-img bg-mask" :style="{
-            backgroundImage: `url(${ item.cover })`,
-            height: `320upx`
-          }"></view>
-          <!-- <image :src="item.cover" /> -->
-          <view class="text-cut">{{ item.title }}</view>
+        <view
+          class="cu-item grid-card-item"
+          v-for="(item,index) in data"
+          :key="index"
+          :style="{
+          minWidth: `33.33%`
+        }"
+        >
+          <view class="bg-img bg-mask"
+            :style="{
+              minWidth: `100%`,
+              backgroundImage: `url(${ item.cover })`,
+              height: `320upx`
+            }"
+            @click="handleClickItem(false, item, index)"
+            @tap="handleClickItem(false, item, index)"
+            @longtap="handleClickItem(false, item, index)"
+          ></view>
+          <view @tap="handleClickItem(true, item, index)" class="text-cut">{{ item.title }}</view>
         </view>
       </view>
-		</scroll-view>
-    <!-- <scroll-view scroll-x>
-      <view class="grid margin-bottom text-center col-3">
-        <view style="height: 10vh" v-for="(item, index) in 20" :key="index">
-          {{ item }}
-        </view>
+    </scroll-view>
+
+    <view class="cu-modal bottom-modal" :class="{ show: currentModalFlag }" @tap="currentModalFlag = false">
+      <view class="cu-dialog" @tap.stop="">
+        <card-preview :data="currentData" />
       </view>
-    </scroll-view> -->
+    </view>
   </view>
 </template>
 
 <script>
+
+/**
+* 卡片
+* @desc 卡片
+* @author d1y<chenhonzhou@gmail.com>
+* @date 2020年05月25日17:22:43
+* @param {String} [title]    - 标题
+* @param {Array} [data]  - 列表数据
+* @param {String} [lineColor] - 线条的颜色
+* @example 调用示例
+*  <card :title="'你好'" :data="[]" :lineColor="'blue'"></glass>
+ */
+
+import cardPreview from '@/components/card-preview'
+import { router } from '@/utils'
 export default {
-  name: 'x-card',
+  name: "x-card",
+  components: {
+    cardPreview
+  },
   props: {
     title: {
       required: true,
@@ -38,15 +67,50 @@ export default {
     },
     data: {
       type: Array,
-      default: ()=> []
+      default: () => []
+    },
+    lineColor: {
+      type: String,
+      default: 'green'
+    }
+  },
+  data() {
+    return {
+      currentData: {
+        title: '',
+        cover: '',
+        author: '',
+        desc: ``,
+      },
+      currentModalFlag: false
+    }
+  },
+  methods: {
+    handleClickItem(flag, item, index) {
+      if (flag) {
+        // TODO 预览内容
+        this.currentData = item
+        this.currentModalFlag = true
+      } else {
+        // TODO 跳转
+        const { id } = item
+        router.push(`detail/index`, {
+          id
+        })
+      }
+      this.$emit('click', {
+        flag,
+        item,
+        index
+      })
     }
   }
-}
+};
 </script>
 
 <style scoped>
 .diy-grid {
-  flex-wrap: nowrap
+  flex-wrap: nowrap;
 }
 .grid-card-item {
   margin: unset;

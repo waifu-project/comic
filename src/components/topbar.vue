@@ -6,14 +6,19 @@
         :style="style"
         :class="[bgImage!=''?'none-bg text-white bg-img':'',bgColor]"
       >
-        <view class="action" @tap="BackPage" v-if="isBack">
-          <text class="cuIcon-back"></text>
-          <slot name="backText"></slot>
-        </view>
-        <view class="content" :style="[{top:StatusBar + 'px'}]">
-          <slot name="content"></slot>
-        </view>
-        <slot name="right"></slot>
+        <block v-if="!diy">
+          <view class="action" @tap="BackPage" v-if="isBack">
+            <text class="cuIcon-back"></text>
+            <slot name="backText"></slot>
+          </view>
+          <view class="content" :style="[{top:StatusBar + 'px'}]">
+            <slot name="content"></slot>
+          </view>
+          <slot name="right"></slot>
+        </block>
+        <block v-else>
+          <slot name="default"></slot>
+        </block>
       </view>
     </view>
   </view>
@@ -42,6 +47,10 @@ export default {
     }
   },
   props: {
+    diy: {
+      type: Boolean,
+      default: false
+    },
     bgColor: {
       type: String,
       default: ""

@@ -1,7 +1,6 @@
 <template>
   <view>
-    <test-image :src="bg" @change="handleTestImageUrl" />
-    <view class="nowBg">
+    <view class="nowBg" :style="{ opacity }">
       <view class="big-bg bg-gradual-blue padding" :style="bgStyle" />
     </view>
     <slot></slot>
@@ -11,7 +10,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import cssType from 'csstype'
-import testImage from './test_image.vue'
+import { blur_default_url } from '@/const'
 
 /**
 * 毛玻璃
@@ -21,18 +20,17 @@ import testImage from './test_image.vue'
 * @param {String} [bg]    - 背景
 * @param {Number} [blur]  - 模糊度
 * @param {Boolean} [dark] - 是否显示黑白
+* @param {Number} [opacity] - 透明度(0-1)
 * @example 调用示例
 *  <glass :bg="" :blur="12" :dark="false"></glass>
  */
 export default Vue.extend({
   name: 'glass',
-  components: {
-    testImage
-  },
   props: {
     bg: {
-      required: true,
-      type: String
+      required: false,
+      type: String,
+      default: (): string=> blur_default_url
     },
     blur: {
       required: false,
@@ -43,20 +41,17 @@ export default Vue.extend({
       required: false,
       type: Boolean,
       default: false
-    }
-  },
-  data() {
-    return {
-      isNetworkReady: false
+    },
+    opacity: {
+      required: false,
+      type: Number,
+      default: 1
     }
   },
   computed: {
-    testImageUrl(): string {
-      return this.isNetworkReady ? this.bg : ''
-    },
     bgStyle: {
       get(): cssType.Properties {
-        const bgUrl = this.testImageUrl
+        const bgUrl = this.bg
         const blur = this.blur
         const isDark = this.dark
         let filter: string = isDark ? `grayscale(100%)` : `blur(${ blur }px)`
@@ -70,11 +65,6 @@ export default Vue.extend({
         Object.assign(obj, resultObj)
         return obj
       }
-    }
-  },
-  methods: {
-    handleTestImageUrl(flag: boolean) {
-      this.isNetworkReady = flag
     }
   }
 })
