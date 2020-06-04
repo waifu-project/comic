@@ -1,5 +1,7 @@
 # 18comic
 
+![](https://18comic.one/media/logo/new_logo.png?v=2020000525)
+
 **仅供学习参考**
 
 基于 `uniapp` + `typescript` 开发的一个看漫画的软件(雾)
