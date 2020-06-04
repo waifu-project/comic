@@ -137,6 +137,7 @@ class Request {
                 task = uni.request({
                     ..._config,
                     success: res => {
+                        uni.hideLoading()
                         that._success(that, _config, res, resolve, reject)
                     },
                     fail: res => {
