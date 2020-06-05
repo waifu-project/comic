@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "status": "tokei",
     "open": "open -a Google Chrome --args --disable-web-security --user-data-dir='/tmp/ctx'",
     "dev": "yarn serve",
     "serve": "npm run dev:h5",
