@@ -1,12 +1,18 @@
 import url from 'url-parse'
 import cherrio from 'cheerio'
-import { shareComicFace, shareIndexModal } from '@/interface'
+import { shareComicFace, shareIndexModal, themeInterface, themeListInterface, episodeInterface } from '@/interface'
 import fs from './fs'
 import { createRandomColor } from '.'
+import { colorItemInterface } from '@/interface/tool'
 
 const hpjs = require('@/plugins/html_parse')
 
-export const comicTheme2Data = (str: string)=> {
+/**
+ * @description 获取主题
+ * @param  {string} str
+ * @returns themeInterface
+ */
+export const comicTheme2Data = (str: string): themeInterface[] => {
   const $ = cherrio.load(str)
   const lists = Array.from($('#wrapper .row')).filter(item=> {
     let checkH4 = cherrio(item).find('h4').length
@@ -18,25 +24,28 @@ export const comicTheme2Data = (str: string)=> {
     const title = now.find('h4').text().trim()
     const lists = Array.from(now.find('a')).map(subItem=> {
       const ele = cherrio(subItem)
-      let url =  ele.attr('href')
-      let text = ele.text().trim()
-      let bg = createRandomColor()
+      let url: string =  ele.attr('href') || ""
+      let text: string = ele.text().trim() || ""
+      let bg: colorItemInterface = createRandomColor()
       if (bg.name == 'white') bg = createRandomColor()
-      return {
+      const result: themeListInterface = {
         url,
         text,
         bg
       }
+      return result
     })
-    return {
-      title,
-      lists
-    }
+    return { title, lists }
   })
   return obj
 }
 
-export const comicPic2Data = (str: string)=> {
+/**
+ * @description 格式化图片
+ * @param  {string} str
+ * @returns string[]
+ */
+export const comicPic2Data = (str: string): string[]=> {
   const $ = cherrio.load(str)
   let R = $('#wrapper .row .panel.panel-default .panel-body .row div[id]')
   const r = Array.from(R).filter(item=> {
@@ -50,7 +59,12 @@ export const comicPic2Data = (str: string)=> {
   return Rx
 }
 
-export const detail2Data = (str: string)=> {
+/**
+ * @description 详情页面转为数据
+ * @param  {string} str
+ * @returns shareComicFace
+ */
+export const detail2Data = (str: string): shareComicFace=> {
   const $ = cherrio.load(str)
   const id = $('#album_id').val()
   const title = $('.panel-heading .pull-left').text().trim()
@@ -99,7 +113,7 @@ export const detail2Data = (str: string)=> {
   like_count = tempMoreInfo.find('.p-t-5.p-b-5').text().trim()
   comment_count = $('.forum-open.btn.btn-primary.dropdown-toggle span').text().trim()
 
-  const episode: any[] = Array.from($('.episode ul a')).map(item=> {
+  const episode: episodeInterface[] = Array.from($('.episode ul a')).map(item=> {
     const id = getCoverItemID($(item).attr('href'))
     const temp = cherrio(item).text().trim().split(' ').filter(subItem=> {
       if (subItem) {
@@ -121,8 +135,8 @@ export const detail2Data = (str: string)=> {
 
   return {
     id,
-    title, // 标题
     cover, // 封面图
+    title, // 标题
     tags, // 标签
     authors, // 作者
     desc, // 介绍
@@ -138,12 +152,17 @@ export const detail2Data = (str: string)=> {
 
 }
 
+/**
+ * @description 模态框数据
+ * @param  {any} $
+ * @returns shareIndexModal
+ */
 export const str2Modal = ($: any): shareIndexModal => {
   const billboard = $('#billboard-modal')
   const title = billboard.find('.modal-title').text().trim()
   let body = billboard.find('.modal-body').html() || ""
   if (body) body = body.trim()
-  const modal = {
+  const modal: shareIndexModal = {
     title,
     body
   }
@@ -161,6 +180,10 @@ export const str2Modal = ($: any): shareIndexModal => {
   return modal
 }
 
+/**
+ * @param  {any} ele
+ * @returns shareComicFace
+ */
 export const str2Data = (ele: any): shareComicFace => {
 
   const cItem = cherrio(ele)
@@ -184,17 +207,6 @@ export const str2Data = (ele: any): shareComicFace => {
   let id = getCoverItemID(itemIdStr)
   let cover = pxComicImg(itemImgEle)
 
-  // let cdr = $(item).children(), cdrLength = cdr.length
-  // if (cdrLength === 2) {
-  //   // 本周新書推薦 (✪ω✪)
-  //   let titleEle = $(item).find('.row')[0]
-  //   let titleText = $(titleEle).find('h4').text().trim()
-  //   obj.title = titleText
-  // } else if (cdrLength === 3) {
-  //   // 最新上传A漫
-  //   obj.title = $(item).find('h4').text().trim()
-  // }
-
   let title = itemImgEle.attr('title') || ""
 
   // 点赞数
@@ -203,6 +215,7 @@ export const str2Data = (ele: any): shareComicFace => {
   let sub_text = sub.text().trim()
   // 作者
   let author = cherrio(authorEle).find('a').text()
+  let authors = [ author ]
   // 标签
   let tags = Array.from(tempTags).map(item => {
     return cherrio(item).text()
@@ -216,6 +229,7 @@ export const str2Data = (ele: any): shareComicFace => {
     time = tempArr.pop() || ""
     time = time.trim()
   }
+  let date = time
 
   return {
     id,
@@ -223,14 +237,18 @@ export const str2Data = (ele: any): shareComicFace => {
     title,
     like_count,
     sub_text,
-    author,
+    authors,
     tags,
-    time,
+    date,
   }
 
 }
 
-// 获取 `url` 中的 `id`
+/**
+ * @description 获取 `url` 中的 `id`
+ * @param  {string|undefined} src
+ * @returns string
+ */
 export const getCoverItemID = (src: string | undefined): string => {
   if (!src) return "0"
   let ctx = new url(src)
@@ -240,7 +258,11 @@ export const getCoverItemID = (src: string | undefined): string => {
   return trg
 }
 
-// 拿到正确的 `url`
+/**
+ * @descriptor 拿到正确的 `url`
+ * @param  {Cheerio} ele
+ * @returns string
+ */
 export const pxComicImg = (ele: Cheerio): string=> {
   let x = ele.attr('src') || ""
   let y = ele.attr('data-original') || ""

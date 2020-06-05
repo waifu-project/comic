@@ -14,6 +14,7 @@ export interface flowDataFace {
   logoText: string // logo文字
 }
 
+// 首页接口数据
 export interface indexDataFace {
   footerButtonStyle: css.Properties
   model: any
