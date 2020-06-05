@@ -6,7 +6,7 @@
       <view class="bg-img bg-mask bg-cover-box" @click="handlePreview(data.cover)" :style="{ backgroundImage: `url(${ data.cover })` }"></view>
       <view class="padding-left-sm padding-right-sm text-left">
         <view class="text-df text-black">{{ data.title }}</view>
-        <view class="text-pink">{{ data.author }}</view>
+        <view class="text-pink">{{ data.authors && data.authors[0] }}</view>
       </view>
       <view>
         <text style="font-size: 60rpx" class="cuIcon-favor padding-sm" />
