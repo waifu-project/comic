@@ -1,10 +1,12 @@
+import { colorItemInterface } from '@/interface/tool'
+
 export const mirror_default_key = 'one'
 
 export const blur_default_url = "https://i.loli.net/2020/05/25/ynGRv1z5s7OCtw9.png"
 
 export const bg_default_url = "http://www.dmoe.cc/random.php"
 
-export const colors = [
+export const colors: colorItemInterface[] = [
   {
     title: "嫣红",
     name: "red",

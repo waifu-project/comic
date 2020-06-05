@@ -2,6 +2,7 @@ import qs from 'qs-stringify'
 import dayjs from 'dayjs'
 import { isNumber, isObject } from './is'
 import { colors } from '@/const'
+import { colorItemInterface } from '@/interface/tool'
 
 // 获取网络状态
 export const getNetwork = (): Promise<any> => {
@@ -106,7 +107,7 @@ export const createRandomLen = (len: number): number=> {
 }
 
 // 返回随机的颜色
-export const createRandomColor = ()=> colors[createRandomLen(colors.length)]
+export const createRandomColor = (): colorItemInterface=> colors[createRandomLen(colors.length)]
 
 // 路由
 export const router = {
@@ -142,5 +143,8 @@ export const router = {
       curRoute = routes[routes.length - 1]
     }
     return curRoute
+  },
+  reload() {
+    // TODO 重新加载
   }
 }
