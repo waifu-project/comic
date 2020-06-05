@@ -34,3 +34,11 @@ export const isURL = (str: string): boolean=> {
 export const isFullScreen = (): boolean=> {
   return plus.navigator.isFullscreen()
 }
+
+export const isIos = (): boolean=> {
+  return uni.getSystemInfoSync().platform === 'ios'
+}
+
+export const isAndroid = (): boolean=> {
+  return uni.getSystemInfoSync().platform === 'android'
+}

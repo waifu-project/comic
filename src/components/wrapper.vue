@@ -15,6 +15,7 @@
  */
 import Vue from 'vue'
 import cssType from 'csstype'
+import { isIos, isAndroid } from '@/utils/is'
 export default Vue.extend({
   name: 'wrapper',
   computed: {
@@ -22,8 +23,11 @@ export default Vue.extend({
       const info = uni.getSystemInfoSync()
       let h = info.windowHeight || 0
       const _b = info.statusBarHeight || 0
-      const isIos: boolean = (info.platform || "").search('ios') >= 0
-      if (isIos) h = h - _b
+      const CustomBar = (this as any).CustomBar
+      // fixbug: 在 `ios` 下, 需要减去 `statusBarHeight`
+      if (isIos()) h = h - _b
+      // fixbug: 在 `android`下, 需要减去自定义的 `CustomBar`
+      if (isAndroid()) h = h - CustomBar
       return {
         height: `${ h }px`
       }
