@@ -4,9 +4,6 @@
 			"path": "views/index/index",
 			"style": {
 				"navigationStyle": "custom"
-			},
-			"meta": {
-				"description": "首页"
 			}
 		},
 		{
@@ -14,9 +11,6 @@
 			"style": {
 				"navigationStyle": "custom",
 				"disableScroll": true
-			},
-			"meta": {
-				"description": "首次启动切换分流"
 			}
 		},
 		{
@@ -40,14 +34,17 @@
 		{
 			"path": "views/home/index",
 			"style": {
-				"navigationBarTitleText": "我的"
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "views/settings/index",
+			"style": {
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "views/webview/index"
-		},
-		{
-			"path": "views/text"
 		}
 	],
 	"tabBar": {
@@ -70,7 +67,7 @@
 				"text": "我的"
 			},
 			{
-				"pagePath": "views/text",
+				"pagePath": "views/settings/index",
 				"text": "设置"
 			}
 		]
