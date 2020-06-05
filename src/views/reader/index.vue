@@ -10,7 +10,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import topbar from '@/components/topbar.vue'
 import { setFullScreen } from '@/utils/uni'
 import { getComicPic } from '@/api/v1'
 let hpjs: any = require('@/plugins/html_parse') 
@@ -20,9 +19,6 @@ export default Vue.extend({
     return {
       imgs: [],
     }
-  },
-  components: {
-    topbar
   },
   computed: {
     _nodes() {

@@ -48,11 +48,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { getTheme, getPopularThemes } from '@/api/v1'
-import topbar from '@/components/topbar.vue'
 export default Vue.extend({
-  components: {
-    topbar
-  },
   data() {
     return {
       placeholder: 'bilibili干杯🍻, 请搜索',

@@ -40,13 +40,11 @@
 <script lang="ts">
 import Vue from 'vue'
 import Card from '@/components/card.vue'
-import topbar from '@/components/topbar.vue'
 import { getIndexData } from '@/api/v1'
 import { indexDataFace } from '@/interface/pages'
 export default Vue.extend({
 	components: {
-		Card,
-		topbar
+		Card
 	},
 	data(): indexDataFace {
 		return {
@@ -93,7 +91,7 @@ export default Vue.extend({
 			const data = await getIndexData()
 			const { modal, lists } = data
 			this.body = modal.body
-			this.lists = lists			
+			this.lists = lists
 		},
 		handleDialogAction(item: any) {
 			try {

@@ -1,20 +1,27 @@
 <template>
-  <glass :opacity=".4" :blur="24">
-    <view class="bg-img bg-mask bg-black light flex align-center shadow-blur" :style="bgMaskImgStyle">
-      <view class="padding-sm text-white">
-        <view class="padding-xs text-xl text-bold">
-          {{ sayWord.hitokoto }}
+  <view>
+    <topbar>
+      <block slot="content">{{ '我的' }}</block>
+    </topbar>
+    <glass :opacity=".4" :blur="24" :bg="bgImg">
+      <wrapper>
+        <view class="bg-img bg-mask bg-black light flex align-center shadow-blur" :style="bgMaskImgStyle">
+          <view class="padding-sm text-white">
+            <view class="padding-xs text-xl text-bold">
+              {{ sayWord.hitokoto }}
+            </view>
+            <view class="padding-xs text-df">
+              - {{ sayWord.from }}
+            </view>
+          </view>
         </view>
-        <view class="padding-xs text-df">
-          - {{ sayWord.from }}
+        <view>
+          <card title="最近观看" lineColor="pink" />
+          <card title="已收藏" lineColor="pink" />
         </view>
-      </view>
-    </view>
-    <view>
-      <card title="最近观看" lineColor="pink" />
-      <card title="已收藏" lineColor="pink" />
-    </view>
-  </glass>
+      </wrapper>
+    </glass>
+  </view>
 </template>
 
 <script lang="ts">
@@ -30,7 +37,8 @@ export default Vue.extend({
       sayWord: {
         hitokoto: '',
         from: ''
-      }
+      },
+      bgImg: bg_default_url
     }
   },
   components: {

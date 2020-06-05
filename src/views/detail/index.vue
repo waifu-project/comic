@@ -31,11 +31,9 @@ import Vue from 'vue'
 import { getIndexData, getDetail } from '@/api/v1'
 import Card from '@/components/card.vue'
 import CardPreview from '@/components/card-preview.vue'
-import topbar from '@/components/topbar.vue'
 
 export default Vue.extend({
   components: {
-    topbar,
     Card,
     CardPreview,
   },
