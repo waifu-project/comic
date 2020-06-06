@@ -1,8 +1,20 @@
+const ghCDN = require('github-to-cdn')
+
 import { colorItemInterface } from '@/interface/tool'
 
 export const mirror_default_key = 'one'
 
-export const blur_default_url = "https://i.loli.net/2020/05/25/ynGRv1z5s7OCtw9.png"
+export let blur_default_url = "https://i.loli.net/2020/05/25/ynGRv1z5s7OCtw9.png"
+
+try {
+  blur_default_url = ghCDN({
+    username: "d1y",
+    repo: '18comic-live',
+    path: 'resources/tiny_blur.png',
+  })
+} catch (error) {
+  throw new Error(error)
+}
 
 export const bg_default_url = "http://www.dmoe.cc/random.php"
 
