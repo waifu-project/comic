@@ -52,13 +52,14 @@
     "core-js": "^3.6.4",
     "dayjs": "^1.8.27",
     "flyio": "^0.6.2",
-    "github-to-cdn": "^0.0.1",
+    "github-to-cdn": "^0.0.2",
     "qs-stringify": "^1.2.1",
     "regenerator-runtime": "^0.12.1",
     "vue": "^2.6.11",
     "vue-class-component": "^6.3.2",
     "vue-property-decorator": "^8.0.0",
-    "vuex": "^3.2.0"
+    "vuex": "^3.2.0",
+    "vuex-persistedstate": "^3.0.1"
   },
   "devDependencies": {
     "@babel/plugin-syntax-typescript": "^7.2.0",
@@ -86,8 +87,7 @@
     "miniprogram-api-typings": "*",
     "postcss-comment": "^2.0.0",
     "typescript": "^3.0.0",
-    "vue-template-compiler": "^2.6.11",
-    "vuex-class": "^0.3.2"
+    "vue-template-compiler": "^2.6.11"
   },
   "browserslist": [
     "Android >= 4",

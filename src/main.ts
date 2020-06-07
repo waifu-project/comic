@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import store from '@/store'
 
 // #######
 import topbar from '@/components/topbar.vue'
@@ -17,4 +18,6 @@ Vue.component('wrapper', wrapper)
 
 Vue.config.productionTip = false
 
-new App().$mount()
+new App({
+  store
+}).$mount()
