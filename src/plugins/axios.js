@@ -277,7 +277,7 @@ class Request {
 
     _fail = function(that, _config, res, resolve, reject) {
         if (_config.debug) {
-            console.error('response failure: ', res)
+            // console.error('response failure: ', res)
         }
         if (res.errMsg === 'request:fail abort') {
             return
