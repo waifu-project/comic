@@ -111,10 +111,11 @@ export const createRandomColor = (): colorItemInterface=> colors[createRandomLen
 
 // 路由
 export const router = {
-  push(url: string, query: any) {
+  push(url: string, query?: any) {
     try {
-      if (isObject(query)) query = qs(query)
-      const _c = `/views/${ url }?${ query }`
+      let _qs = ''
+      if (query && isObject(query)) _qs = `?${ qs(query) }`
+      let _c = `/views/${ url }${ _qs }`
       uni.navigateTo({
         url: _c
       })
