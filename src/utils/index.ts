@@ -1,8 +1,9 @@
-import qs from 'qs-stringify'
 import dayjs from 'dayjs'
 import { isNumber, isObject } from './is'
 import { colors } from '@/const'
 import { colorItemInterface } from '@/interface/tool'
+
+const qs = require('@/plugins/qs2string')
 
 // 获取网络状态
 export const getNetwork = (): Promise<any> => {
