@@ -22,9 +22,7 @@
               backgroundImage: `url(${ item.cover })`,
               height: `320upx`
             }"
-            @click="handleClickItem(false, item, index)"
             @tap="handleClickItem(false, item, index)"
-            @longtap="handleClickItem(false, item, index)"
           ></view>
           <view @tap="handleClickItem(true, item, index)" class="text-cut">{{ item.title }}</view>
         </view>
