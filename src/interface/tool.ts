@@ -1,3 +1,7 @@
+import { searchOptionTimeEnum, searchOptionTypeEnum } from './enum'
+import { searchOptionTimeType, searchOptionsTypeByType } from './types'
+import { shareComicFace } from '.'
+
 // post 默认请求体
 export interface postBodyFace {
   url: string
@@ -21,4 +25,52 @@ export interface colorItemInterface {
    * 颜色值, hex
    */
   color: string
+}
+
+/**
+ * 搜索参数
+ */
+export interface searchOptions {
+  /**
+   * 搜索页数, 默认为 `1`
+   */
+  page: number
+  /**
+   * 搜索时间
+   */
+  t: searchOptionTimeEnum | searchOptionTimeType
+  /**
+   * 类型
+   */
+  o: searchOptionTypeEnum | searchOptionsTypeByType
+}
+
+/**
+ * 搜索接口返回数据
+ */
+export interface searchResponseInterface {
+  /**
+   * 搜索的文字
+   */
+  search_key: string
+  /**
+   * 当前页数
+   */
+  current_page: string | number
+  /**
+   * 所有页数
+   */
+  total_page: string | number
+  /**
+   * 是否有下一页
+   */
+  isNext: boolean
+  /**
+   * 漫画总数
+   */
+  total: string | number
+  /**
+   * 列表
+   */
+  lists: shareComicFace[]
 }

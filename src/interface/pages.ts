@@ -1,4 +1,6 @@
 import css from 'csstype'
+import { shareComicFace } from '.';
+import { searchOptions } from './tool';
 
 interface flowDataArrayFace {
   text: string
@@ -24,4 +26,36 @@ export interface indexDataFace {
   lists: any[]
   cover?: string
   body?: string
+}
+
+export interface searchPageInterface {
+  /**
+   * 数据列表
+   */
+  lists: shareComicFace[]
+  /**
+   * 是否有下一页
+   */
+  isNext: boolean
+  /**
+   * loading状态
+   */
+  isLoading: boolean
+  /**
+   * 查询字段
+   */
+  query: searchOptions
+  /**
+   * 当前页数
+   */
+  current_page: string | number
+  /**
+   * 总页数
+   */
+  total_page: string | number
+  /**
+   * 不重要!(只是用来判断是否是双击)
+   * https://blog.csdn.net/qq_45515863/article/details/104361322
+   */
+  touchStartTime: number
 }
