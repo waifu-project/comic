@@ -44,6 +44,18 @@
 			}
 		},
 		{
+			"path": "views/search/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "views/topic/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "views/webview/index"
 		}
 	],
@@ -79,7 +91,7 @@
 		"backgroundColor": "#F8F8F8"
 	},
 	"condition": {
-		"current": 0,
+		"current": 4,
 		"list": [
 			{
 				"name": "首页",
@@ -98,6 +110,10 @@
 			{
 				"name": "分类",
 				"path": "views/theme/index"
+			},
+			{
+				"name": "搜索",
+				"path": "views/search/index"
 			},
 			{
 				"name": "web-view",
