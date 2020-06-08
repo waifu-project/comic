@@ -32,7 +32,7 @@ export const mergeQueryString = (qs: string, obj: any)=> {
   const data = decode(_b)
   Object.assign(data, obj)
   const _R = encode(data)
-  const _result: string = `${ URL.pathname }?${ _R }`
+  const _result: string = `${ URL.pathname }${ _R }`
   return _result
 }
 
