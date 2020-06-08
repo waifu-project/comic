@@ -11,7 +11,8 @@
             <text class="cuIcon-back"></text>
             <slot name="backText"></slot>
           </view>
-          <view class="content" :style="[{top:StatusBar + 'px'}]">
+          <!-- fixbug: 不支持绝对定位, 不然无法触发事件 -->
+          <view class="contentx" :style="[{top:StatusBar + 'px'}]">
             <slot name="content"></slot>
           </view>
           <slot name="right"></slot>
