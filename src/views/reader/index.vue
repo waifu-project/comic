@@ -1,8 +1,8 @@
 <template>
   <view>
-    <topbar bgColor="bg-gradual-pink" :isBack="true">
+    <topbar :blur="24" :barImg="barImg" :isBack="true">
       <block slot="backText">返回</block>
-      <!-- <block slot="content">18comic</block> -->
+      <block slot="content">18comic</block>
     </topbar>
     <rich-text :nodes="_nodes" />
   </view>
@@ -27,6 +27,10 @@ export default Vue.extend({
         result += `<img src="${ item }" style="width:100%; height: auto" /> <br/>`
       })
       return hpjs(result)
+    },
+    barImg(): string {
+      const img = this.imgs
+      return img[0]
     }
   },
   methods: {

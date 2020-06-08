@@ -1,6 +1,6 @@
 <template>
   <view>
-    <topbar>
+    <topbar :isBlur="false" :barImg="''">
       <block slot="content"> {{ '设置' }} </block>
     </topbar>
     <wrapper>

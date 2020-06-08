@@ -1,6 +1,6 @@
 <template>
   <view>
-    <topbar>
+    <topbar :barImg="bgImg">
       <block slot="content">{{ '我的' }}</block>
     </topbar>
     <glass :opacity=".4" :blur="24" :bg="bgImg">
