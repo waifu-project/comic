@@ -1,5 +1,5 @@
 // 参考: https://www.jb51.net/article/172121.htm
-// 漫画设置
+// 漫画设定
 // 包括:
 // - 历史访问
 // - 收藏的漫画
@@ -9,21 +9,21 @@ import { MutationTree } from 'vuex'
 
 const state: comicInterface = {
   searchData: {
-    url: ``,
-    page: 1,
-    total_page: 1,
-    isNext: false
+    barTitle: '',
+    url: ``
   },
   history_aviews: [],
   collect_lists: []
 }
 
 const mutations: MutationTree<any> = {
-  resetPage(state) {
-    state.searchData.page = 1
+  // 修改搜索 `url`
+  CHANGE_SEARCH_URL(state, url: string) {
+    state.searchData.url = url
   },
-  addPage(state) {
-    state.searchData.page++
+  // 修改 `bar` 标题
+  CHANGE_SEARCH_BAR_TITLE(state, title: string) {
+    state.searchData.barTitle = title
   }
 }
 

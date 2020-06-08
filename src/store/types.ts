@@ -12,15 +12,15 @@ interface searchDataInterface {
   /**
    * 页数
    */
-  page: number
+  page?: number
   /**
    * 全部页数
    */
-  total_page: number
+  total_page?: number
   /**
    * 是否还有下一页
    */
-  isNext: boolean
+  isNext?: boolean
 }
 
 // 漫画接口
