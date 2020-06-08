@@ -5,13 +5,14 @@
 </template>
 
 <script lang="ts">
+
 /**
-* 包裹层
-* @desc 该组件主要是为了解决 `ios` 的 `bar` 高度问题
-* @author d1y<chenhonzhou@gmail.com>
-* @date 2020年06月04日23:41:43
-* @example 调用示例
-*  <wrapper></wrapper>
+ * 包裹层
+ * @desc 该组件主要是为了解决 `ios` 的 `bar` 高度问题
+ * @author d1y<chenhonzhou@gmail.com>
+ * @date 2020年06月04日23:41:43
+ * @example 调用示例
+ *  <wrapper></wrapper>
  */
 import Vue from 'vue'
 import cssType from 'csstype'
@@ -28,6 +29,9 @@ export default Vue.extend({
       if (isIos()) h = h - _b
       // fixbug: 在 `android`下, 需要减去自定义的 `CustomBar`
       if (isAndroid()) h = h - CustomBar
+      //#ifdef H5  
+      h = h - CustomBar
+      //#endif
       return {
         height: `${ h }px`
       }
