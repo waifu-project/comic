@@ -191,6 +191,15 @@ export const str2Data = (ele: any): shareComicFace => {
   let itemIdStr = subItem.find('a').attr('href')
   let itemImgEle = subItem.find('img')
   let loveCountEle = subItem.find('.label-loveicon')
+
+  // TODO 在搜索里无法获取到这些字段, 添加的一个兼容方法
+  const _x = cherrio(subItem).find('a')
+  if (!_x.length) {
+    const _b = cherrio.load(cItem.html() || "")
+    itemIdStr = _b('a').attr('href')
+    itemImgEle = _b('img')
+    loveCountEle = _b('.label-loveicon')
+  }
   let sub = subItem.find('.label-sub')
 
   let spEles = cItem.find('.title-truncate')
@@ -207,15 +216,22 @@ export const str2Data = (ele: any): shareComicFace => {
   let id = getCoverItemID(itemIdStr)
   let cover = pxComicImg(itemImgEle)
 
-  let title = itemImgEle.attr('title') || ""
+  let title = (itemImgEle.attr('title') || "").trim()
 
   // 点赞数
   let like_count = loveCountEle.text().trim()
   // 类型(汉化 | 日文)
   let sub_text = sub.text().trim()
   // 作者
-  let author = cherrio(authorEle).find('a').text()
-  let authors = [ author ]
+  const tempAuthor = cherrio(authorEle).text().trim()
+  const authorEle_a = cherrio(authorEle).find('a')
+  let author = cherrio(authorEle).find('a').text().trim()
+  if (!authorEle_a.length) author = tempAuthor
+  // fixbug: 如果作者和标题是一样的, 则表示没有作者
+  let authors: string[] = []
+  // const flag = (author.length == title.length && author.search(title) == 0)
+  const isAuthor = !(author == title)
+  if (isAuthor) authors.push(author)
   // 标签
   let tags = Array.from(tempTags).map(item => {
     return cherrio(item).text()
@@ -230,6 +246,8 @@ export const str2Data = (ele: any): shareComicFace => {
     time = time.trim()
   }
   let date = time
+
+  // debugger
 
   return {
     id,
