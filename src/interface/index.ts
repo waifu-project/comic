@@ -51,7 +51,7 @@ export interface themeListInterface {
   /**
    * 背景颜色
    */
-  bg: colorItemInterface
+  bg?: colorItemInterface
 }
 
 /**
@@ -62,6 +62,10 @@ export interface themeInterface {
    * 标题
    */
   title: string
+  /**
+   * 几列, 默认是 `3` 列
+   */
+  col: number
   lists: themeListInterface[]
 }
 
@@ -145,4 +149,26 @@ export interface shareComicFace {
    * 推荐
    */
   recommends?: shareComicFace[]
+}
+
+/**
+ * 留言话题接口
+ */
+export interface topicResponseInterface {
+  /**
+   * 总数
+   */
+  count: number | string
+  /**
+   * 消息体
+   */
+  message: string[] // topicResponseMessageInterface[]
+  /**
+   * 消息
+   */
+  msg: string
+  /**
+   * 回复消息
+   */
+  reply_message: string
 }

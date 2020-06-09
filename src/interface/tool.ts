@@ -6,6 +6,7 @@ import { shareComicFace } from '.'
 export interface postBodyFace {
   url: string
   data: any
+  contentType?: string
 }
 
 /**
@@ -73,4 +74,26 @@ export interface searchResponseInterface {
    * 列表
    */
   lists: shareComicFace[]
+}
+
+/**
+ * 单个主题菜单列表
+ */
+export interface themeMenuItemInterface {
+  /**
+   * 标题
+   */
+  title: string
+  /**
+   * 跳转链接
+   */
+  link: string
+  /**
+   * 唯一的 `key`
+   */
+  key: string
+  /**
+   * 背景图片
+   */
+  bg?: string
 }

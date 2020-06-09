@@ -4,6 +4,7 @@ import { shareComicFace, shareIndexModal, themeInterface, themeListInterface, ep
 import fs from './fs'
 import { createRandomColor } from '.'
 import { colorItemInterface } from '@/interface/tool'
+import { theme_default_col } from '@/const'
 
 const hpjs = require('@/plugins/html_parse')
 
@@ -35,7 +36,7 @@ export const comicTheme2Data = (str: string): themeInterface[] => {
       }
       return result
     })
-    return { title, lists }
+    return { title, lists, col: theme_default_col }
   })
   return obj
 }

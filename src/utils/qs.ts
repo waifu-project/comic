@@ -36,6 +36,13 @@ export const mergeQueryString = (qs: string, obj: any)=> {
   return _result
 }
 
+/**
+ * 根据文本生成搜索接口
+ */
+export const createSearchUrl = (text: string): string => {
+  return `/search/photos?search_query=${ text }`
+}
+
 export default {
   decode,
   encode,

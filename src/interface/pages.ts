@@ -1,12 +1,15 @@
 import css from 'csstype'
-import { shareComicFace } from '.';
-import { searchOptions } from './tool';
+import { shareComicFace, themeInterface, themeListInterface } from '.';
+import { searchOptions, themeMenuItemInterface } from './tool';
 
 interface flowDataArrayFace {
   text: string
   url: string
 }
 
+/**
+ * flow页面数据
+ */
 export interface flowDataFace {
   flowBg: string // 背景
   flowBgBlur: number // 模糊尺寸
@@ -16,7 +19,9 @@ export interface flowDataFace {
   logoText: string // logo文字
 }
 
-// 首页接口数据
+/**
+ * 首页接口数据
+ */
 export interface indexDataFace {
   footerButtonStyle: css.Properties
   model: any
@@ -28,6 +33,9 @@ export interface indexDataFace {
   body?: string
 }
 
+/**
+ * 搜索页面`data`
+ */
 export interface searchPageInterface {
   /**
    * 数据列表
@@ -58,4 +66,55 @@ export interface searchPageInterface {
    * https://blog.csdn.net/qq_45515863/article/details/104361322
    */
   touchStartTime: number
+  /**
+   * 返回顶部的标识
+   */
+  back2topFlag: boolean
+  /**
+   * 搜索界面数据为空时的文字
+   */
+  search_empty_text: string
+}
+
+export interface themePageDataInterface {
+  /**
+   * 搜索框提示文本
+   */
+  placeholder: string
+  /**
+   * goto id-input
+   */
+  goto_placeholder: string
+  /**
+   * 列表数据
+   */
+  data: themeInterface[]
+  /**
+   * 自定义的主题菜单
+   */
+  xData: themeMenuItemInterface[]
+  /**
+   * 最热主题
+   */
+  popularThemes: themeListInterface[]
+  /**
+   * 默认毛玻璃背景图片
+   */
+  blur_default_url: string
+  /**
+   * 搜索的文本
+   */
+  searchVal: string
+  /**
+   * go-to 文本
+   */
+  goto_text: string
+  /**
+   * go-to input
+   */
+  gotoInputVal: string
+  /**
+   * go-to 模态框flag
+   */
+  gotoModal: boolean
 }
