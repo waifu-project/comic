@@ -1,6 +1,6 @@
 <template>
   <view>
-    <topbar :isBack="true">
+    <topbar :isBack="true" :fixEvent="true">
       <block slot="content">
         <view @tap="handleClickBarText">
           {{ barTitle }}
@@ -13,7 +13,7 @@
       </block>
     </topbar>
     <glass :blur="14">
-      <wrapper ref="wrapper" @scroll="handleScrollBottom" :isScrollbar="true">
+      <wrapper ref="wrapper" @scroll="handleScroll" :isScrollbar="true">
         <block v-for="(item, index) in _lists" :key="index">
           <card-preview @clickBox="handleClickCardItem(item)" :data="item" :showActionBar="false" tagPosition="inside" />
         </block>
@@ -21,25 +21,39 @@
           <view v-if="isNext">
             <!-- TODO -->
           </view>
-          <view v-else class="cu-load over radius text-center light bg-grey" />
+          <view v-else>
+            <view v-if="_lists.length" class="cu-load over radius text-center light bg-grey" />
+            <view class="flex flex-wrap justify-center" :style="{
+              marginTop: '30%'
+            }" v-else>
+              <view class="basis-xl margin-xs padding-sm radius">
+                <empty :boxStyle="emptyStyle">
+                  <text class="text-xxl text-pink margin-left-sm">
+                    {{ search_empty_text }}
+                  </text>
+                </empty>
+              </view>
+            </view>
+          </view>
         </block>
       </wrapper>
     </glass>
   </view>
 </template>
 
-<script lang="ts" src="./index.ts" />
-
 <script lang="ts">
 import Vue from 'vue'
+import cssType from 'csstype'
 import { mapState } from 'vuex'
 import { getSearch } from '@/api/v1'
 import { searchPageInterface } from '@/interface/pages'
 import { shareComicFace } from '@/interface'
 import { _coverSearchItem } from '@/utils/map'
 import cardPreview from '@/components/card-preview.vue'
+import empty from '@/components/empty.vue'
 import { searchOptionTimeEnum, searchOptionTypeEnum } from '@/interface/enum'
 import { router } from '@/utils'
+import { search_empty_text } from '@/const'
 export default Vue.extend({
   data(): searchPageInterface {
     return {
@@ -53,11 +67,14 @@ export default Vue.extend({
         t: searchOptionTimeEnum.all,
         o: searchOptionTypeEnum.new
       },
-      touchStartTime: 0
+      touchStartTime: 0,
+      back2topFlag: false,
+      search_empty_text
     }
   },
   components: {
-    cardPreview
+    cardPreview,
+    empty
   },
   computed: {
     ...mapState('comic', {
@@ -72,9 +89,22 @@ export default Vue.extend({
       return _coverSearchItem(this.lists)
     },
     barRightText(): string {
+      const isLoading = this.isLoading
+      if (isLoading) return `加载中。`
       const c = this.current_page
       const t = this.total_page
       return `${ c }/${ t }`
+    },
+    isDoubleClick(): boolean {
+      return (new Date().getTime() - this.touchStartTime) <= 300
+    },
+    emptyStyle(): cssType.Properties {
+      return {
+        backgroundColor: `rgba(255, 255, 255, .2)`,
+        WebkitBackdropFilter: `blur(42px)`,
+        backdropFilter: `blur(42px)`,
+        borderRadius: `24px`
+      }
     }
   },
   async onLoad() {
@@ -110,10 +140,12 @@ export default Vue.extend({
         o: searchOptionTypeEnum.new
       }
     },
-    async handleScrollBottom(data: any) {
+    async handleScroll(data: any) {
       const { position } = data
       if (position == 'top') {
-        // TODO
+        // TODO `top` 刷新
+        const flag = !this.back2topFlag
+        if (flag) return
         return
       }
       const isNext = this.isNext
@@ -131,11 +163,13 @@ export default Vue.extend({
       const flag = await new Promise(res=> {
         if (this.touchStartTime == 0) {
           this.touchStartTime = new Date().getTime()
+          this.back2topFlag = false
           res(false)
         } else {
-          if (new Date().getTime() - this.touchStartTime <= 300) {
+          if (this.isDoubleClick) {
             res(true)
           }
+          this.back2topFlag = true
           this.touchStartTime = 0
         }
       })
@@ -149,7 +183,7 @@ export default Vue.extend({
      */
     handleClickCardItem(data: any) {
       const { id } = data
-      router.push(`reader/index`, {
+      router.push(`detail/index`, {
         id
       })
     }
