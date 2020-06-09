@@ -1,4 +1,4 @@
-import { get, _post } from '@/utils/axios'
+import { get, post } from '@/utils/axios'
 import cherrio from 'cheerio'
 import { str2Data, str2Modal, detail2Data, comicPic2Data, comicTheme2Data } from '@/utils/share'
 import { shareIndexComicData, shareIndexData, themeListInterface, shareComicFace } from '@/interface'
@@ -10,7 +10,7 @@ import querystring from '@/utils/qs'
 // 点赞某作品
 export const loveVoteAlbum = (album_id: string | number)=> {
   album_id = album_id.toString()
-  _post({
+  post({
     url: `/ajax/vote_album`,
     data: {
       album_id,
@@ -111,7 +111,7 @@ export const getSearch = async (qs: string, options: searchOptions): Promise<sea
   let result: shareComicFace[] = []
   let search_key = ''
   let current_page = options.page
-  let total_page = 0
+  let total_page = 1
   let total = ''
   let isNext = false
   try {
@@ -144,3 +144,20 @@ export const getSearch = async (qs: string, options: searchOptions): Promise<sea
     lists: result
   })
 })
+
+/**
+ * 获取留言区内容
+ */
+export const getForumMore = async (count: number | string = 10)=> {
+  const data = await post({
+    url: '/ajax/forum_more',
+    data: {
+      btn_more: `btn_more`,
+      search: '',
+      count,
+      aid: '',
+    },
+    contentType: 'form'
+  })
+  return data
+}
