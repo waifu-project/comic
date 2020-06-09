@@ -12,7 +12,7 @@
             <slot name="backText"></slot>
           </view>
           <!-- fixbug: 不支持绝对定位, 不然无法触发事件 -->
-          <view class="contentx" :style="[{top:StatusBar + 'px'}]">
+          <view :class="{ content: !fixEvent }" :style="[{top:StatusBar + 'px'}]">
             <slot name="content"></slot>
           </view>
           <slot name="right"></slot>
@@ -38,6 +38,7 @@
  * @param {Number} [blur] - 模糊滤镜, 模糊大小
  * @param {Number} [isBlur] - 是否模糊
  * @param {String} [barImg] - 模糊的背景图片
+ * @param {Boolean} [fixEvent] - 是否解决事件无法触发问题(.content的错误)
  * @example 调用示例
  *  <topbar></topbar>
  */
@@ -117,6 +118,10 @@ export default {
     barImg: {
       type: String,
       default: ()=> blur_default_url
+    },
+    fixEvent: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
