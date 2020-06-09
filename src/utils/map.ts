@@ -1,4 +1,6 @@
+import ghCDN from 'github-to-cdn'
 import { shareComicFace } from '@/interface';
+import { githubStaticProfile } from '@/config/profile';
 
 /**
  * @description 将搜索的数格式化一次
@@ -25,4 +27,12 @@ export const _coverSearchItem = (lists: shareComicFace[]): shareComicFace[]=> {
     item.tags = tags.slice(0, maxTagLength)
     return item
   })
+}
+
+/**
+ * 创建静态资源(CDN)
+ */
+export const createStaticByCDN = (path: string): string=> {
+  const res = { ...githubStaticProfile, path }
+  return ghCDN(res)
 }

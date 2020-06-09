@@ -1,23 +1,58 @@
-const ghCDN = require('github-to-cdn')
+import { colorItemInterface, themeMenuItemInterface } from '@/interface/tool'
+import { createStaticByCDN } from '@/utils/map'
 
-import { colorItemInterface } from '@/interface/tool'
-
+/**
+ * 镜像默认的域名后缀
+ */
 export const mirror_default_key = 'one'
 
+/**
+ * 滤镜默认背景
+ */
 export let blur_default_url = "https://i.loli.net/2020/05/25/ynGRv1z5s7OCtw9.png"
 
-try {
-  blur_default_url = ghCDN({
-    username: "d1y",
-    repo: '18comic-live',
-    path: 'resources/tiny_blur.png',
-  })
-} catch (error) {
-  throw new Error(error)
-}
+blur_default_url = createStaticByCDN('resources/tiny_blur.png')
 
+export let empty_default_url = "https://i.loli.net/2020/06/09/LnB24yeIwxs8p1g.png"
+
+empty_default_url = createStaticByCDN('resources/empty.png')
+
+/**
+ * 主题默认列
+ */
+export const theme_default_col = 3
+
+/**
+ * 主题默认的最大文字(将会变为 `2` 列)
+ */
+export const theme_item_max_word = 8
+
+
+/**
+ * 默认背景
+ */
 export const bg_default_url = "http://www.dmoe.cc/random.php"
 
+/**
+ * 搜索界面数据为空时的文字
+ */
+export const search_empty_text = "没有数据哦"
+
+/**
+ * 主题搜索区 `placeholder`
+ */
+export const theme_search_main_placeholder = 'bilibili干杯🍻, 请搜索'
+
+/**
+ * goto id-input
+ */
+export const theme_search_goto_placeholder = '请输入id'
+
+export const theme_search_goto_text = '如果你知道某个作品的id话....'
+
+/**
+ * 颜色列表
+ */
 export const colors: colorItemInterface[] = [
   {
     title: "嫣红",
@@ -93,5 +128,26 @@ export const colors: colorItemInterface[] = [
     title: "雅白",
     name: "white",
     color: "#ffffff"
+  }
+]
+
+/**
+ * 主题菜单
+ */
+export const theme_menus: themeMenuItemInterface[] = [
+  {
+    title: "GOTO",
+    link: 'detail/index',
+    key: 'goto',
+  },
+  {
+    title: "留言板",
+    link: 'bbs/index',
+    key: 'bbs',
+  },
+  {
+    title: "涨姿势",
+    link: 'blogs/index',
+    key: 'blogs'
   }
 ]
