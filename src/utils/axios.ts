@@ -35,5 +35,12 @@ export const get = (url: string): Promise<any>=> new Promise(res=> {
   })
 })
 
+export const post = (data: postBodyFace): Promise<any>=> new Promise(res=> {
+  _post(data).then(null, (fastData: any)=> {
+    const { data } = fastData
+    res(data)
+  })
+})
+
 export const _get = (url: string)=> axios.get({ url })
 export const _post = (data: postBodyFace)=> axios.post(data)
