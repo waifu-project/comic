@@ -12,7 +12,8 @@ export const setMirror = (ext: string = mirror_default_key) => {
   return io.setMirror(ext)
 }
 
-export const getMirror = (): any=> {
+export const getMirror = (): string=> {
   const ext = io.getMirror()
-  return fusionDomain(ext)
+  const fullapi = fusionDomain(ext)
+  return fullapi
 }
