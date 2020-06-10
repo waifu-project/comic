@@ -1,6 +1,6 @@
 <template>
   <view>
-    <topbar ref="topbar" bgColor="bg-white" :diy="true">
+    <topbar ref="topbar" bgColor="bg-whitex" :diy="true">
       <view class="flex flex-wrap-box margin-bottom-lg">
 				<input
           name="input"
@@ -67,7 +67,7 @@
             <view class="padding-sm" v-for="(subItem, i) in item.lists" :key="i">
               <view :style="{
                 minHeight: `120rpx`
-              }" class="padding radius text-center shadow-blur flex align-center justify-center"
+              }" class="padding radius text-center shadow-blur flex align-center justify-center dark-remove"
               :class="`bg-${ subItem.bg.name }`"
               @tap="handleClickTheme(subItem)"
               >
@@ -198,6 +198,8 @@ export default Vue.extend({
       
         default:
           // TODO
+          console.log('这里来了...', (new Date).toString())
+          router.push(link)
           break;
       }
     }

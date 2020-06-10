@@ -5,12 +5,12 @@
     </topbar>
     <glass :opacity=".4" :blur="24" :bg="bgImg">
       <wrapper>
-        <view class="bg-img bg-mask bg-black light flex align-center shadow-blur" :style="bgMaskImgStyle">
-          <view class="padding-sm text-white">
-            <view class="padding-xs text-xl text-bold">
+        <view class="bg-img bg-mask bg-black light flex align-center shadow-blur dark-remove" :style="bgMaskImgStyle">
+          <view class="padding-sm text-white dark-remove">
+            <view class="padding-xs text-xl text-bold dark-remove">
               {{ sayWord.hitokoto }}
             </view>
-            <view class="padding-xs text-df">
+            <view class="padding-xs text-df dark-remove">
               - {{ sayWord.from }}
             </view>
           </view>

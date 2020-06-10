@@ -11,7 +11,7 @@
 						<video :src="item.url" autoplay loop muted :show-play-btn="false" :controls="false" objectFit="cover" v-if="item.type=='video'"></video>
 					</swiper-item>
 				</swiper>
-				<view class="padding-sm bg-green">
+				<view class="padding-sm bg-green dark-remove">
 					{{ '18comic' }}
 				</view>
 			</view>
