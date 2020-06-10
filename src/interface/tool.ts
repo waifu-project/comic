@@ -97,3 +97,26 @@ export interface themeMenuItemInterface {
    */
   bg?: string
 }
+
+export interface devInsDataPageItemInterface {
+  /**
+   * 路径
+   */
+  path: string
+  /**
+   * TODO 样式
+   */
+  style: any
+  /**
+   * 介绍, 说明
+   */
+  description: string
+}
+
+/**
+ * 注入的 `page.json` 文件接口类型
+ * TODO: uniapp里应该有接口类型的
+ */
+export interface devInsDataInterface {
+  pages: devInsDataPageItemInterface[]
+}

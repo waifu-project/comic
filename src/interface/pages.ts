@@ -1,5 +1,5 @@
 import css from 'csstype'
-import { shareComicFace, themeInterface, themeListInterface } from '.';
+import { shareComicFace, themeInterface, themeListInterface, topicItemInterface } from '.';
 import { searchOptions, themeMenuItemInterface } from './tool';
 
 interface flowDataArrayFace {
@@ -117,4 +117,19 @@ export interface themePageDataInterface {
    * go-to 模态框flag
    */
   gotoModal: boolean
+}
+
+export interface topicDataInterface {
+  messages: topicItemInterface[]
+  /**
+   * 作为分页
+   */
+  count: number
+}
+
+export interface settingsDataInterface {
+  /**
+   * 点击次数
+   */
+  count: number
 }
