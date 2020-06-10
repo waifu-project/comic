@@ -1,8 +1,7 @@
 import { get, post } from '@/utils/axios'
 import cherrio from 'cheerio'
-import { str2Data, str2Modal, detail2Data, comicPic2Data, comicTheme2Data } from '@/utils/share'
-import { shareIndexComicData, shareIndexData, themeListInterface, shareComicFace } from '@/interface'
-import { isDev } from '@/config'
+import { str2Data, str2Modal, detail2Data, comicPic2Data, comicTheme2Data, topicJSON2Data } from '@/utils/share'
+import { shareIndexComicData, shareIndexData, themeListInterface, shareComicFace, topicResponseInterface, topicItemInterface } from '@/interface'
 import { createRandomColor } from '@/utils'
 import { searchOptions, searchResponseInterface } from '@/interface/tool'
 import querystring from '@/utils/qs'
@@ -76,9 +75,7 @@ export const getPopularThemes = async ()=> {
 // 获取首页数据
 export const getIndexData = async (): Promise<shareIndexData>=>{
   try {
-    let devUrl = `http://192.168.1.190:8081`
-    let nowUrl = isDev ? devUrl : `/`
-    const data = await get(nowUrl)
+    const data = await get('/')
     const $ = cherrio.load(data)
     const modal = str2Modal($)
     let cards = $('.row.col-lg-10.col-md-9')
@@ -148,16 +145,24 @@ export const getSearch = async (qs: string, options: searchOptions): Promise<sea
 /**
  * 获取留言区内容
  */
-export const getForumMore = async (count: number | string = 10)=> {
-  const data = await post({
-    url: '/ajax/forum_more',
-    data: {
-      btn_more: `btn_more`,
-      search: '',
-      count,
-      aid: '',
-    },
-    contentType: 'form'
-  })
-  return data
+export const getForumMore = async (count: number | string = 10): Promise<topicItemInterface[]>=> {
+  try {
+    const data: topicResponseInterface = await post({
+      url: '/ajax/forum_more',
+      data: {
+        btn_more: `btn_more`,
+        search: '',
+        count,
+        aid: '',
+      },
+      contentType: 'form'
+    })
+    const { message } = data
+    const result = message.map(item=> topicJSON2Data(item))
+    // debugger
+    return result
+  } catch (error) {
+    console.error(error)
+    return []
+  }
 }

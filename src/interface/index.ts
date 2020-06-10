@@ -172,3 +172,37 @@ export interface topicResponseInterface {
    */
   reply_message: string
 }
+
+/**
+ * 留言话题返回的数据类型
+ */
+export interface topicItemInterface {
+  /**
+   * 头像
+   */
+  avatar: string
+  /**
+   * 内容
+   */
+  content: string
+  /**
+   * 时间
+   */
+  date: string
+  /**
+   * 作品id
+   */
+  id: string
+  /**
+   * 点赞数
+   */
+  like_count: string | number
+  /**
+   * 昵称
+   */
+  nickname: string
+  /**
+   * 作品的标题
+   */
+  title: string
+}
