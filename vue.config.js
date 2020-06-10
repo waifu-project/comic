@@ -1,24 +1,35 @@
 const path = require('path')
 const fs = require('fs')
+const webpack = require('webpack')
 
 const resolve = _p => path.join(__dirname, _p)
 
-const package = require('./package.json')
+/**
+ * 拿到 `pages.json` 参考: https://www.npmjs.com/package/uni-vue-router
+ * @returns {string}
+ */
+const readPagesJSON = ()=> {
+    const jsonFilePath = resolve('./src/pages.json')
+    if (!fs.existsSync(jsonFilePath)) {
+        throw new Error(jsonFilePath + ' 不存在')
+    }
+    return fs.readFileSync(jsonFilePath, 'utf8')
+}
 
-const README = fs.readFileSync('./README.md', {
-  encoding: 'utf-8',
-})
+/**
+ * 读取 `package.json` 文件
+ */
+const readPackageJson = ()=> {
+   return fs.readFileSync(resolve('./package.json'), 'utf-8')
+}
 
-// TODO 将 `version` 注入到 `process.env` 中
 module.exports = {
-  chainWebpack: config=> {
-    config.resolve.alias.set('_p', resolve('components'))
-    config.plugin('define').tap(args => {
-      let version = package.version
-      args[0]['VERSION'] = JSON.stringify(version)
-      args[0]['README'] = JSON.stringify(README)
-      return args
-    })
-    return config
+  configureWebpack: {
+      plugins: [
+          new webpack.DefinePlugin({
+              PAGES_JSON: JSON.stringify(readPagesJSON()),
+              PACKAGES_JSON: JSON.stringify(readPackageJson())
+          })
+      ]
   }
 }

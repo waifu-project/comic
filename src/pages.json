@@ -4,59 +4,73 @@
 			"path": "views/index/index",
 			"style": {
 				"navigationStyle": "custom"
-			}
+			},
+			"description": "首页"
 		},
 		{
 			"path": "views/switch/flow",
 			"style": {
 				"navigationStyle": "custom",
 				"disableScroll": true
-			}
+			},
+			"description": "切换镜像站"
 		},
 		{
 			"path": "views/detail/index",
 			"style": {
 				"navigationStyle": "custom"
-			}
+			},
+			"description": "本子详情"
 		},
 		{
 			"path": "views/reader/index",
 			"style": {
 				"navigationStyle": "custom"
-			}
+			},
+			"description": "阅读页面"
 		},
 		{
 			"path": "views/theme/index",
 			"style": {
 				"navigationStyle": "custom"
-			}
+			},
+			"description": "主题页面"
 		},
 		{
 			"path": "views/home/index",
 			"style": {
 				"navigationStyle": "custom"
-			}
+			},
+			"description": "我的页面"
 		},
 		{
 			"path": "views/settings/index",
 			"style": {
 				"navigationStyle": "custom"
-			}
+			},
+			"description": "设置页面"
 		},
 		{
 			"path": "views/search/index",
 			"style": {
 				"navigationStyle": "custom"
-			}
+			},
+			"description": "搜索页面"
 		},
 		{
 			"path": "views/topic/index",
 			"style": {
 				"navigationStyle": "custom"
-			}
+			},
+			"description": "话题"
 		},
 		{
-			"path": "views/webview/index"
+			"path": "views/webview/index",
+			"description": "webview页(传递一个`url`参数)"
+		},
+		{
+			"path": "views/dev/index",
+			"description": "开发页面"
 		}
 	],
 	"tabBar": {
@@ -91,7 +105,7 @@
 		"backgroundColor": "#F8F8F8"
 	},
 	"condition": {
-		"current": 4,
+		"current": 5,
 		"list": [
 			{
 				"name": "首页",
@@ -114,6 +128,10 @@
 			{
 				"name": "搜索",
 				"path": "views/search/index"
+			},
+			{
+				"name": "我的",
+				"path": "views/home/index"
 			},
 			{
 				"name": "web-view",
