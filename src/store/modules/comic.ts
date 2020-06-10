@@ -16,7 +16,7 @@ const state: comicInterface = {
   collect_lists: []
 }
 
-const mutations: MutationTree<any> = {
+const mutations: MutationTree<comicInterface> = {
   // 修改搜索 `url`
   CHANGE_SEARCH_URL(state, url: string) {
     state.searchData.url = url

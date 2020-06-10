@@ -39,6 +39,20 @@ export interface comicInterface {
   collect_lists: shareComicFace[]
 }
 
+/**
+ * 设置接口
+ */
+export interface settingsFace {
+  /**
+   * 是否显示开发者菜单
+   */
+  showDev:  boolean
+  /**
+   * 是否开始暗色主题
+   */
+  isDark: boolean
+}
+
 export default interface RootState {
   comic: comicInterface
 }
