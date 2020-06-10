@@ -1,6 +1,6 @@
 import url from 'url-parse'
 import cherrio from 'cheerio'
-import { shareComicFace, shareIndexModal, themeInterface, themeListInterface, episodeInterface } from '@/interface'
+import { shareComicFace, shareIndexModal, themeInterface, themeListInterface, episodeInterface, topicItemInterface } from '@/interface'
 import fs from './fs'
 import { createRandomColor } from '.'
 import { colorItemInterface } from '@/interface/tool'
@@ -286,4 +286,30 @@ export const pxComicImg = (ele: Cheerio): string=> {
   let x = ele.attr('src') || ""
   let y = ele.attr('data-original') || ""
   return y ? y : x
+}
+
+export const topicJSON2Data = (str: string): topicItemInterface=> {
+  const $ = cherrio.load(str)
+  const avatarEle = $('.media-object.img-circle.col-xs-12.p-0')
+  let avatar = avatarEle.attr('src') || ""
+  avatar = fs.Join(avatar)
+  const nicknameEle = $('.media-heading .text-primary')
+  let nickname = nicknameEle.text().trim()
+  const recommendEle = $('.media-heading .pull-right.hidden-xs')
+  const id = getCoverItemID(recommendEle.attr('href') || "")
+  const title = recommendEle.find('small').text().trim()
+  const dateEle = $('.media').find('small')[1]
+  const date = $(dateEle).text().trim()
+  const content = $('.content.col-xs-12').text().trim()
+  let like_count = $('.pull-left').text().trim()
+  like_count = like_count.replace(/\n/g, '').replace(/\s+/g, "")
+  return {
+    id,
+    title,
+    date,
+    avatar,
+    nickname,
+    content,
+    like_count
+  }
 }
