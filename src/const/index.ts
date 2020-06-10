@@ -1,5 +1,7 @@
-import { colorItemInterface, themeMenuItemInterface } from '@/interface/tool'
+import { colorItemInterface, themeMenuItemInterface, devInsDataInterface } from '@/interface/tool'
 import { createStaticByCDN } from '@/utils/map'
+
+const injection = require('@/plugins/injection')
 
 /**
  * 镜像默认的域名后缀
@@ -26,6 +28,12 @@ export const theme_default_col = 3
  * 主题默认的最大文字(将会变为 `2` 列)
  */
 export const theme_item_max_word = 8
+
+/**
+ * 设置里的开发者相关默认最大点击次数
+ * 才会打开开发者相关功能
+ */
+export const settings_click_max_count = 8
 
 
 /**
@@ -142,12 +150,22 @@ export const theme_menus: themeMenuItemInterface[] = [
   },
   {
     title: "留言板",
-    link: 'bbs/index',
+    link: 'topic/index',
     key: 'bbs',
   },
   {
     title: "涨姿势",
     link: 'blogs/index',
     key: 'blogs'
+  },
+  {
+    title: '插件开发',
+    link: 'webview/index',
+    key: 'plugin_development'
   }
 ]
+
+/**
+ * 注入的 `pages.json` 文件
+ */
+export const devInsData: devInsDataInterface = injection.pagejson
