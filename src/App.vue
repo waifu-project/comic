@@ -1,6 +1,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { colors } from '@/const'
+import '@/callback/dark'
 export default Vue.extend({
   mpType: "app",
   onLaunch() {
@@ -53,4 +54,5 @@ export default Vue.extend({
 <style>
 @import url("../node_modules/colorui/colorui/main.css");
 @import url("../node_modules/colorui/colorui/icon.css");
+@import url("./css/dark.css");
 </style>

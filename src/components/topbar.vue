@@ -1,6 +1,7 @@
 <template>
   <view>
     <view class="cu-custom" :style="wrapperStyle">
+      <view class="cu-bar fixed" :style="ppStyle" v-if="isAndroid" />
       <view
         class="cu-bar fixed"
         :style="style"
@@ -43,15 +44,22 @@
  *  <topbar></topbar>
  */
 import { blur_default_url } from '@/const'
+import { isIos, isAndroid } from '@/utils/is'
 export default {
   data() {
     return {
       StatusBar: this.StatusBar,
-      CustomBar: this.CustomBar,
+      CustomBar: this.CustomBar
     };
   },
   name: "topbar",
   computed: {
+    isAndroid() {
+      return isAndroid()
+    },
+    isIos() {
+      return isIos()
+    },
     style() {
       const StatusBar = this.StatusBar
       const CustomBar = this.CustomBar
@@ -74,20 +82,45 @@ export default {
       }
       if (this.bgImage) {
         Object.assign(style, {
-          backgroundImage: `url(${bgImage})`
+          backgroundImage: `url(${bgImage})`,
+          backgroundPosition: `center`,
+          backgroundSize: `cover`,
+          overflow: 'hidden'
         })
       }
       return style
     },
     wrapperStyle() {
-      const x = this.CustomBar
+      const barHeight = this.CustomBar
       const b = this.barImg
-      return {
+      const custom = {}
+      // const i = this.isIos()
+      // if (i) custom['backgroundImage'] = `url(${ b })`
+      const e = {
         backgroundPosition: `center`,
         backgroundRepeat: `no-repeat`,
-        backgroundImage: `url(${ b })`,
-        height: `${ x }px`
+        height: `${ barHeight }px`,
       }
+      Object.assign(e, custom)
+      return e
+    },
+    ppStyle() {
+      const isBlur = this.isBlur
+      const blurPx = this.blur || 12
+      const _blur = `blur(${ blurPx }px)`
+      const CustomBar = this.CustomBar
+      const StatusBar = this.StatusBar
+      const barImg = this.barImg
+      const r =  {
+        height: `${ CustomBar }px`,
+        paddingTop: `${ StatusBar }px`,
+        backgroundImage: `url(${ barImg })`,
+        backgroundPosition: `center`,
+        backgroundSize: `cover`,
+        overflow: `hidden`
+      }
+      if (isBlur) r['filter'] = _blur
+      return r
     }
   },
   props: {

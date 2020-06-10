@@ -1,0 +1,18 @@
+/**
+ * 暗色主题
+ */
+
+.dark-theme {
+  background-color: #000;
+  color: white;
+}
+.dark-theme *:not(.cu-tag):not([class*="cuIcon-"]):not(.uni-swiper-dots):not(.dark-remove) {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: #999 !important;
+}
+
+.dark-theme img
+.dark-theme image {
+  filter: grayscale(30%);
+}

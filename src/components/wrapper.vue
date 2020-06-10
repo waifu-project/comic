@@ -8,6 +8,7 @@
     @scroll="handleScroll(false, $event)"
     @scrolltolower="handleScroll('bottom', $event)"
     @scrolltoupper="handleScroll('top', $event)"
+    :class="isDark? 'dark-theme' : ''"
   >
     <slot name="default" />
   </scroll-view>
@@ -27,6 +28,7 @@
 import Vue from "vue";
 import cssType from "csstype";
 import { isIos, isAndroid } from "@/utils/is";
+import { mapState } from 'vuex'
 export default Vue.extend({
   name: "wrapper",
   props: {
@@ -36,6 +38,13 @@ export default Vue.extend({
     isScrollbar: {
       type: Boolean,
       default: false
+    },
+    /**
+     * 深色模式
+     */
+    darkmode: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -47,6 +56,9 @@ export default Vue.extend({
     };
   },
   computed: {
+    ...mapState('settings',[
+      'isDark'
+    ]),
     style(): cssType.Properties {
       const info = uni.getSystemInfoSync();
       let h = info.windowHeight || 0;
