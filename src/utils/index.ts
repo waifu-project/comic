@@ -112,14 +112,16 @@ export const createRandomColor = (): colorItemInterface=> colors[createRandomLen
 
 // 路由
 export const router = {
-  push(url: string, query?: any) {
+  push(url: string, query?: any, isFullPath?: boolean) {
     try {
       let _qs = ''
       if (query && isObject(query)) _qs = `?${ qs(query) }`
       let _c = `/views/${ url }${ _qs }`
+      if (isFullPath) _c = `/${ url }${ _qs }`
       uni.navigateTo({
         url: _c
       })
+      // debugger
     } catch (error) {
       uni.showModal({
         title: '跳转错误, 未知错误',
