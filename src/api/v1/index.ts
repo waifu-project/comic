@@ -19,7 +19,7 @@ export const loveVoteAlbum = (album_id: string | number)=> {
 }
 
 // 获取某作品详情
-export const getDetail = async (id: string | number): Promise<any>=> {
+export const getDetail = async (id: string | number): Promise<shareComicFace>=> {
   try {
     const data = await get(`/album/${ id }`)
     return detail2Data(data)
