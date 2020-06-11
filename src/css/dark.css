@@ -3,11 +3,11 @@
  */
 
 .dark-theme {
-  background-color: #000;
+  background-color: #323232;
   color: white;
 }
 .dark-theme *:not(.cu-tag):not([class*="cuIcon-"]):not(.uni-swiper-dots):not(.dark-remove) {
-  background-color: #000 !important;
+  background-color: #323232 !important;
   color: #fff !important;
   border-color: #999 !important;
 }
