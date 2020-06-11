@@ -125,7 +125,7 @@ export const detail2Data = (str: string): shareComicFace=> {
     return {
       id,
       ep: temp[0],
-      ep_title: temp[1],
+      ep_title: temp[1].replace(/[\r\n]/g,""),
       ep_date: temp[2]
     }
   })
@@ -173,7 +173,9 @@ export const str2Modal = ($: any): shareIndexModal => {
   let __src = html('img').attr('src') || ""
   html('img').attr('src', fs.Join(__src))
   let resultBody = `
-  <h1 style="background: rgba(224, 57, 151, 0.76);color: #fff;font-size: 16px;word-break: keep-all;">${ title }</h1>
+  <h1 style="background: rgba(224, 57, 151, 0.76);color: #fff;font-size: 16px;word-break: keep-all;height: 42px;line-height: 42px;">
+    ${ title }
+  </h1>
   ${ html.html() }
   `
   const b = hpjs(resultBody)

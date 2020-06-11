@@ -3,7 +3,8 @@ import { MutationTree } from 'vuex'
 
 const state: settingsFace = {
   showDev: false,
-  isDark: false
+  isDark: false,
+  showIndexAD: true
 }
 
 const mutations: MutationTree<settingsFace> = {
@@ -32,6 +33,9 @@ const mutations: MutationTree<settingsFace> = {
     }
     uni.setTabBarStyle(style)
     state.isDark = theme
+  },
+  CHANGE_INDEX_AD_FLAG(state, flag: boolean) {
+    state.showIndexAD = flag
   }
 }
 

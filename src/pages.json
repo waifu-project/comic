@@ -70,6 +70,9 @@
 		},
 		{
 			"path": "views/dev/index",
+			"style": {
+				"navigationStyle": "custom"
+			},
 			"description": "开发页面"
 		}
 	],

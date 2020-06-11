@@ -59,6 +59,11 @@ export const theme_search_goto_placeholder = '请输入id'
 export const theme_search_goto_text = '如果你知道某个作品的id话....'
 
 /**
+ * 历史记录的最大长度
+ */
+export const history_views_max_length = 24
+
+/**
  * 颜色列表
  */
 export const colors: colorItemInterface[] = [

@@ -133,3 +133,7 @@ export interface settingsDataInterface {
    */
   count: number
 }
+
+export interface detailDataInterface {
+  data: shareComicFace
+}

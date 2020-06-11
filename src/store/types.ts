@@ -32,7 +32,7 @@ export interface comicInterface {
   /**
    * 历史观看
    */
-  history_aviews: shareComicFace[]
+  history_views: shareComicFace[]
   /**
    * 收藏
    */
@@ -51,8 +51,28 @@ export interface settingsFace {
    * 是否开始暗色主题
    */
   isDark: boolean
+  /**
+   * 首页广告
+   */
+  showIndexAD: boolean
+}
+
+/**
+ * 阅读器接口
+ */
+export interface readerFace {
+  /**
+   * 当前数据
+   */
+  currentData: shareComicFace | null
+  /**
+   * 当前 `id` 可用来做索引判断
+   */
+  current_id: string | number
 }
 
 export default interface RootState {
-  comic: comicInterface
+  comic: comicInterface,
+  settings: settingsFace,
+  reader: readerFace
 }

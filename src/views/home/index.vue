@@ -5,7 +5,7 @@
     </topbar>
     <glass :opacity=".4" :blur="24" :bg="bgImg">
       <wrapper>
-        <view class="bg-img bg-mask bg-black light flex align-center shadow-blur dark-remove" :style="bgMaskImgStyle">
+        <view class="bg-img bg-mask bg-black light flex align-center dark-remove" :style="bgMaskImgStyle">
           <view class="padding-sm text-white dark-remove">
             <view class="padding-xs text-xl text-bold dark-remove">
               {{ sayWord.hitokoto }}
@@ -15,9 +15,16 @@
             </view>
           </view>
         </view>
-        <view>
-          <card title="最近观看" lineColor="pink" />
-          <card title="已收藏" lineColor="pink" />
+        <view class="padding-bottom-lg">
+          <card :data="historyViews" title="最近观看" lineColor="pink">
+            <!-- <template scope="{ row }">
+              <view class="text-gray">
+                <text class="cuIcon-time" />
+                {{ row.reader_time_text }}
+              </view>
+            </template> -->
+          </card>
+          <card :data="collectLists" title="已收藏" lineColor="pink" />
         </view>
       </wrapper>
     </glass>
@@ -31,6 +38,7 @@ import { bg_default_url } from '@/const'
 import { getWord } from '@/api/share'
 import cssType from 'csstype'
 import Card from '@/components/card.vue'
+import { mapGetters } from 'vuex'
 export default Vue.extend({
   data() {
     return {
@@ -45,6 +53,10 @@ export default Vue.extend({
     Card
   },
   computed: {
+    ...mapGetters('comic', [
+      'historyViews',
+      'collectLists'
+    ]),
     bgMaskImgStyle(): cssType.Properties {
       const { height: _h } = getWidthAndHeight()
       const h = Math.floor(_h * 0.333)

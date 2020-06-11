@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import fs from './fs'
 import comic from './modules/comic'
 import settings from './modules/settings'
+import reader from './modules/reader'
 
 Vue.use(Vuex)
 
@@ -16,7 +17,8 @@ export default new Vuex.Store({
   },
   modules: {
     comic,
-    settings
+    settings,
+    reader
   },
   plugins: [
     fs()

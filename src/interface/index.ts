@@ -149,6 +149,14 @@ export interface shareComicFace {
    * 推荐
    */
   recommends?: shareComicFace[]
+  /**
+   * 历史阅读的时间
+   */
+  reader_time?: number | string | Date
+  /**
+   * 历史阅读生成的时间
+   */
+  reader_time_text?: string
 }
 
 /**

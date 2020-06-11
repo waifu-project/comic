@@ -1,12 +1,12 @@
 <template>
   <view>
-    <view class="cu-bar bg-white">
+    <view class="cu-bar">
       <view class="action">
         <text class="cuIcon-titles" :class="`text-${ lineColor }`" />
         <text class="text-xl text-bold">{{ title }}</text>
       </view>
     </view>
-    <scroll-view scroll-x class="bg-white nav" scroll-with-animation>
+    <scroll-view scroll-x class="nav" scroll-with-animation>
       <view class="grid col-3 diy-grid">
         <view
           class="cu-item grid-card-item"
@@ -24,11 +24,18 @@
             }"
             @tap="handleClickItem(false, item, index)"
           ></view>
-          <view @tap="handleClickItem(true, item, index)" class="text-cut">{{ item.title }}</view>
+          <view
+            :style="{ lineHeight: `60rpx` }"
+            @tap="handleClickItem(true, item, index)" class="text-cut"
+          >
+            {{ item.title }}
+          </view>
+          <slot name="default" :row="item" />
         </view>
       </view>
     </scroll-view>
 
+    <!-- 丢弃的弹窗 -->
     <view class="cu-modal bottom-modal" :class="{ show: currentModalFlag }" @tap="currentModalFlag = false">
       <view class="cu-dialog" @tap.stop="">
         <card-preview :data="currentData" />

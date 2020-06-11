@@ -12,6 +12,7 @@
             <text class="cuIcon-back"></text>
             <slot name="backText"></slot>
           </view>
+          <slot name="left" />
           <!-- fixbug: 不支持绝对定位, 不然无法触发事件 -->
           <view :class="{ content: !fixEvent }" :style="[{top:StatusBar + 'px'}]">
             <slot name="content"></slot>
@@ -40,8 +41,9 @@
  * @param {Number} [isBlur] - 是否模糊
  * @param {String} [barImg] - 模糊的背景图片
  * @param {Boolean} [fixEvent] - 是否解决事件无法触发问题(.content的错误)
+ * @param {Boolean} [backEvent] - 是否启用默认的返回事件
  * @example 调用示例
- *  <topbar></topbar>
+ *  <topbar @left=""></topbar>
  */
 import { blur_default_url } from '@/const'
 import { isIos, isAndroid } from '@/utils/is'
@@ -155,10 +157,18 @@ export default {
     fixEvent: {
       type: Boolean,
       default: false
+    },
+    backEvent: {
+      type: Boolean,
+      default: true
     }
   },
   methods: {
     BackPage() {
+      const backEvent = this.backEvent
+      if (!backEvent) {
+        return this.$emit('left')
+      }
       if (getCurrentPages().length < 2 && "undefined" !== typeof __wxConfig) {
         let url = "/" + __wxConfig.pages[0]
         return uni.redirectTo({ url })
