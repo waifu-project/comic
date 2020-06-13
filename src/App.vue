@@ -1,9 +1,21 @@
 <script lang="ts">
 import Vue from "vue";
+import { mapState, mapMutations } from 'vuex'
 import { colors } from '@/const'
 import '@/callback/dark'
+import { router } from './utils';
 export default Vue.extend({
   mpType: "app",
+  computed: {
+    ...mapState('settings',[
+      'firstRun'
+    ])
+  },
+  methods: {
+    ...mapMutations('settings',[
+      'CHANGE_RUN_FLAG'
+    ])
+  },
   onLaunch() {
     try {
       uni.getSystemInfo({
@@ -38,6 +50,10 @@ export default Vue.extend({
         }
       });
       Vue.prototype.ColorList = colors
+      if (this.firstRun) {
+        router.push(`guide/index`)
+        this.CHANGE_RUN_FLAG(false)
+      }
     } catch (error) {
       throw new Error("获取失败");
     }

@@ -4,7 +4,8 @@ import { MutationTree } from 'vuex'
 const state: settingsFace = {
   showDev: false,
   isDark: false,
-  showIndexAD: true
+  showIndexAD: true,
+  firstRun: true
 }
 
 const mutations: MutationTree<settingsFace> = {
@@ -36,6 +37,9 @@ const mutations: MutationTree<settingsFace> = {
   },
   CHANGE_INDEX_AD_FLAG(state, flag: boolean) {
     state.showIndexAD = flag
+  },
+  CHANGE_RUN_FLAG(state, flag: boolean) {
+    state.firstRun = flag
   }
 }
 

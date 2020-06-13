@@ -1,6 +1,7 @@
 import { searchOptionTimeEnum, searchOptionTypeEnum } from './enum'
 import { searchOptionTimeType, searchOptionsTypeByType } from './types'
 import { shareComicFace } from '.'
+import csstype from 'csstype'
 
 // post 默认请求体
 export interface postBodyFace {
@@ -119,4 +120,56 @@ export interface devInsDataPageItemInterface {
  */
 export interface devInsDataInterface {
   pages: devInsDataPageItemInterface[]
+}
+
+/**
+ * 引导页接口类型
+ */
+export interface guideDataItemInterface {
+  /**
+   * 标题
+   */
+  title: string
+  /**
+   * 内容
+   */
+  content: string
+  /**
+   * 图片
+   */
+  img?: string
+  /**
+   * 标题背景颜色, 颜色值参考 colorui
+   */
+  titleBg?: string
+  /**
+   * 是否全屏
+   */
+  isFull?: boolean
+  /**
+   * 样式
+   */
+  style?: csstype.Properties
+  /**
+   * 是否结束
+   */
+  isEnd?: boolean
+}
+
+/**
+ * 镜像站接口类型
+ */
+export interface mirrorItemInterface {
+  /**
+   * 标题
+   */
+  title: string
+  /**
+   * 域名后缀
+   */
+  ext: string
+  /**
+   * 完整的 `url`
+   */
+  full_url: string
 }

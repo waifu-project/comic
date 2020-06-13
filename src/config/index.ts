@@ -8,6 +8,7 @@ export default {
   baseUrl
 }
 
+export let faq: string = injection.faq.ctx
 export let version: string = injection.packages.version
 export let readme: string = ''
 

@@ -55,6 +55,10 @@ export interface settingsFace {
    * 首页广告
    */
   showIndexAD: boolean
+  /**
+   * 首次启动引导页
+   */
+  firstRun: boolean
 }
 
 /**

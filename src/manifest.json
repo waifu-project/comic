@@ -39,8 +39,8 @@
                 ]
             },
             "ios" : {
-							"UIUserInterfaceStyle": "Automatic"
-						},
+                "UIUserInterfaceStyle" : "Automatic"
+            },
             /* ios打包配置 */
             "sdkConfigs" : {
                 "ad" : {}
@@ -81,7 +81,10 @@
         /* SDK配置 */
         "usingComponents" : true,
         "splashscreen" : {
-            "alwaysShowBeforeRender" : false
+            "alwaysShowBeforeRender" : true,
+            "waiting" : true,
+            "autoclose" : true,
+            "delay" : 0
         }
     },
     "quickapp" : {},
