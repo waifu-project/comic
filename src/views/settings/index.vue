@@ -35,7 +35,7 @@
             版本号
           </view>
           <view class="action">
-            0.0.1
+            {{ version }}
           </view>
         </view>
       </view>
@@ -70,6 +70,7 @@ import { mapState, mapMutations } from 'vuex'
 import { settingsDataInterface } from '@/interface/pages'
 import { settings_click_max_count } from '@/const'
 import { router } from '@/utils'
+import { version } from '@/config'
 export default Vue.extend({
   data(): settingsDataInterface {
     return {
@@ -80,7 +81,10 @@ export default Vue.extend({
     ...mapState('settings', [
       'showDev',
       'isDark'
-    ])
+    ]),
+    version() {
+      return version
+    }
   },
   methods: {
     ...mapMutations('settings', [
