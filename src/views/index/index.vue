@@ -6,7 +6,7 @@
 
 		<glass :opacity=".4" :blur="24">
 			<wrapper>
-				<view>
+				<view v-if="false">
 					<swiper class="screen-swiper" :class="dotStyle?'square-dot':'round-dot'" :indicator-dots="true" :circular="true" :autoplay="true" interval="5000" duration="500">
 						<swiper-item v-for="(item,index) in swiperList" :key="index">
 							<view class="text-lg margin-lg">
