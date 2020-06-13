@@ -3,6 +3,7 @@
  */
 
 import store from '@/store'
+import { isDev } from '@/config'
 
 const _b = (s: string): boolean => {
   if('dark'== s) return true
@@ -23,27 +24,14 @@ const getUiStyle = (): boolean=> {
 }
 
 try {
-
-  // TODO 获取当前主题错误
-  // const now_flag = getUiStyle()
-  // store.commit('settings/CHANGE_UI_THEME', now_flag)
-
-  const startupThemeFlag: boolean = (store.state as any).settings.isDark
-  if (startupThemeFlag) {
-    setTimeout(()=> {
-      uni.setTabBarStyle({
-        backgroundColor: 'rgba(0, 0, 0, .8)',
-        color: '#fff',
-        selectedColor: 'rgb(60, 197, 31)'
-      })
-    }, 50)
+  // TODO
+  if (!isDev) {
+    const now_flag = getUiStyle()
+    store.commit('settings/CHANGE_UI_THEME', now_flag)
   }
   const _uni = uni as any
   _uni.onUIStyleChange((res: any)=> {
     const flag = _b(res.style)
-    uni.showModal({
-      title: `主题已修改..${ flag }`
-    })
     store.commit('settings/CHANGE_UI_THEME', flag)
   })
 } catch (error) {
