@@ -1,10 +1,14 @@
-import config from '@/config'
 import { isDev as debug } from '@/config'
 import { postBodyFace } from '@/interface/tool'
+import { getMirror } from './mirror'
+import URL from 'url-parse'
 
 const axios = require('@/plugins/axios')
 
-const { baseUrl } = config
+// fixbug: 解决傻逼的多重引用 `bug`
+// const { baseUrl } = config
+// import config from '@/config'
+const baseUrl = getMirror()
 
 axios.setConfig({
   baseUrl,
@@ -13,6 +17,14 @@ axios.setConfig({
 })
 
 axios.interceptor.request = (req: any)=> {
+  if (req.url.search('18comic') >= 0) {
+    const baseUrl = getMirror()
+    axios.setConfig({ baseUrl })
+    const baseURL = new URL(baseUrl)
+    const url = new URL(req.url)
+    url.set('hostname', baseURL.hostname)
+    req.url = url.toString()
+  }
   uni.showLoading()
   return req
 }

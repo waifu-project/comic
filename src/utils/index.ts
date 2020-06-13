@@ -110,6 +110,15 @@ export const createRandomLen = (len: number): number=> {
 // 返回随机的颜色
 export const createRandomColor = (): colorItemInterface=> colors[createRandomLen(colors.length)]
 
+/**
+ * 获取域名后缀
+ * @param domain 域名
+ */
+export const easyGetDomainSuffix = (domain: string): string=> {
+  const index = domain.lastIndexOf('.')
+  return index > 0 ? domain.substring(index + 1) : ""
+}
+
 // 路由
 export const router = {
   push(url: string, query?: any, isFullPath?: boolean) {
@@ -121,7 +130,6 @@ export const router = {
       uni.navigateTo({
         url: _c
       })
-      // debugger
     } catch (error) {
       uni.showModal({
         title: '跳转错误, 未知错误',
@@ -134,7 +142,10 @@ export const router = {
     uni.navigateBack({ delta })
   },
   redirect(url: string) {
-    uni.redirectTo({ url })
+    uni.redirectTo({ url: `/views/${ url }` })
+  },
+  tab(url: string) {
+    uni.switchTab({ url: `/views/${ url }` })
   },
   // https://blog.csdn.net/liuxin00020/article/details/104842217
   // 获取当前路由信息

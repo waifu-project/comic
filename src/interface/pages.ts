@@ -1,6 +1,6 @@
 import css from 'csstype'
 import { shareComicFace, themeInterface, themeListInterface, topicItemInterface } from '.';
-import { searchOptions, themeMenuItemInterface } from './tool';
+import { searchOptions, themeMenuItemInterface, mirrorItemInterface } from './tool';
 
 interface flowDataArrayFace {
   text: string
@@ -17,6 +17,22 @@ export interface flowDataFace {
   flows: flowDataArrayFace[] // 流列表
   setup: number // 步骤
   logoText: string // logo文字
+  /**
+   * 加载状态
+   */
+  isLoading: boolean
+  /**
+   * 测试接口状态
+   */
+  isTestLoading: boolean
+  /**
+   * 测试是否连接成功
+   */
+  testStatus: boolean
+  /**
+   * 当前镜像
+   */
+  current_mirror: null | mirrorItemInterface
 }
 
 /**

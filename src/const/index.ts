@@ -1,12 +1,12 @@
-import { colorItemInterface, themeMenuItemInterface, devInsDataInterface } from '@/interface/tool'
+import { colorItemInterface, themeMenuItemInterface, devInsDataInterface, guideDataItemInterface, mirrorItemInterface } from '@/interface/tool'
 import { createStaticByCDN } from '@/utils/map'
+import { helpTextContent } from '@/utils/marked'
 
 const injection = require('@/plugins/injection')
 
-/**
- * 镜像默认的域名后缀
- */
-export const mirror_default_key = 'one'
+/********
+> TODO 将所有的公共 `key` 移植到 `key.ts` 中
+*******/
 
 /**
  * 滤镜默认背景
@@ -62,6 +62,16 @@ export const theme_search_goto_text = '如果你知道某个作品的id话....'
  * 历史记录的最大长度
  */
 export const history_views_max_length = 24
+
+/**
+ * 我的邮箱
+ */
+export const my_email = atob(`Y2hlbmhvbnpob3VAZ21haWwuY29t`)
+
+/**
+ * 官方的 `trello` 的 `id`
+ */
+export const trello_board_id =  'McDZAm8C'
 
 /**
  * 颜色列表
@@ -170,7 +180,37 @@ export const theme_menus: themeMenuItemInterface[] = [
   }
 ]
 
+export const guideDatas: guideDataItemInterface[] = [
+  {
+    title: '作者寄语',
+    content: `完全免费! 代码开源, 绝对安全. 所有数据均来自网络, 侵权必删, <span style="color: #e03997">\`${ '仅供学习参考' }\`</span>`
+  },
+  {
+    title: '使用说明',
+    content: helpTextContent,
+    isFull: true
+  },
+  {
+    title: '完结撒花💐',
+    content: `请开始你的表演...`,
+    isEnd: true
+  },
+]
+
 /**
  * 注入的 `pages.json` 文件
  */
 export const devInsData: devInsDataInterface = injection.pagejson
+
+export const defaultMirrorArr: mirrorItemInterface[] = [
+  {
+    title: '主镜像',
+    ext: 'vip',
+    full_url: 'https://18comic.vip'
+  },
+  {
+    title: '镜像站2(国内)',
+    ext: 'one',
+    full_url: 'https://18comic.one'
+  },
+]

@@ -2,9 +2,10 @@ import url from 'url-parse'
 import cherrio from 'cheerio'
 import { shareComicFace, shareIndexModal, themeInterface, themeListInterface, episodeInterface, topicItemInterface } from '@/interface'
 import fs from './fs'
-import { createRandomColor } from '.'
-import { colorItemInterface } from '@/interface/tool'
+import { createRandomColor, easyGetDomainSuffix } from '.'
+import { colorItemInterface, mirrorItemInterface } from '@/interface/tool'
 import { theme_default_col } from '@/const'
+import getURL from 'get-urls'
 
 const hpjs = require('@/plugins/html_parse')
 
@@ -290,6 +291,9 @@ export const pxComicImg = (ele: Cheerio): string=> {
   return y ? y : x
 }
 
+/**
+ * 吹水区转数据
+ */
 export const topicJSON2Data = (str: string): topicItemInterface=> {
   const $ = cherrio.load(str)
   const avatarEle = $('.media-object.img-circle.col-xs-12.p-0')
@@ -314,4 +318,33 @@ export const topicJSON2Data = (str: string): topicItemInterface=> {
     content,
     like_count
   }
+}
+
+/**
+ * 将原数据转为对象
+ */
+export const rawMirror2DataLists = (str: string): mirrorItemInterface[]=> {
+  let rawTemp = str.split('\n')
+  let resultArr: mirrorItemInterface[] = []
+  rawTemp.forEach(item=> {
+    if (item) {
+      const _urls = Array.from(getURL(item))
+      if (_urls.length) {
+        // TODO 只取 `index[0]`
+        const now = _urls[0]
+        if (now.search('18comic') >= 0) {
+          // const _sp = item.split(' ')
+          // const [ title ] = _sp
+          const URL = new url(now)
+          const _result = easyGetDomainSuffix(URL.host)
+          if (_result) resultArr.push({
+            title: item.trim(),
+            ext: _result,
+            full_url: now
+          })
+        }
+      }
+    }
+  })
+  return resultArr
 }

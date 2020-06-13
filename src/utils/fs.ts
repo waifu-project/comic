@@ -1,7 +1,6 @@
 import url from 'url-parse'
 import { isObject } from './is'
-import { mirror_key } from '@/const/key'
-import { mirror_default_key } from '@/const'
+import { mirror_key, mirror_default_key } from '@/const/key'
 import { getMirror } from './mirror'
 
 class fs {
@@ -50,11 +49,19 @@ class fs {
 
 export class io extends fs {
   static setMirror = (value: any): boolean=> {
-    const flag = io.setData(mirror_key, value)
+    const time = Date.now()
+    // flag: 临时改变为对象
+    const flag = io.setData(mirror_key, {
+      value,
+      time
+    })
     return flag
   }
   static getMirror = (): any => {
-    const data = io.getData(mirror_key, mirror_default_key)
+    // flag: 临时改变为对象
+    const data = io.getData(mirror_key, {
+      value: mirror_default_key
+    })
     return data
   }
 }

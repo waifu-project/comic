@@ -65,6 +65,14 @@
 			"description": "话题"
 		},
 		{
+			"path": "views/guide/index",
+			"style": {
+				"enablePullDownRefresh": false,
+				"onReachBottomDistance": 100,
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "views/webview/index",
 			"description": "webview页(传递一个`url`参数)"
 		},
@@ -108,8 +116,12 @@
 		"backgroundColor": "#F8F8F8"
 	},
 	"condition": {
-		"current": 5,
+		"current": 1,
 		"list": [
+			{
+				"name": "引导页",
+				"path": "views/guide/index"
+			},
 			{
 				"name": "首页",
 				"path":"views/index/index"

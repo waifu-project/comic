@@ -1,10 +1,11 @@
 import { get, post } from '@/utils/axios'
 import cherrio from 'cheerio'
-import { str2Data, str2Modal, detail2Data, comicPic2Data, comicTheme2Data, topicJSON2Data } from '@/utils/share'
+import { str2Data, str2Modal, detail2Data, comicPic2Data, comicTheme2Data, topicJSON2Data, rawMirror2DataLists } from '@/utils/share'
 import { shareIndexComicData, shareIndexData, themeListInterface, shareComicFace, topicResponseInterface, topicItemInterface } from '@/interface'
 import { createRandomColor } from '@/utils'
 import { searchOptions, searchResponseInterface } from '@/interface/tool'
 import querystring from '@/utils/qs'
+import { trello_board_id, defaultMirrorArr } from '@/const'
 
 // 点赞某作品
 export const loveVoteAlbum = (album_id: string | number)=> {
@@ -166,3 +167,33 @@ export const getForumMore = async (count: number | string = 10): Promise<topicIt
     return []
   }
 }
+
+/**
+ * 获取所有镜像站
+ * 参考: https://developer.atlassian.com/cloud/trello/rest/#api-boards-id-get
+ */
+export const getAllMirror = async (): Promise<any>=> {
+  try {
+    const data = await get(`https://api.trello.com/1/boards/${ trello_board_id }`)
+    const { desc } = data
+    return rawMirror2DataLists(desc)
+  } catch (error) {
+    return defaultMirrorArr
+  }
+}
+
+/**
+ * 测试链接是否可用
+ */
+export const handleTestApi = async (url: string): Promise<boolean> => new Promise(_res=> {
+  uni.request({
+    url,
+    success: res=> {
+      _res(true)
+    },
+    fail: (err)=> {
+      _res(false)
+    }
+  })
+  return true
+})

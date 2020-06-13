@@ -1,63 +1,136 @@
 <template>
   <view>
-    <glass :bg="flowBg" :blur="flowBgBlur" :dark="flowBgDark">
+    <glass :blur="flowBgBlur" :dark="flowBgDark">
+      <view class="next top show" :style="{ height: `124rpx`, top: `${ CustomBar * .5 }px` }">
+        <button class="cu-btn round bg-pink btn-x right light" @tap="handleClickLink('home')">{{ '首页' }}</button>
+        <button class="cu-btn round bg-pink btn-x light" @tap="handleClickLink('back')">{{ '回到上一页' }}</button>
+      </view>
       <view class="cu-modal show bg-unset" v-if="setup == 1">
-        <view class="cu-dialog bg-unset text-white">
-          <view class="text-lg margin-bottom-lg">{{ '请选择分流' }}</view>
-          <view class="margin-bottom-lg">{{ '这是提示' }}</view>
+        <view class="cu-dialog bg-unset text-black" v-if="!isLoading">
+          <view class="text-xxl margin-bottom-lg">{{ '请选择分流' }}</view>
           <view class="padding flex flex-direction">
             <button
               v-for="(item, index) in flows"
               :key="index"
               class="cu-btn bg-white margin-bottom-sm text-lg padding-top-sm padding-bottom-sm"
               style="height: auto"
-            >{{ item.text }}</button>
+              @tap="handleTapFlow(item)"
+            >{{ item.title }}</button>
           </view>
         </view>
       </view>
       <view class="text-center margin-top-lg" v-else-if="setup == 2">
-        <view class="text-sl padding">
-          <text>{{ logoText }}</text>
+        <view :style="{
+          marginTop: `${ CustomBar * 2 }px`
+        }">
+          <view class="text-sl padding margin-top-lg">
+            <text>{{ logoText }}</text>
+          </view>
         </view>
-        <view class="text-blue">{{ '加载中。。。' }}</view>
-        <view class="showVersion text-gray">{{ '0.0.0.1' }}</view>
+        <view class="margin-top margin-bottom">{{ current_mirror && current_mirror.title }}</view>
+        <view class="text-blue">{{ loadingTitle }}</view>
+        <view class="margin-top-lg">
+          <button class="cu-btn round bg-pink margin-right-lg" @tap="setupPrevious">{{ '继续换源' }}</button>
+          <button class="cu-btn round bg-green" v-if="testStatus" @tap="bindMirrorCurrent(current_mirror)">{{ '选定源' }}</button>
+        </view>
+        <view class="showVersion text-gray">{{ version }}</view>
       </view>
     </glass>
-
+    <view class="margin-tb-sm text-center next" :class="{ show: !isLoading }">
+			<button class="cu-btn round bg-pink" :style="{
+				width: `420rpx`
+			}" @tap="_getAllMirror">{{ '重新获取' }}</button>
+		</view>
   </view>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
 import { flowDataFace } from "@/interface/pages"
+import { getAllMirror, handleTestApi } from '@/api/v1';
+import { blur_default_url } from '@/const';
+import { version } from '@/config';
+import { mirrorItemInterface } from '@/interface/tool';
+import { router } from '@/utils';
+import { setMirror } from '@/utils/mirror';
 
 export default Vue.extend({
   data(): flowDataFace {
     return {
-      flowBg: "https://i.loli.net/2020/05/25/ynGRv1z5s7OCtw9.png",
-      flowBgBlur: 12,
+      flowBg: blur_default_url,
+      flowBgBlur: 24,
       flowBgDark: false,
-      flows: [
-        {
-          text: "流1",
-          url: ""
-        },
-        {
-          text: "流2",
-          url: ""
-        },
-        {
-          text: "流3",
-          url: ""
-        }
-      ],
+      isLoading: false,
+      isTestLoading: false,
+      testStatus: false,
+      flows: [],
       setup: 1,
-      logoText: '18comic'
+      logoText: '18comic',
+      current_mirror: null
     };
   },
-  computed: {},
-  onLoad() {},
-  methods: {}
+  computed: {
+    version(): string {
+      return version
+    },
+    loadingTitle(): string {
+      const flag = this.isTestLoading
+      const testFlag = this.testStatus
+      if (flag) return '测试连接中...'
+      return testFlag ? '连接成功' : '连接成功'
+    }
+  },
+  onLoad() {
+   this._getAllMirror()
+  },
+  methods: {
+    /**
+     * 获取数据
+     */
+    async _getAllMirror() {
+      this.isLoading = true
+      const data = await getAllMirror()
+      this.flows = data
+      this.isLoading = false
+    },
+    /**
+     * 返回上一步
+     */
+    setupPrevious() {
+      // this._getAllMirror()
+      this.setup = 1
+      this.isLoading = false
+    },
+    bindMirrorCurrent(data: mirrorItemInterface) {
+      const now = setMirror(data.ext)
+      uni.showModal({
+        title: '提示',
+        content: '设置成功',
+        showCancel: false,
+        confirmText: '我知道了'
+      })
+    },
+    async handleTapFlow(item: mirrorItemInterface) {     
+      this.current_mirror = item 
+      this.setup = 2
+      this.testStatus = false
+      this.isLoading = true
+      this.isTestLoading = true
+      const flag = await handleTestApi(item.full_url)
+      this.isTestLoading = false
+      this.testStatus = flag
+    },
+    /**
+     * 跳转链接
+     */
+    handleClickLink(type: string) {
+      if (type === 'back') {
+        router.back()
+      } else if (type === 'home') {
+        router.tab('index/index')
+      }
+    }
+  }
 });
 </script>
 
@@ -84,5 +157,33 @@ export default Vue.extend({
   position: fixed;
   bottom: 3%;
   right: 5%;
+}
+.next {
+	position: fixed;
+	bottom: 10%;
+	left: 0;
+	width: 100%;
+	transform: translateY(40vh);
+	/* opacity: 0; */
+	transition: all .4s;
+	z-index: 9999;
+}
+.next.top {
+  left: unset;
+  top: 0;
+  transform: translateY(-40vh);
+}
+.next.show {
+	transform: translateY(0);
+	/* opacity: 1; */
+}
+.btn-x {
+  position: absolute;
+  top: 24rpx;
+  left: 22rpx;
+}
+.btn-x.right {
+  left: unset;
+  right : 22rpx;
 }
 </style>
