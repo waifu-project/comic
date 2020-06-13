@@ -5,5 +5,9 @@ export const setTitle = (title: string) => {
 }
 
 export const setFullScreen = (flag: boolean = true): void=> {
-  plus.navigator.setFullscreen(true)
+  try {
+    plus.navigator.setFullscreen(flag)
+  } catch (error) {
+    throw new Error(`设置错误: ${ error }`)
+  }
 }
