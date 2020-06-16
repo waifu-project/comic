@@ -21,19 +21,22 @@ const mutations: MutationTree<settingsFace> = {
   /**
    * 修改 `ui` 主题
    */
-  CHANGE_UI_THEME(state, theme: boolean) {
+  CHANGE_UI_THEME(state, themeFlag: boolean) {
     let style = {
       backgroundColor: 'rgba(0, 0, 0, .8)',
       color: '#fff',
       selectedColor: 'rgb(60, 197, 31)'
     }
-    if (!theme) style = {
+    if (!themeFlag) style = {
       backgroundColor: `rgba(255, 255, 255, 0.4)`,
       color: '#333',
       selectedColor: 'rgb(60, 197, 31)'
     }
-    uni.setTabBarStyle(style)
-    state.isDark = theme
+    // fixbug: setTimeout is work.
+    setTimeout(() => {
+      uni.setTabBarStyle(style)
+    }, 120)
+    state.isDark = themeFlag
   },
   CHANGE_INDEX_AD_FLAG(state, flag: boolean) {
     state.showIndexAD = flag

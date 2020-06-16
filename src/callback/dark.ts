@@ -5,10 +5,7 @@
 import store from '@/store'
 import { isDev } from '@/config'
 
-const _b = (s: string): boolean => {
-  if('dark'== s) return true
-  return false
-}
+const _b = (s: string): boolean => 'dark'== s
 
 /**
  * 拿到当前颜色主题
