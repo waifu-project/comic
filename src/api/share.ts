@@ -14,8 +14,6 @@ interface sayWordInterface {
   uuid?: string
 }
 
-uni.getSystemInfoSync
-
 // 一言
 export const getWord = async (): Promise<sayWordInterface>=> {
   try {
