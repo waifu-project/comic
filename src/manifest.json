@@ -85,6 +85,9 @@
             "waiting" : true,
             "autoclose" : true,
             "delay" : 0
+        },
+        "networkTimeout": {
+            "request": 30000
         }
     },
     "quickapp" : {},
