@@ -66,7 +66,12 @@ export const history_views_max_length = 24
 /**
  * 我的邮箱
  */
-export const my_email = atob(`Y2hlbmhvbnpob3VAZ21haWwuY29t`)
+export let my_email = ""
+try {
+  my_email = atob(`Y2hlbmhvbnpob3VAZ21haWwuY29t`)
+} catch (err) {
+  console.error("base64解码失败: ", err)
+}
 
 /**
  * 官方的 `trello` 的 `id`
