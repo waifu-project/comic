@@ -37,5 +37,12 @@ module.exports = {
         })
       })
     ]
-  }
+  },
+  transpileDependencies: [
+    "get-urls",
+    "marked",
+    "url-parse",
+    "normalize-url",
+    "url-regex",
+  ]
 }
