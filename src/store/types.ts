@@ -1,4 +1,4 @@
-import { shareComicFace } from '@/interface';
+import { shareComicFace, shareIndexComicData, themeListInterface, themeInterface } from '@/interface';
 
 interface searchDataInterface {
   /**
@@ -23,7 +23,9 @@ interface searchDataInterface {
   isNext?: boolean
 }
 
-// 漫画接口
+/**
+ * 漫画接口
+ */
 export interface comicInterface {
   /**
    * 搜索数据
@@ -37,6 +39,40 @@ export interface comicInterface {
    * 收藏
    */
   collect_lists: shareComicFace[]
+}
+
+/**
+ * 主题数据
+ */
+export interface themeConcatInterface {
+
+  /**
+   * 热门
+   */
+  popular: themeListInterface[]
+
+  /**
+   * 主题数据
+   */
+  data: themeInterface[]
+
+}
+
+/**
+ * 缓存接口类型
+ */
+export interface cacheInterface {
+
+  /**
+   * 首页数据
+   */
+  index: null | shareIndexComicData[]
+
+  /**
+   * 主题数据
+   */
+  theme: null | themeConcatInterface
+
 }
 
 /**
