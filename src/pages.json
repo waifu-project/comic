@@ -70,7 +70,8 @@
 				"enablePullDownRefresh": false,
 				"onReachBottomDistance": 100,
 				"navigationStyle": "custom"
-			}
+			},
+			"description": "引导页"
 		},
 		{
 			"path": "views/webview/index",
