@@ -1,11 +1,12 @@
-import { settingsFace } from '../types'
+import { settingsFace, cardColEnum } from '../types'
 import { MutationTree } from 'vuex'
 
 const state: settingsFace = {
   showDev: false,
   isDark: false,
   showIndexAD: true,
-  firstRun: true
+  firstRun: true,
+  cardCol: cardColEnum.df
 }
 
 const mutations: MutationTree<settingsFace> = {
@@ -43,6 +44,9 @@ const mutations: MutationTree<settingsFace> = {
   },
   CHANGE_RUN_FLAG(state, flag: boolean) {
     state.firstRun = flag
+  },
+  CHANGE_CARD_COL(state, col) {
+    state.cardCol = col
   }
 }
 

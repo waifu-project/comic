@@ -27,7 +27,7 @@
             v-for="(item, index) in popularThemes"
             :key="index"
             >
-              <view class="cu-tag" :class="[ `bg-${ item.bg.name }` ]">
+              <view class="cu-tag round" :class="[ `bg-${ item.bg.name }` ]">
                 {{ item.text }}
               </view>
             </view>

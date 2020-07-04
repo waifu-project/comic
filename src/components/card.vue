@@ -12,15 +12,14 @@
           class="cu-item grid-card-item"
           v-for="(item,index) in data"
           :key="index"
-          :style="{
-          minWidth: `33.33%`
-        }"
+          :style="colStyle"
         >
-          <view class="bg-img bg-mask"
+          <view class="bg-img bg-mask shadow-blur"
             :style="{
               minWidth: `100%`,
               backgroundImage: `url(${ item.cover })`,
-              height: `320upx`
+              height: `320upx`,
+              borderRadius: `24upx`,
             }"
             @tap="handleClickItem(false, item, index)"
           ></view>
@@ -60,6 +59,7 @@
 
 import cardPreview from '@/components/card-preview'
 import { router } from '@/utils'
+import { mapState } from 'vuex';
 export default {
   name: "x-card",
   components: {
@@ -77,7 +77,7 @@ export default {
     lineColor: {
       type: String,
       default: 'green'
-    }
+    },
   },
   data() {
     return {
@@ -88,6 +88,29 @@ export default {
         desc: ``,
       },
       currentModalFlag: false
+    }
+  },
+  computed: {
+    ...mapState('settings', [
+      'cardCol'
+    ]),
+    colStyle() {
+      const col = this.cardCol
+      let w
+      switch (col) {
+        case "df":
+          w = "33.333%"
+          break;
+        case "lg":
+          w = "50.444%"
+          break;
+        case "xl":
+          w = "93.33%"
+          break;
+      }
+      return {
+        minWidth: w
+      }
     }
   },
   methods: {

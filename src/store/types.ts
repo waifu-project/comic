@@ -76,6 +76,28 @@ export interface cacheInterface {
 }
 
 /**
+ * 卡片几等分枚举
+ */
+export enum cardColEnum {
+
+  /**
+   * 默认
+   */
+  df = "默认",
+
+  /**
+   * 大
+   */
+  lg = "较大",
+
+  /**
+   * 超大
+   */
+  xl = "超大",
+
+}
+
+/**
  * 设置接口
  */
 export interface settingsFace {
@@ -95,6 +117,10 @@ export interface settingsFace {
    * 首次启动引导页
    */
   firstRun: boolean
+  /**
+   * 卡片几等分
+   */
+  cardCol: cardColEnum
 }
 
 /**
