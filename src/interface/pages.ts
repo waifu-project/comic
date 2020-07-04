@@ -56,6 +56,53 @@ export interface indexDataFace {
 }
 
 /**
+ * 阅读器接口数据
+ */
+export interface readerDataFace {
+
+  /**
+   * 图片
+   */
+  imgs: string[]
+
+  /**
+   * 是否在加载中
+   */
+  isLoading: boolean
+
+  /**
+   * 该字段主要是用来判断 `scroll-view` 的高度的
+   */
+  scrollTop: number
+
+  /**
+   * 点击后的高亮效果 `x`
+   */
+  effectX: number
+
+  /**
+   * 点击后的高亮效果 `y`
+   */
+  effectY: number
+
+  /**
+   * 高亮显示 `flag`
+   */
+  effectDisplay: boolean
+
+  /**
+   * `box` 宽度
+   */
+  effectW: number
+
+  /**
+   * `box` 高度
+   */
+  effectH: number
+
+}
+
+/**
  * 搜索页面`data`
  */
 export interface searchPageInterface {

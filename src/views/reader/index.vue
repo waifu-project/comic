@@ -1,5 +1,6 @@
 <template>
-  <view>
+  <view @touchstart="handleViewTap" @touchmove="handleViewTap" @touchend="handleViewTapEnd">
+    <view class="effect shadow-blur" :style="effectStyle" />
     <topbar :blur="24" :barImg="barImg" :isBack="true" :backEvent="!leftActionFlag" @left="handleClickEPAction(false)">
       <block slot="backText">{{ leftTitle }}</block>
       <block slot="content">{{ title }}</block>
@@ -21,14 +22,21 @@ import { setFullScreen } from '@/utils/uni'
 import { getComicPic } from '@/api/v1'
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import { shareComicFace } from '@/interface'
+import cssType from 'csstype'
+import { readerDataFace } from '@/interface/pages'
 let hpjs: any = require('@/plugins/html_parse') 
 
 export default Vue.extend({
-  data() {
+  data(): readerDataFace {
     return {
       imgs: [],
       isLoading: false,
-      scrollTop: 0
+      scrollTop: 0,
+      effectW: 70,
+      effectH: 70,
+      effectX: 0,
+      effectY: 0,
+      effectDisplay: false,
     }
   },
   computed: {
@@ -39,6 +47,23 @@ export default Vue.extend({
     ...mapGetters('reader', [
       'current_index'
     ]),
+    effectStyle(): cssType.Properties {
+      return {
+        position: 'fixed',
+        top: `${ this.effectY }px`,
+        left: `${ this.effectX }px`,
+        pointerEvents: `none`,
+        width: `${ this.effectW }px`,
+        height: `${ this.effectH }px`,
+        zIndex: 9999,
+        border: `2px solid var(-pinkLight)`,
+        background: `rgba(224, 57, 151, .8)`,
+        borderRadius: `50%`,
+        opacity: this.effectDisplay ? 1 : 0,
+        userSelect: 'none',
+        transition: 'opacity .3s'
+      }
+    },
     /**
      * 左边标题
      */
@@ -76,7 +101,10 @@ export default Vue.extend({
     _nodes() {
       let result = ''
       this.imgs.forEach(item=> {
-        result += `<img src="${ item }" style="width:100%; height: auto" /> <br/>`
+        result += `
+          <img src="${ item }" style="width:100%; height: auto"" />
+          <br/>
+        `
       })
       return hpjs(result)
     },
@@ -110,6 +138,20 @@ export default Vue.extend({
         scrollTop: 0, //距离页面顶部的距离
         duration: 300
       })
+    },
+    handleViewTap(e: any) {
+      try {
+        const _data = e.touches[0]
+        const { clientX, clientY } = _data
+        this.effectX = clientX - (this.effectW * .5)
+        this.effectY = clientY - (this.effectH * .5)
+        this.effectDisplay = true
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
+    handleViewTapEnd(e: any) {
+      this.effectDisplay = false
     }
   },
   onPageScroll(res) {
