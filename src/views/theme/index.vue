@@ -56,7 +56,7 @@
           </view>
         </view>
 
-        <block v-for="(item, index) in $data" :key="index">
+        <block v-for="(item, index) in uData" :key="index">
           <view class="cu-bar radius solid-bottom">
             <view class="action">
               <text class="cuIcon-title text-pink" />
@@ -103,13 +103,14 @@
 import Vue from 'vue'
 import { getTheme, getPopularThemes } from '@/api/v1'
 import { blur_default_url, theme_item_max_word, theme_search_main_placeholder, theme_search_goto_placeholder, theme_search_goto_text } from '@/const'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import { themeListInterface, themeInterface } from '@/interface'
 import { router } from '@/utils'
 import { theme_menus } from '@/const'
 import { themePageDataInterface } from '@/interface/pages'
 import { createSearchUrl } from '@/utils/qs'
 import { themeMenuItemInterface } from '@/interface/tool'
+import { themeConcatInterface } from '@/store/types'
 export default Vue.extend({
   data(): themePageDataInterface {
     return {
@@ -126,11 +127,25 @@ export default Vue.extend({
     }
   },
   async onLoad() {
-    await this.getData()
+    try {
+      const theme: null | themeConcatInterface = this.theme
+      if (!!theme) {
+        const { data, popular } = theme
+        this.data = data
+        this.popularThemes = popular
+      } else {
+        await this.getData()
+      }
+    } catch (error) {
+      throw new Error(error)
+    }
   },
   computed: {
-    $data(): themeInterface[] {
-      const data = this.data
+    ...mapState('cache', [
+      'theme'
+    ]),
+    uData(): themeInterface[] {
+      const data = this.data || []
       // flag: 如果文字大于 `theme_item_max_word`, 就改为 2 列
       return data.map(item=> {
         const is2col = item.lists.some(_item=> {
@@ -148,11 +163,19 @@ export default Vue.extend({
       'CHANGE_SEARCH_URL',
       'CHANGE_SEARCH_BAR_TITLE'
     ]),
+    ...mapMutations('cache', [
+      'CHANGE_THEME_DATA'
+    ]),
     async getData() {
       const popularThemes: any = await getPopularThemes()
       const data: any = await getTheme()
       this.data = data
       this.popularThemes = popularThemes
+      const _typeData: themeConcatInterface = {
+        data,
+        popular: popularThemes
+      }
+      this.CHANGE_THEME_DATA(_typeData)
     },
     handleClickTheme(data: themeListInterface) {
       const { url, text } = data

@@ -5,7 +5,8 @@
 		</topbar>
 
 		<glass :opacity=".4" :blur="24">
-			<wrapper>
+			<wrapper :isLoading="isLoading" @scroll="handleScroll">
+
 				<view v-if="false">
 					<swiper class="screen-swiper" :class="dotStyle?'square-dot':'round-dot'" :indicator-dots="true" :circular="true" :autoplay="true" interval="5000" duration="500">
 						<swiper-item v-for="(item,index) in swiperList" :key="index">
@@ -14,9 +15,11 @@
 							</view>
 						</swiper-item>
 					</swiper>
+
 					<view class="padding-sm bg-green dark-remove">
 						{{ '18comic' }}
 					</view>
+
 				</view>
 
 				<view class="padding-bottom-lg">
@@ -35,9 +38,7 @@
 			:footerStyle="footerButtonStyle"
 			@action="handleDialogAction"
 			>
-			<scroll-view scroll-y :style="{
-				height: `100%`
-			}">
+			<scroll-view scroll-y :style="{ height: `100%` }">
 				<rich-text :nodes="body" />
 			</scroll-view>
 		</dialog-box>
@@ -48,8 +49,8 @@
 import Vue from 'vue'
 import Card from '@/components/card.vue'
 import { getIndexData } from '@/api/v1'
+import { mapState, mapMutations } from 'vuex'
 import { indexDataFace } from '@/interface/pages'
-import { mapState } from 'vuex'
 export default Vue.extend({
 	components: {
 		Card
@@ -82,34 +83,60 @@ export default Vue.extend({
 			],
 			dotStyle: true,
 			body: '',
-			lists: []
+			lists: [],
+			isLoading: true
 		}
 	},
-	async created() {
-		this.useIndexData()
+	async onLoad() {
+		const _datas = this.indexData
+		if (!_datas) {
+			this.useIndexData()
+		} else {
+			if (Array.isArray(_datas)) {
+				this.isLoading = false
+				this.lists = _datas
+			}
+		}
 	},
 	computed: {
+		...mapState('cache', {
+			indexData: (state: any) => {
+				return state.index
+			}
+		}),
 		...mapState('settings', [
 			'showIndexAD'
 		])
 	},
 	methods: {
+		...mapMutations('cache', [
+			'CHANGE_INDEX_DATA',
+		]),
+		handleScroll(data: any) {
+			if (this.isLoading) return
+			const { position } = data
+			if (position == 'top') {
+				// this.useIndexData()
+			}
+		},
 		async useIndexData() {
+			this.isLoading = true
 			const data = await getIndexData()
 			const { modal, lists } = data
 			this.model.startup = true
 			this.body = modal.body
 			this.lists = lists
+			this.CHANGE_INDEX_DATA(lists)
+			this.isLoading = false
 		},
 		handleDialogAction(item: any) {
 			try {
-				// TODO
 				this.model.startup = false
 			} catch (error) {
 				throw new Error(error)
 			}
 		}
-	}
+	},
 })
 </script>
 
