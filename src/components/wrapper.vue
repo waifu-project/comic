@@ -5,12 +5,23 @@
     :show-scrollbar="isScrollbar"
     :scroll-top="top"
     :scroll-with-animation="true"
-    @scroll="handleScroll(false, $event)"
     @scrolltolower="handleScroll('bottom', $event)"
     @scrolltoupper="handleScroll('top', $event)"
     :class="isDark? 'dark-theme' : ''"
   >
-    <slot name="default" />
+    <view v-if="isLoading" class="flex align-center justify-center" :style="loadingStyle">
+      <view class="message-box">
+        <image class="imageClass" :src="loadingImae" mode="aspectFit" />
+        <view class="text-center text-pink text-lg">
+          <text>{{ '加载中...' }}</text>
+        </view>
+        <view class="text-center margin-top-sm">
+          <button class="cu-btn round bg-red margin-right-sm">重试</button>
+          <button class="cu-btn round bg-green">取消</button>
+        </view>
+      </view>
+    </view>
+    <slot name="default" v-else />
   </scroll-view>
 </template>
 
@@ -29,6 +40,7 @@ import Vue from "vue";
 import cssType from "csstype";
 import { isIos, isAndroid } from "@/utils/is";
 import { mapState } from 'vuex'
+import { _loadingImage } from '@/config/assets'
 export default Vue.extend({
   name: "wrapper",
   props: {
@@ -45,7 +57,11 @@ export default Vue.extend({
     darkmode: {
       type: Boolean,
       default: true
-    }
+    },
+    isLoading: {
+      type: Boolean,
+      default: false
+    },
   },
   data() {
     return {
@@ -56,6 +72,17 @@ export default Vue.extend({
     };
   },
   computed: {
+    loadingStyle(): cssType.Properties {
+      const ctx = uni.getSystemInfoSync()
+      return {
+        width: `${ ctx.windowWidth }px`,
+        height: `${ ctx.windowHeight }px`,
+        background: `#fff`,
+      }
+    },
+    loadingImae() {
+      return _loadingImage;
+    },
     ...mapState('settings',[
       'isDark'
     ]),
@@ -71,6 +98,11 @@ export default Vue.extend({
       //#ifdef H5
       h = h - CustomBar;
       //#endif
+
+      let safaPoint = info.safeArea?.height || 0
+
+      // h = h - safaPoint
+
       return {
         height: `${h}px`
       };
@@ -98,3 +130,15 @@ export default Vue.extend({
   }
 });
 </script>
+
+<style scoped>
+.imageClass {
+  width: 320rpx;
+  height: 320rpx;
+  border-bottom-left-radius: 42rpx;
+  border-bottom-right-radius: 42rpx;
+}
+.message-box {
+  height: 820rpx;
+}
+</style>
