@@ -1,9 +1,10 @@
 import url from 'url-parse'
 import { isObject } from './is'
-import { mirror_key, mirror_default_key } from '@/const/key'
+import { mirror_key, mirror_default_domain } from '@/const/key'
 import { getMirror } from './mirror'
 
 class fs {
+
   static Join(str: string): string {
     const now = getMirror()
     const __URL = new url(now)
@@ -45,9 +46,11 @@ class fs {
     }
     return result
   }
+
 }
 
 export class io extends fs {
+
   static setMirror = (value: any): boolean=> {
     const time = Date.now()
     // flag: 临时改变为对象
@@ -57,13 +60,15 @@ export class io extends fs {
     })
     return flag
   }
+
   static getMirror = (): any => {
     // flag: 临时改变为对象
     const data = io.getData(mirror_key, {
-      value: mirror_default_key
+      value: mirror_default_domain
     })
     return data
   }
+  
 }
 
 export default fs

@@ -5,7 +5,7 @@ import fs from './fs'
 import { createRandomColor, easyGetDomainSuffix } from '.'
 import { colorItemInterface, mirrorItemInterface } from '@/interface/tool'
 import { theme_default_col } from '@/const'
-import getURL from 'get-urls'
+// import getURL from 'get-urls'
 
 const hpjs = require('@/plugins/html_parse')
 
@@ -324,27 +324,29 @@ export const topicJSON2Data = (str: string): topicItemInterface=> {
  * 将原数据转为对象
  */
 export const rawMirror2DataLists = (str: string): mirrorItemInterface[]=> {
-  let rawTemp = str.split('\n')
-  let resultArr: mirrorItemInterface[] = []
-  rawTemp.forEach(item=> {
-    if (item) {
-      const _urls = Array.from(getURL(item))
-      if (_urls.length) {
-        // TODO 只取 `index[0]`
-        const now = _urls[0]
-        if (now.search('18comic') >= 0) {
-          // const _sp = item.split(' ')
-          // const [ title ] = _sp
-          const URL = new url(now)
-          const _result = easyGetDomainSuffix(URL.host)
-          if (_result) resultArr.push({
-            title: item.trim(),
-            ext: _result,
-            full_url: now
-          })
-        }
-      }
-    }
-  })
-  return resultArr
+  // 2020-07-03 更新: 就先存在本地吧, 暂时没有别的办法了
+  return []
+  // let rawTemp = str.split('\n')
+  // let resultArr: mirrorItemInterface[] = []
+  // rawTemp.forEach(item=> {
+  //   if (item) {
+  //     const _urls = Array.from(getURL(item))
+  //     if (_urls.length) {
+  //       // TODO 只取 `index[0]`
+  //       const now = _urls[0]
+  //       if (now.search('18comic') >= 0) {
+  //         // const _sp = item.split(' ')
+  //         // const [ title ] = _sp
+  //         const URL = new url(now)
+  //         const _result = easyGetDomainSuffix(URL.host)
+  //         if (_result) resultArr.push({
+  //           title: item.trim(),
+  //           ext: _result,
+  //           full_url: now
+  //         })
+  //       }
+  //     }
+  //   }
+  // })
+  // return resultArr
 }

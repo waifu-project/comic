@@ -16,22 +16,33 @@ axios.setConfig({
   skipInterceptorResponse: false
 })
 
-axios.interceptor.request = (req: any)=> {
-  if (req.url.search('18comic') >= 0) {
+/**
+ * 修改镜像
+ */
+const dynamicMirror = (req: any): string => {
+  let _defalut = req.url
+  if (_defalut.search('18comic') >= 0) {
     const baseUrl = getMirror()
-    axios.setConfig({ baseUrl })
+    // axios.setConfig({ baseUrl })
     const baseURL = new URL(baseUrl)
     const url = new URL(req.url)
     url.set('hostname', baseURL.hostname)
-    req.url = url.toString()
+    const _r = url.toString()
+    return _r
   }
-  uni.showLoading()
+  return _defalut;
+}
+
+axios.interceptor.request = (req: any)=> {
+  const _url = dynamicMirror(req)
+  req.url = _url
+  // uni.showLoading()
   return req
 }
 
 // TODO 取消响应拦截器
 axios.interceptor.response = (res: any) => {
-  uni.hideLoading()
+  // uni.hideLoading()
   // if (res.code === 0) res.success = true
   // res.success = true
   // res.result = res

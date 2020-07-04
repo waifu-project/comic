@@ -1,10 +1,19 @@
 <template>
   <view>
+
     <glass :blur="flowBgBlur" :dark="flowBgDark">
-      <view class="next top show" :style="{ height: `124rpx`, top: `${ CustomBar * .5 }px` }">
-        <button class="cu-btn round bg-pink btn-x right light" @tap="handleClickLink('home')">{{ '首页' }}</button>
-        <button class="cu-btn round bg-pink btn-x light" @tap="handleClickLink('back')">{{ '回到上一页' }}</button>
+
+      <view class="next top" :class="{ show: (current_mirror_index != null) }" :style="{ height: `124rpx`, top: `${ CustomBar * .5 }px` }">
+        <button class="cu-btn round bg-pink btn-x right light text-pink" @tap="handleClickLink('home')">
+          <i class="text-gray cuIcon-home text-df-wp" />
+          {{ '首页' }}
+        </button>
+        <button class="cu-btn round bg-pink btn-x light" @tap="handleClickLink('back')">
+          <i class="text-gray cuIcon-back text-df-wp" />
+          {{ '回到上一页' }}
+        </button>
       </view>
+
       <view class="cu-modal show bg-unset" v-if="setup == 1">
         <view class="cu-dialog bg-unset text-black" v-if="!isLoading">
           <view class="text-xxl margin-bottom-lg">{{ '请选择分流' }}</view>
@@ -13,12 +22,15 @@
               v-for="(item, index) in flows"
               :key="index"
               class="cu-btn bg-white margin-bottom-sm text-lg padding-top-sm padding-bottom-sm"
+              :class="[ current_mirror_index == index ? 'bg-gradual-pink shadow-blur text-bold active-item' : '' ]"
               style="height: auto"
-              @tap="handleTapFlow(item)"
+              @tap="handleTapFlow(item, index)"
             >{{ item.title }}</button>
           </view>
         </view>
       </view>
+
+      <!-- flag: 2020-07-03 更新: 由于接口的一些问题, 现在不测试接口了, 直接选择 -->
       <view class="text-center margin-top-lg" v-else-if="setup == 2">
         <view :style="{
           marginTop: `${ CustomBar * 2 }px`
@@ -35,12 +47,16 @@
         </view>
         <view class="showVersion text-gray">{{ version }}</view>
       </view>
+
     </glass>
-    <view class="margin-tb-sm text-center next" :class="{ show: !isLoading }">
-			<button class="cu-btn round bg-pink" :style="{
-				width: `420rpx`
-			}" @tap="_getAllMirror">{{ '重新获取' }}</button>
+
+    <view class="margin-tb-sm text-center next" :class="{ show: (current_mirror_index != null) }">
+			<button class="cu-btn round bg-pink" :style="{ width: `420rpx` }" @tap="handleSelect">
+        <i class="cuIcon-lock margin-right-xs" />
+        {{ '重新获取' && `选定` }}
+      </button>
 		</view>
+
   </view>
 </template>
 
@@ -52,7 +68,7 @@ import { blur_default_url } from '@/const';
 import { version } from '@/config';
 import { mirrorItemInterface } from '@/interface/tool';
 import { router } from '@/utils';
-import { setMirror } from '@/utils/mirror';
+import { setMirror, getMirror } from '@/utils/mirror';
 
 export default Vue.extend({
   data(): flowDataFace {
@@ -66,7 +82,8 @@ export default Vue.extend({
       flows: [],
       setup: 1,
       logoText: '18comic',
-      current_mirror: null
+      current_mirror: null,
+      current_mirror_index: null
     };
   },
   computed: {
@@ -110,15 +127,30 @@ export default Vue.extend({
         confirmText: '我知道了'
       })
     },
-    async handleTapFlow(item: mirrorItemInterface) {     
-      this.current_mirror = item 
-      this.setup = 2
-      this.testStatus = false
-      this.isLoading = true
-      this.isTestLoading = true
-      const flag = await handleTestApi(item.full_url)
-      this.isTestLoading = false
-      this.testStatus = flag
+    async handleTapFlow(item: mirrorItemInterface, index: number) {     
+      this.current_mirror_index = index
+      this.current_mirror = item
+      // this.setup = 2
+      // this.testStatus = false
+      // this.isLoading = true
+      // this.isTestLoading = true
+      // const flag = await handleTestApi(item.full_url)
+      // this.isTestLoading = false
+      // this.testStatus = flag
+    },
+    /**
+     * 选定接口
+     */
+    async handleSelect() {
+      try {
+        const item = this.current_mirror
+        if (!item) return
+        const { full_url } = item
+        setMirror(full_url)
+        plus.nativeUI.toast(`设置成功: ${ full_url }`) 
+      } catch (error) {
+        throw new Error(error)
+      }
     },
     /**
      * 跳转链接
@@ -185,5 +217,14 @@ export default Vue.extend({
 .btn-x.right {
   left: unset;
   right : 22rpx;
+}
+.text-df-wp {
+  font-size: 36rpx;
+  color: var(--pink);
+  margin-right: 6rpx;
+}
+.active-item {
+  transform: scale(1.1);
+  transition: all .4s;
 }
 </style>

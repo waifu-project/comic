@@ -207,15 +207,54 @@ export const guideDatas: guideDataItemInterface[] = [
  */
 export const devInsData: devInsDataInterface = injection.pagejson
 
+/**
+ * 默认的镜像站
+ * 先手动去维护
+ */
+/*
+
+JM主站
+https://18comic.vip
+
+海外分流
+https://18comic.org
+
+中國用戶 〈有新網址會隨時更新〉
+
+JM中國主站
+https://18comic.fun
+
+分流1
+https://18comic1.biz
+
+分流2
+https://18comic2.biz
+
+*/
 export const defaultMirrorArr: mirrorItemInterface[] = [
   {
-    title: '主镜像',
+    title: 'JM主站',
     ext: 'vip',
     full_url: 'https://18comic.vip'
   },
   {
-    title: '镜像站2(国内)',
-    ext: 'one',
-    full_url: 'https://18comic.one'
+    title: '海外分流',
+    ext: 'org',
+    full_url: 'https://18comic.org'
   },
+  {
+    title: 'JM中國主站',
+    ext: 'fun',
+    full_url: 'https://18comic.fun'
+  },
+  {
+    title: "分流1",
+    ext: "biz",
+    full_url: "https://18comic1.biz"
+  },
+  {
+    title: "分流2",
+    ext: "biz",
+    full_url: "https://18comic2.biz"
+  }
 ]

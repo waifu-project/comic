@@ -1,11 +1,11 @@
 import { get, post } from '@/utils/axios'
 import cherrio from 'cheerio'
-import { str2Data, str2Modal, detail2Data, comicPic2Data, comicTheme2Data, topicJSON2Data, rawMirror2DataLists } from '@/utils/share'
+import { str2Data, str2Modal, detail2Data, comicPic2Data, comicTheme2Data, topicJSON2Data } from '@/utils/share'
 import { shareIndexComicData, shareIndexData, themeListInterface, shareComicFace, topicResponseInterface, topicItemInterface } from '@/interface'
 import { createRandomColor } from '@/utils'
-import { searchOptions, searchResponseInterface } from '@/interface/tool'
+import { searchOptions, searchResponseInterface, mirrorItemInterface } from '@/interface/tool'
 import querystring from '@/utils/qs'
-import { trello_board_id, defaultMirrorArr } from '@/const'
+import { defaultMirrorArr } from '@/const'
 
 // 点赞某作品
 export const loveVoteAlbum = (album_id: string | number)=> {
@@ -79,7 +79,8 @@ export const getIndexData = async (): Promise<shareIndexData>=>{
     const data = await get('/')
     const $ = cherrio.load(data)
     const modal = str2Modal($)
-    let cards = $('.row.col-lg-10.col-md-9')
+    // let cards = $('.row.col-lg-10.col-md-9')
+    let cards = $('.col-lg-10.col-md-9')
     let lists: shareIndexComicData[] = Array.from(cards).map(item=> {
       let obj: shareIndexComicData = {
         title: '',
@@ -170,16 +171,19 @@ export const getForumMore = async (count: number | string = 10): Promise<topicIt
 
 /**
  * 获取所有镜像站
+ * 2020-07-03 flag: 使用 `github-issues` 来替代
  * 参考: https://developer.atlassian.com/cloud/trello/rest/#api-boards-id-get
  */
-export const getAllMirror = async (): Promise<any>=> {
-  try {
-    const data = await get(`https://api.trello.com/1/boards/${ trello_board_id }`)
-    const { desc } = data
-    return rawMirror2DataLists(desc)
-  } catch (error) {
-    return defaultMirrorArr
-  }
+export const getAllMirror = async (): Promise<mirrorItemInterface[]>=> {
+  return defaultMirrorArr
+  // try {
+  //   const data = await get(`https://api.trello.com/1/boards/${ trello_board_id }`)
+  //   const { desc } = data
+  //   const _lists = rawMirror2DataLists(desc)
+  //   if (_lists.length == 0) return defaultMirrorArr
+  // } catch (error) {
+  //   return defaultMirrorArr
+  // }
 }
 
 /**

@@ -165,7 +165,7 @@ export interface mirrorItemInterface {
    */
   title: string
   /**
-   * 域名后缀
+   * 域名后缀(现在已废弃)
    */
   ext: string
   /**
