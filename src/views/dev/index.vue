@@ -10,7 +10,7 @@
     <glass :blur="14">
       <wrapper ref="wrapper">
         <view class="cu-card dynamic">
-          <view class="cu-item shadow x" @click="handleClick(item)" v-for="(item, index) in data.pages" :key="index">
+          <view class="cu-item shadow x" @click="handleClick(item)" v-for="(item, index) in dataList" :key="index">
             <view class="cu-bar bg-white x">
               <view class="action sub-title">
                 <text class="text-xl text-bold text-pink">{{ item.path }}</text>
@@ -36,6 +36,25 @@ export default Vue.extend({
   data() {
     return {
       data: devInsData
+    }
+  },
+  computed: {
+    dataList(): devInsDataPageItemInterface[] {
+      try {
+        const _pages = getCurrentPages()
+        const route = _pages[0].route
+        let result: devInsDataPageItemInterface[] = []
+        const pages = devInsData.pages
+        pages.forEach(item=> {
+          if (item.path != route) {
+            result.push(item)
+          }
+        })
+        return result
+      } catch (error) {
+        console.log('error: ', error);
+        return []
+      }
     }
   },
   methods: {
