@@ -23,3 +23,12 @@ export const getMirror = (): string=> {
     return mirror_default_domain
   }
 }
+
+/**
+ * 创建镜像的静态资源 
+ * @param path 路径
+ */
+ export const createMirrorStaticFile = (path: string): string=> {
+  const _domain = getMirror()
+  return `${ _domain }/${ path }`
+}

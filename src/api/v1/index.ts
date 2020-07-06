@@ -6,6 +6,7 @@ import { createRandomColor } from '@/utils'
 import { searchOptions, searchResponseInterface, mirrorItemInterface } from '@/interface/tool'
 import querystring from '@/utils/qs'
 import { defaultMirrorArr } from '@/const'
+import { getMirror } from '@/utils/mirror'
 
 // 点赞某作品
 export const loveVoteAlbum = (album_id: string | number)=> {
@@ -201,3 +202,98 @@ export const handleTestApi = async (url: string): Promise<boolean> => new Promis
   })
   return true
 })
+
+/**
+ * 登录接口
+ */
+export interface loginInterface {
+
+  /**
+   * 账号
+   */
+  username: string
+
+  /**
+   * 密码
+   */
+  password: string
+
+  /**
+   * 提交登录
+   */
+  submit_login?: string
+}
+
+/**
+ * 登录
+ * @param data 登录数据
+ */
+export const handleLogin = async (data: loginInterface): Promise<string> => {
+  try {
+    Object.assign(data, {
+      submit_login: ""
+    })
+    const _r = Date.now()
+    const token: string = await new Promise(res=> {
+      console.log("发起请求..")
+      uni.request({
+        url: `${ getMirror() }/login?t=${ _r }`,
+        data,
+        withCredentials: false,
+        header: {
+          "cookie": "ipcountry=CN;",
+          "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"
+        },
+        success(_res) {
+          const { header } = _res
+          let result
+          try {
+            const _header = header
+            if (!('Set-Cookie' in _header)) return res("")
+            const _cookie: string = _header['Set-Cookie']
+            const _index: number = _cookie.search("ipm5")
+            if (_index >= 0) {
+              const _data = _cookie.substring(_index)
+              const _arr = _data.split(';')
+              const _result = _arr[0].split('=')[1]
+              result = _result
+            }
+          } catch (error) {
+            result = ""
+            console.log('登录返回的错误信息: ', error);
+          }
+          res(result)
+        },
+        fail(err) {
+          const msg = err.errMsg
+          console.log('登录失败: ', msg);
+          res("")
+        }
+      })
+    })
+    return token
+  } catch (error) {
+    throw new Error(error)
+  }
+  // plus.webview.currentWebview().evalJS(``)
+  // try {
+  //   const webviewID = "18comic_login_webview"
+  //   const loginURL = "https://18comic2.biz/login"
+  //   const webviewStyle: PlusWebviewWebviewStyles = {
+  //     cachemode: "noCache",
+  //     dock: 'top',
+  //     // height: `${ 420 }px`,
+  //     top: `${ 240 }px`,
+  //     // bottom:'0px',
+  //   }
+  //   const webview = plus.webview.open(loginURL, webviewID, webviewStyle, "", 200, ()=> {
+  //     webview.evalJS(`alert("fuck you")`)
+  //     webview.evalJS(`$("#login_username").val("${ username }")`)
+  //     webview.evalJS(`$("#login_password").val("${ password }")`)
+  //   })
+  //   webview.evalJS(`console.log('are you ok??')`)
+  // } catch (error) {
+  //   throw new Error(error)
+  // }
+  // return
+}
