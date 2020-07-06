@@ -12,21 +12,21 @@
         </view>
       </view>
 
-      <view class="cu-list menu">
+      <view class="cu-list menu bg-white dark-remove">
 
-        <view class="cu-item">
-          <view class="content">
+        <view class="cu-item bg-white dark-remove">
+          <view class="content text-black dark-remove">
             夜间模式
           </view>
-          <view class="action">
-            <switch @change="handleChangeUI" :checked="isDark" color="var(--pink)"/>
+          <view class="action bg-white dark-remove">
+            <switch class="bg-white dark-remove" @change="handleChangeUI" :checked="isDark" color="var(--pink)"/>
           </view>
         </view>
 
-        <view class="cu-form-group">
-          <view class="title">卡片布局</view>
-          <picker :value="cardCol" @change="handleChangeIndexCol" :range="Cols">
-            <view class="picker">
+        <view class="cu-form-group bg-white dark-remove">
+          <view class="title text-black dark-remove">卡片布局</view>
+          <picker class="dark-remove bg-white" :value="cardCol" @change="handleChangeIndexCol" :range="Cols">
+            <view class="picker text-gray dark-remove">
               {{ cardCol | cardColFormat }}
             </view>
           </picker>
@@ -35,18 +35,18 @@
       </view>
 
       <view class="cu-bar solid-bottom bar_box padding-bottom-xs margin-top-sm">
-        <view class="action">
+        <view class="action text-black dark-remove">
           <text class="cuIcon-title text-orange" />
           {{ '其他设置' }}
         </view>
       </view>
 
       <view class="cu-list menu" @click="handleClickOpenDev">
-        <view class="cu-item">
-          <view class="content">
+        <view class="cu-item dark-remove">
+          <view class="content text-black dark-remove">
             {{ '版本号' }}
           </view>
-          <view class="action">
+          <view class="action text-gray dark-remove">
             {{ version }}
           </view>
         </view>
@@ -62,11 +62,19 @@
         </view>
 
         <view class="cu-list menu">
-          <view class="cu-item arrow" @click="handleClickDevList">
-            <view class="content">
+
+          <view class="cu-item arrow dark-remove" @click="handleClickDevList">
+            <view class="content text-black dark-remove">
               路由菜单列表
             </view>
           </view>
+
+          <view class="cu-item dark-remove" @click="handleCleanStorage">
+            <view class="content text-pink dark-remove">
+              清除所有设置和记录 <span class="cuIcon-footprint margin-left-xs" />
+            </view>
+          </view>
+
         </view>
 
       </block>
@@ -141,6 +149,34 @@ export default Vue.extend({
       const { value } = event.detail
       const _class = Object.keys(cardColEnum)[value]
       this.CHANGE_CARD_COL(_class)
+    },
+    async handleCleanStorage() {
+      const title = "这将会清除所有设置和记录, 请确认"
+      const content = "想好了就确认呗,哼.*."
+      const confirmText = "我确定"
+      const cancelText = "容我再想想"
+      const flag = await new Promise(res=> {
+        uni.showModal({
+        title,
+        content,
+        confirmText,
+        cancelText,
+          success() {
+            res(true)
+          },
+          fail() {
+            res(false)
+          }
+        })
+      })
+      if (flag) {
+        try {
+          uni.clearStorageSync()
+          plus.runtime.restart();
+        } catch (error) {
+          throw new Error(error)
+        }
+      }
     }
   }
 })
