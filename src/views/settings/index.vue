@@ -105,7 +105,8 @@ export default Vue.extend({
     }
   },
   filters: {
-    cardColFormat(str: string) {
+    cardColFormat(str: string): string {
+      if (str == cardColEnum.df) return "默认"
       const keys = Object.keys(cardColEnum)
       const arr = Object.values(cardColEnum).filter((item: any)=> isNaN(item))
       let result = ""
