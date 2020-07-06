@@ -97,6 +97,9 @@ export default Vue.extend({
 	},
 	onLoad() {
 		setFullScreen(true)
+	},
+	onUnload() {
+		setFullScreen(false)
 	}
 })
 </script>
