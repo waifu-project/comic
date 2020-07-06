@@ -83,30 +83,45 @@
 				"navigationStyle": "custom"
 			},
 			"description": "开发页面"
+		},
+		{
+			"path": "views/login/index",
+			"style": {
+				"navigationStyle": "custom"
+			},
+			"description": "登录页面"
 		}
 	],
 	"tabBar": {
 		"blurEffect":"extralight",
 		"color": "#7A7E83",
-    "selectedColor": "#3cc51f",
+    "selectedColor": "#d4237a",
 		"borderStyle": "black",
 		"backgroundColor": "rgba(255, 255, 255, .4)",
 		"list": [
 			{
 				"pagePath": "views/index/index",
-				"text": "首页"
+				"text": "首页",
+				"iconPath": "static/menu/index.png",
+				"selectedIconPath": "static/menu/index_selected.png"
 			},
 			{
 				"pagePath": "views/theme/index",
-				"text": "主题"
+				"text": "主题",
+				"iconPath": "static/menu/theme.png",
+				"selectedIconPath": "static/menu/theme_selected.png"
 			},
 			{
 				"pagePath": "views/home/index",
-				"text": "我的"
+				"text": "我的",
+				"iconPath": "static/menu/me.png",
+				"selectedIconPath": "static/menu/me_selected.png"
 			},
 			{
 				"pagePath": "views/settings/index",
-				"text": "设置"
+				"text": "设置",
+				"iconPath": "static/menu/settings.png",
+				"selectedIconPath": "static/menu/settings_selected.png"
 			}
 		]
 	},
@@ -117,8 +132,12 @@
 		"backgroundColor": "#F8F8F8"
 	},
 	"condition": {
-		"current": 1,
+		"current": 0,
 		"list": [
+			{
+				"name": "登录页",
+				"path": "views/login/index"
+			},
 			{
 				"name": "引导页",
 				"path": "views/guide/index"
