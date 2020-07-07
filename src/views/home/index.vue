@@ -16,7 +16,7 @@
           </view>
         </view>
         <view class="padding-bottom-lg">
-          <card :data="historyViews" title="最近观看" lineColor="pink">
+          <card v-if="historyViews.length" :data="historyViews" title="最近观看" lineColor="pink">
             <!-- <template scope="{ row }">
               <view class="text-gray">
                 <text class="cuIcon-time" />
@@ -24,7 +24,7 @@
               </view>
             </template> -->
           </card>
-          <card :data="collectLists" title="已收藏" lineColor="pink" />
+          <card v-if="collectLists.length" :data="collectLists" title="已收藏" lineColor="pink" />
         </view>
       </wrapper>
     </glass>
