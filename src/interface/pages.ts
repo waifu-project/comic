@@ -186,6 +186,10 @@ export interface themePageDataInterface {
    * go-to 模态框flag
    */
   gotoModal: boolean
+  /**
+   * 是否加载中
+   */
+  isLoading: boolean
 }
 
 export interface topicDataInterface {
@@ -204,5 +208,9 @@ export interface settingsDataInterface {
 }
 
 export interface detailDataInterface {
-  data: shareComicFace
+  data: shareComicFace,
+  /**
+   * 加载状态
+   */
+  isLoading: boolean
 }

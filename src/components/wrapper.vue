@@ -15,7 +15,8 @@
         <view class="text-center text-pink text-lg">
           <text>{{ '加载中...' }}</text>
         </view>
-        <view class="text-center margin-top-sm">
+        <!-- 我确信这里的 `action` 是不需要的, 认真脸.jpg -->
+        <view class="text-center margin-top-sm" v-if="false">
           <button class="cu-btn round bg-red margin-right-sm">重试</button>
           <button class="cu-btn round bg-green">取消</button>
         </view>

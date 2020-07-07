@@ -13,7 +13,7 @@
       </block>
     </topbar>
     <glass :blur="14">
-      <wrapper ref="wrapper" @scroll="handleScroll" :isScrollbar="true">
+      <wrapper :isLoading="isLoading" ref="wrapper" @scroll="handleScroll" :isScrollbar="true">
         <block v-for="(item, index) in _lists" :key="index">
           <card-preview @clickBox="handleClickCardItem(item)" :data="item" :showActionBar="false" tagPosition="inside" />
         </block>

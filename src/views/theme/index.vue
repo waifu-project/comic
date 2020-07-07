@@ -1,10 +1,10 @@
 <template>
   <view>
     <topbar ref="topbar" bgColor="bg-whitex" :diy="true">
-      <view class="flex flex-wrap-box margin-bottom-lg">
+      <view class="flex flex-wrap-box margin-bottom-lg margin-top-sm">
 				<input
           name="input"
-          class="input_box text-black margin-left-sm margin-right-sm radius padding-left-lg margin-top-sm"
+          class="input_box text-black margin-left-sm margin-right-sm shadow-lg radius padding-left-lg margin-top-sm"
           :placeholder="placeholder"
           v-model="searchVal"
           :maxlength="24"
@@ -13,7 +13,7 @@
 			</view>
     </topbar>
     <glass :opacity=".4" :blur="24">
-      <wrapper>
+      <wrapper :isLoading="isLoading">
         <block v-if="popularThemes.length">
           <view class="cu-bar solid-bottom">
             <view class="action">
@@ -123,7 +123,8 @@ export default Vue.extend({
       blur_default_url,
       searchVal: '',
       gotoInputVal: '',
-      gotoModal: false
+      gotoModal: false,
+      isLoading: false
     }
   },
   async onLoad() {
@@ -167,6 +168,7 @@ export default Vue.extend({
       'CHANGE_THEME_DATA'
     ]),
     async getData() {
+      this.isLoading = true
       const popularThemes: any = await getPopularThemes()
       const data: any = await getTheme()
       this.data = data
@@ -176,6 +178,7 @@ export default Vue.extend({
         popular: popularThemes
       }
       this.CHANGE_THEME_DATA(_typeData)
+      this.isLoading = false
     },
     handleClickTheme(data: themeListInterface) {
       const { url, text } = data

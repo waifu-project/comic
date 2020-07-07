@@ -10,7 +10,7 @@
       </block>
     </topbar>
 
-    <wrapper>
+    <wrapper :isLoading="isLoading">
 
       <card-preview ref="card" :data="data" :isFavorite="true" />
 
@@ -69,7 +69,8 @@ export default Vue.extend({
         previews: [], // 预览
         episode: [], // 选集
         recommends: [], // 推荐
-      }
+      },
+      isLoading: false
     }
   },
   computed: {
@@ -89,15 +90,20 @@ export default Vue.extend({
       await this.$nextTick()
       const _data = this.data
       ;(this.$refs['card'] as any).handleReader(data.id, _data)
+    },
+    async getData(id: number | string) {
+      this.isLoading = true
+      const data = await getDetail(id)
+      this.data = data
+      this.SET_CURRENT_READER_DATA(data)
+      this.isLoading = false
     }
   },
   async onLoad(ops: any) {
     // console.log('当前 `index`: ', this.current_index)
     let { id } = ops
     id = id ? id : 105924
-    const data = await getDetail(id)
-    this.data = data
-    this.SET_CURRENT_READER_DATA(data)
+    this.getData(id)
   }
 })
 </script>
