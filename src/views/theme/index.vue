@@ -196,8 +196,13 @@ export default Vue.extend({
         url,
         text
       })
-      // TODO 清空
       this.searchVal = ""
+      // fixbug: 修复 `ios` 下触发 `confirm` 不会自动关闭软键盘
+      try {
+        uni.hideKeyboard()
+      } catch (error) {
+        throw new Error(error)
+      }
     },
     /**
      * GOTO
