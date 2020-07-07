@@ -16,7 +16,8 @@
 
       <view class="cu-modal show bg-unset" v-if="setup == 1">
         <view class="cu-dialog bg-unset text-black" v-if="!isLoading">
-          <view class="text-xxl margin-bottom-lg">{{ '请选择分流' }}</view>
+          <view class="text-xxl">{{ '请选择分流' }}</view>
+          <view class="text-sm margin-bottom-lg text-pink">{{ '墙裂建议开启`vpn`之后在使用该应用' }}</view>
           <view class="padding flex flex-direction">
             <button
               v-for="(item, index) in flows"
@@ -69,6 +70,7 @@ import { version } from '@/config';
 import { mirrorItemInterface } from '@/interface/tool';
 import { router } from '@/utils';
 import { setMirror, getMirror } from '@/utils/mirror';
+import { setFullScreen } from '../../utils/uni';
 
 export default Vue.extend({
   data(): flowDataFace {
@@ -99,6 +101,10 @@ export default Vue.extend({
   },
   onLoad() {
    this._getAllMirror()
+   setFullScreen(true)
+  },
+  onUnload() {
+    setFullScreen(false)
   },
   methods: {
     /**
