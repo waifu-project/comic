@@ -21,27 +21,31 @@
         <image :src="logoImg" :mode="'aspectFit'" />
       </view>
 
-      <view class="login-box padding-lg">
+    </wrapper>
 
-        <view class="cu-form-group margin-top radius">
-          <view class="title">账号</view>
-          <input type="text" v-model="username" />
-        </view>
+    <view class="login-box padding-lg">
 
-        <view class="cu-form-group margin-top radius">
-          <view class="title">密码</view>
-          <input type="password" v-model="password" />
-        </view>
-
-        <view v-if="isRainBox" class="padding-left padding-right margin-top-sm flex flex-direction">
-          <button :disabled="loadingNetwork" @tap="handleLogin" class="cu-btn bg-red lg shadow-blur">
-            {{ '登录' }}
-          </button>
-        </view>
-
+      <view class="cu-form-group margin-top radius line-pink">
+        <view class="title">账号:</view>
+        <input type="text" v-model="username" />
       </view>
 
-    </wrapper>
+      <view class="text-pink text-lg" v-if="!isUsername && username.length">* 填写错误</view>
+
+      <view class="cu-form-group margin-top radius line-pink">
+        <view class="title">密码:</view>
+        <input type="password" v-model="password" />
+      </view>
+
+      <view class="text-pink text-lg" v-if="!isPassword && password.length">* 填写错误</view>
+
+      <view v-if="isUsername && isPassword" class="padding-left padding-right margin-top-sm flex flex-direction">
+        <button :disabled="loadingNetwork" @tap="handleLogin" class="cu-btn bg-red lg shadow-blur">
+          {{ '登录' }}
+        </button>
+      </view>
+
+    </view>
 
     <view class="cu-load load-modal" v-if="loadingNetwork">
 			<!-- <view class="cuIcon-emojifill text-orange"></view> -->
@@ -57,6 +61,8 @@ import Vue from 'vue'
 import { router } from '@/utils'
 import { createMirrorStaticFile } from '@/utils/mirror'
 import { handleLogin } from '@/api/v1'
+import { setFullScreen } from '../../utils/uni'
+import { mapMutations } from 'vuex'
 export default Vue.extend({
   data() {
     return {
@@ -87,9 +93,28 @@ export default Vue.extend({
     logoImg() {
       const R = createMirrorStaticFile("media/logo/new_logo.png")
       return R
+    },
+    isUsername(): boolean {
+      const ctx = this.username
+      const userReg = /^[a-zA-Z0-9_-]{4,16}$/
+      return userReg.test(ctx)
+    },
+    isPassword(): boolean {
+      const ctx = this.password
+      const pawReg = /^[-_a-zA-Z0-9]{4,16}$/
+      return pawReg.test(ctx)
     }
   },
+  onLoad() {
+    setFullScreen(true)
+  },
+  onUnload() {
+    setFullScreen(false)
+  },
   methods: {
+    ...mapMutations('user', [
+      'CHANGE_LOGIN_STATUS'
+    ]),
     handleClickLink(type: string) {
       if (type === 'back') {
         router.back()
@@ -105,6 +130,14 @@ export default Vue.extend({
           username,
           password
         })
+        if (!!Token) {
+          this.CHANGE_LOGIN_STATUS(Token)
+          plus.nativeUI.alert("登录成功")
+          this.username = ""
+          this.password = ""
+          router.back()
+        }
+        this.loadingNetwork = false
       }
     }
   }
@@ -155,7 +188,6 @@ export default Vue.extend({
   bottom: 0;
   left: 0;
   width: 100%;
-  /* height: 440rpx; */
   background-color: rgba(0, 0, 0, .4);
   backdrop-filter: blur(32px);
   border-top-left-radius: 24rpx;

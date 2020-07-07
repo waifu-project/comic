@@ -124,6 +124,20 @@ export interface settingsFace {
 }
 
 /**
+ * 用户数据
+ */
+export interface userFace {
+  /**
+   * 是否登录
+   */
+  hasLogin: boolean
+  /**
+   * 登录 `token`
+   */
+  token: string
+}
+
+/**
  * 阅读器接口
  */
 export interface readerFace {

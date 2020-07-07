@@ -2,6 +2,8 @@ import { isDev as debug } from '@/config'
 import { postBodyFace } from '@/interface/tool'
 import { getMirror } from './mirror'
 import URL from 'url-parse'
+import store from '@/store'
+import { userFace } from '@/store/types'
 
 const axios = require('@/plugins/axios')
 
@@ -17,35 +19,45 @@ axios.setConfig({
 })
 
 /**
- * 修改镜像
+ * 镜像中间件
  */
-const dynamicMirror = (req: any): string => {
+const dynamicMirror = (req: any) => {
   let _defalut = req.url
   if (_defalut.search('18comic') >= 0) {
     const baseUrl = getMirror()
-    // axios.setConfig({ baseUrl })
     const baseURL = new URL(baseUrl)
     const url = new URL(req.url)
     url.set('hostname', baseURL.hostname)
     const _r = url.toString()
-    return _r
+    req.url = _r
+    return
   }
-  return _defalut;
+  req.url = _defalut
+}
+
+/**
+ * 登录中间件
+ */
+const loginMiddleware = (req: any)=> {
+  try {
+    const user: userFace = (store.state as any).user
+    const { hasLogin, token } = user
+    if (hasLogin && token) {
+      req['header']['cookie'] = `ipm5=${ token };`
+    }
+  } catch (error) {
+    throw new Error(error)
+  }
 }
 
 axios.interceptor.request = (req: any)=> {
-  const _url = dynamicMirror(req)
-  req.url = _url
-  // uni.showLoading()
+  dynamicMirror(req)
+  loginMiddleware(req)
   return req
 }
 
 // TODO 取消响应拦截器
 axios.interceptor.response = (res: any) => {
-  // uni.hideLoading()
-  // if (res.code === 0) res.success = true
-  // res.success = true
-  // res.result = res
   return res
 }
 

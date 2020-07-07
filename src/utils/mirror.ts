@@ -29,6 +29,7 @@ export const getMirror = (): string=> {
  * @param path 路径
  */
  export const createMirrorStaticFile = (path: string): string=> {
+  if (path[0] == '/') path = path.substring(1)
   const _domain = getMirror()
   return `${ _domain }/${ path }`
 }
