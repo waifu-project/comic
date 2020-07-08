@@ -98,15 +98,15 @@ export default {
       const col = this.cardCol
       let w
       switch (col) {
-        case "df":
-          w = "33.333%"
-          break;
         case "lg":
           w = "50.444%"
           break;
         case "xl":
           w = "93.33%"
           break;
+        case "df":
+        default:
+          w = "33.333%"
       }
       return {
         minWidth: w
