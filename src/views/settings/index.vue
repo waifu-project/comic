@@ -161,8 +161,8 @@ export default Vue.extend({
         content,
         confirmText,
         cancelText,
-          success() {
-            res(true)
+          success({ confirm, cancel }) {
+            res(confirm)
           },
           fail() {
             res(false)
