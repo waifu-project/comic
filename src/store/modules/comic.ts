@@ -21,12 +21,30 @@ const state: comicInterface = {
 }
 
 /**
+ * 中间方法类型
+ */
+enum extType {
+
+  /**
+   * 收藏
+   */
+  collect,
+
+  /**
+   * 历史
+   */
+  history,
+  
+}
+
+/**
  * 中间处理方法
  * @param {shareComicFace[]} [fullLists] - 拿到的总数组
  * @param {shareComicFace} [data] - 当前存储的数组
  */
-const ext = (fullLists: shareComicFace[], data: shareComicFace): shareComicFace[]=> {
+const ext = (fullLists: shareComicFace[], data: shareComicFace, type: extType): shareComicFace[]=> {
   const list: shareComicFace[] = copy(fullLists)
+  const isCollect = type == extType.collect
   let idx = -1
   for (let index = 0; index < list.length; index++) {
     const element = list[index];
@@ -42,7 +60,8 @@ const ext = (fullLists: shareComicFace[], data: shareComicFace): shareComicFace[
     list.pop()
   }
   data['reader_time'] = date
-  list.unshift(data)
+  if (!isCollect) list.unshift(data)
+  if (isCollect && idx < 0) list.unshift(data)
   return list
 }
 
@@ -66,13 +85,13 @@ const mutations: MutationTree<comicInterface> = {
    * 历史记录相关
    */
   CHANGE_HISTORY_VIEWS(state, data: shareComicFace) {
-    state.history_views = ext(state.history_views, data)
+    state.history_views = ext(state.history_views, data, extType.history)
   },
   /**
    * 收藏相关
    */
   CHANGE_COLLECT_LISTS(state, data: shareComicFace) {
-    state.collect_lists = ext(state.collect_lists, data)
+    state.collect_lists = ext(state.collect_lists, data, extType.collect)
   },
   // 修改搜索 `url`
   CHANGE_SEARCH_URL(state, url: string) {
