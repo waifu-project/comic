@@ -4,7 +4,7 @@
     <!-- 信息 -->
     <view class="flex solid-bottom padding-sm justify-between bg-white">
       <view class="flex justify-start">
-        <view class="bg-img bg-cover-box"
+        <view class="bg-img bg-cover-box bg-mask radius shadow-blur"
           @tap.stop="handlePreview(data.cover)"
           :style="{ backgroundImage: `url(${ data.cover })` }"
         />
@@ -32,24 +32,8 @@
     <!-- 标签 -->
     <view class="padding-xs flex flex-wrap bg-white" v-if="isBarBottom">
       <view class="padding-xs" v-for="(item, index) in data.tags" :key="index">
-        <view class="cu-tag line-pink round">{{ item }}</view>
+        <view @tap="handleSearchTag(item)" class="cu-tag line-pink round">{{ item }}</view>
       </view>
-    </view>
-
-    <!-- 简介 -->
-    <!-- <view class="padding-xs bg-white">
-      <text class="text-cut" style="width: 420rpx">{{ data.desc }}</text>
-    </view> -->
-
-    <!-- 操作栏 -->
-    <view class="flex p-xs margin-bottom-sm padding-top-sm padding-bottom-sm bg-white" v-if="showActionBar">
-      <view class="flex flex-treble radius flex-direction padding-left-sm padding-right-sm">
-        <button class="cu-btn round bg-pink lg dark-remove" @click="handleReader(data.id, data)">开始阅读</button>
-      </view>
-      <view class="flex flex-twice flex-direction padding-left-sm padding-right-sm">
-        <button class="cu-btn round bg-pink lg light dark-remove" @click="handlePreview(...data['previews'])">预览</button>
-      </view>
-      <view class="flex-twice"></view>
     </view>
 
   </view>
@@ -62,17 +46,18 @@
  * @desc 主要是 `card`
  * @author d1y<chenhonzhou@gmail.com>
  * @param {Array} [data] - 数据数组
- * @param {Boolean} [showActionBar] - 显示操作 [开始阅读 | 预览]
+ * @param {Boolean} [showActionBar] - 显示操作 [开始阅读 | 预览] <2020-07-08>已废弃
  * @param {Stirng} [tagPosition] - 标签位置 **可选值[ bottom | inside ]**
  * @param {Boolean} [isFavorite] - 是否显示收藏图标
  * @event clickBox()=> void - 无返回值, 触发了中间内容区的事件
  * @example 调用示例
- *  <card-preview :data="" :showActionBar="false" :tagPosition="bottom" />
+ *  <card-preview :data="" :tagPosition="bottom" />
  */
 import Vue from "vue";
 import { router } from '@/utils';
 import { shareComicFace } from '@/interface';
 import { mapMutations, mapGetters } from 'vuex'
+import { createSearchUrl } from '@/utils/qs';
 export default Vue.extend({
   name: 'card-preview',
   props: {
@@ -84,12 +69,12 @@ export default Vue.extend({
       type: Object
     },
     /**
-     * 显示操作 [开始阅读 | 预览]
+     * 显示操作 [开始阅读 | 预览] <2020-07-08 | 已废弃>
      */
-    showActionBar: {
-      default: true,
-      type: Boolean
-    },
+    // showActionBar: {
+    //   default: true,
+    //   type: Boolean
+    // },
     /**
      * 标签位置
      * 可选值[ bottom | inside ]
@@ -135,17 +120,27 @@ export default Vue.extend({
       'CHECK_ID',
       'CHANGE_HISTORY_VIEWS',
       'CHANGE_COLLECT_LISTS',
+      'CHANGE_SEARCH_URL',
+      'CHANGE_SEARCH_BAR_TITLE'
     ]),
     ...mapMutations('reader', [
       'SET_CURRENT_READER_DATA',
       'SET_CURRENT_READER_DATA_ID'
     ]),
+    /**
+     * TODO: `预览图片` 会直接闪退
+     */
     handlePreview(...imgs: any[]) {
-      if (!imgs) return
-      uni.previewImage({
-        urls: imgs,
-        current: ""
-      })
+      return
+      try {
+        if (!imgs) return
+        uni.previewImage({
+          urls: imgs,
+          current: ""
+        })
+      } catch (error) {
+        throw new Error(error)
+      }
     },
     /**
      * 触发收藏
@@ -164,8 +159,20 @@ export default Vue.extend({
         id
       })
     },
+    /**
+     * 触发点击整个盒子
+     */
     handleClickBox() {
       this.$emit('clickBox')
+    },
+    /**
+     * 触发 `tag` 搜索
+     */
+    handleSearchTag(searchText: string = "人妻") {
+      const url = createSearchUrl(searchText)
+      this.CHANGE_SEARCH_URL(url)
+      this.CHANGE_SEARCH_BAR_TITLE(searchText)
+      router.push(`search/index`)
     }
   }
 });

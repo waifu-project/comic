@@ -208,9 +208,25 @@ export interface settingsDataInterface {
 }
 
 export interface detailDataInterface {
-  data: shareComicFace,
+
+  /**
+   * 本地拿到的 `id`
+   */
+  id: string | number
+
+  /**
+   * 数据
+   */
+  data: shareComicFace
+
   /**
    * 加载状态
    */
   isLoading: boolean
+
+  /**
+   * 是否显示漫画完整信息
+   */
+  showComicInfoBox: boolean
+
 }
