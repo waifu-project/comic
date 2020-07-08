@@ -15,7 +15,7 @@
     <glass :blur="14">
       <wrapper :isLoading="isLoading" ref="wrapper" @scroll="handleScroll" :isScrollbar="true">
         <block v-for="(item, index) in _lists" :key="index">
-          <card-preview @clickBox="handleClickCardItem(item)" :data="item" :showActionBar="false" tagPosition="inside" />
+          <card-preview @clickBox="handleClickCardItem(item)" :data="item" tagPosition="inside" />
         </block>
         <block v-if="!isLoading">
           <view v-if="isNext">
