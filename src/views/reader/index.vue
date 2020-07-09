@@ -12,6 +12,14 @@
         </view>
       </block>
     </topbar>
+    <view v-if="isLoading" class="flex align-center justify-center" :style="loadingStyle">
+      <view class="message-box">
+        <image class="imageClass" :src="loadingImae" mode="aspectFit" />
+        <view class="text-center text-pink text-lg">
+          <text>{{ '加载中...' }}</text>
+        </view>
+      </view>
+    </view>
     <rich-text :nodes="_nodes" />
   </view>
 </template>
@@ -24,6 +32,7 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import { shareComicFace } from '@/interface'
 import cssType from 'csstype'
 import { readerDataFace } from '@/interface/pages'
+import { _loadingImage } from '@/config/assets'
 let hpjs: any = require('@/plugins/html_parse') 
 
 export default Vue.extend({
@@ -47,6 +56,17 @@ export default Vue.extend({
     ...mapGetters('reader', [
       'current_index'
     ]),
+    loadingImae() {
+      return _loadingImage
+    },
+    loadingStyle(): cssType.Properties {
+      const ctx = uni.getSystemInfoSync()
+      return {
+        width: `${ ctx.windowWidth }px`,
+        height: `${ ctx.windowHeight }px`,
+        background: `#fff`,
+      }
+    },
     effectStyle(): cssType.Properties {
       return {
         position: 'fixed',
@@ -99,14 +119,19 @@ export default Vue.extend({
       return nextFlag
     },
     _nodes() {
-      let result = ''
-      this.imgs.forEach(item=> {
-        result += `
-          <img src="${ item }" style="width:100%; height: auto"" />
-          <br/>
-        `
-      })
-      return hpjs(result)
+      try {
+        let result = ''
+        this.imgs.forEach(item=> {
+          result += `
+            <img src="${ item }" style="width:100%; height: auto" />
+            <br/>
+          `
+        })
+        const u = hpjs(result)
+        return u
+      } catch (error) {
+        throw new Error(error)
+      }
     },
     barImg(): string {
       const img = this.imgs
@@ -169,5 +194,14 @@ export default Vue.extend({
 <style scoped>
 .img_box {
   background: #333;
+}
+.imageClass {
+  width: 320rpx;
+  height: 320rpx;
+  border-bottom-left-radius: 42rpx;
+  border-bottom-right-radius: 42rpx;
+}
+.message-box {
+  height: 820rpx;
 }
 </style>
