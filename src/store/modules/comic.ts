@@ -62,6 +62,14 @@ const ext = (fullLists: shareComicFace[], data: shareComicFace, type: extType): 
   data['reader_time'] = date
   if (!isCollect) list.unshift(data)
   if (isCollect && idx < 0) list.unshift(data)
+  try {
+    if (isCollect) {
+      const ctx = list.length
+      plus.runtime.setBadgeNumber(ctx)
+    }
+  } catch (error) {
+    throw new Error(error)
+  }
   return list
 }
 
