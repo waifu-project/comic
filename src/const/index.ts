@@ -1,6 +1,5 @@
 import { colorItemInterface, themeMenuItemInterface, devInsDataInterface, guideDataItemInterface, mirrorItemInterface } from '@/interface/tool'
 import { createStaticByCDN } from '@/utils/map'
-import { helpTextContent } from '@/utils/marked'
 
 const injection = require('@/plugins/injection')
 
@@ -185,19 +184,21 @@ export const theme_menus: themeMenuItemInterface[] = [
   }
 ]
 
+/**
+ * 创建提示性`文字`
+ */
+const createSpanTips = (ctx: string): string=> {
+  return `<span style="color: #e03997">\`${ ctx }\`</span>`
+}
+
 export const guideDatas: guideDataItemInterface[] = [
   {
-    title: '作者寄语',
-    content: `完全免费! 代码开源, 绝对安全. 所有数据均来自网络, 侵权必删, <span style="color: #e03997">\`${ '仅供学习参考' }\`</span>`
+    title: '作者寄语🔞',
+    content: `完全免费! 代码开源, 没有多余套路. 所有数据均来自网络, 侵权必删, ${ createSpanTips('仅供学习参考') }`
   },
   {
-    title: '使用说明',
-    content: helpTextContent,
-    isFull: true
-  },
-  {
-    title: '完结撒花💐',
-    content: `请开始你的表演...`,
+    title: '碎碎念💐',
+    content: `1. 如果一直访问不了, 请尝试切换镜像站或者${ createSpanTips('vpn') }, 切换镜像站请到设置里, 连续点击${ createSpanTips('版本号') }, 然后选择${ createSpanTips('switch/flow') }在切换镜像即可 `,
     isEnd: true
   },
 ]

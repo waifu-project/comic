@@ -23,24 +23,16 @@ const readPackageJson = () => {
   return fs.readFileSync(resolve('./package.json'), 'utf-8')
 }
 
-const FAQ = fs.readFileSync(resolve('./FAQ.md'), 'utf-8')
-
 module.exports = {
   configureWebpack: {
     plugins: [
       new webpack.DefinePlugin({
         PAGES_JSON: JSON.stringify(readPagesJSON()),
-        PACKAGES_JSON: JSON.stringify(readPackageJson()),
-        FAQ: JSON.stringify({
-          ctx: FAQ,
-          dev: false
-        })
+        PACKAGES_JSON: JSON.stringify(readPackageJson())
       })
     ]
   },
   transpileDependencies: [
-    "get-urls",
-    "marked",
     "url-parse",
     "normalize-url",
     "url-regex",

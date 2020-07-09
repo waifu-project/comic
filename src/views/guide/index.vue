@@ -1,7 +1,7 @@
 <template>
-	<view class="wrapper bg-white" :style="guideWrapperStyle">
+	<view class="wrapper bg-white flex align-center justify-center" :style="wrapperStyle">
 		<swiper
-		class="screen-swiper square-dot"
+		class="screen-swiper square-dot shadow"
 		:style="guideWrapperStyle"
 		indicator-dots="true"
 		:circular="true"
@@ -42,7 +42,7 @@
 import Vue from 'vue'
 import { setFullScreen } from '@/utils/uni'
 import cssType from 'csstype'
-import { guideDatas } from '@/const'
+import { guideDatas, blur_default_url } from '@/const'
 import { router } from '@/utils'
 const hpjs = require('@/plugins/html_parse')
 export default Vue.extend({
@@ -52,11 +52,24 @@ export default Vue.extend({
 		}
 	},
 	computed: {
-		guideWrapperStyle(): cssType.Properties{
+		guideWrapperStyle(): cssType.Properties {
 			const res = uni.getSystemInfoSync()
-			const h = (res.windowHeight || 0) - 20
+			const h = (res.windowHeight || 0) - 20 - 240
 			return {
-				height: `${ h }px`
+				width: `88%`,
+				height: `${ h }px`,
+				borderRadius: `42rpx`,
+				backgroundColor: `rgba(255, 255, 255, .5)`,
+				backdropFilter: `blur(42px)`,
+				overflow: `hidden`
+			}
+		},
+		wrapperStyle(): cssType.Properties {
+			const res = uni.getSystemInfoSync()
+			return {
+				width: `${ res.windowWidth }px`,
+				height: `${ res.windowHeight }px`,
+				backgroundImage: `url(${ blur_default_url })`
 			}
 		},
 		lists() {
@@ -105,10 +118,6 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-@import url('../../../node_modules/github-markdown-css/github-markdown.css');
-.markdown-body >>> img {
-	max-width: 100%
-}
 .next {
 	position: fixed;
 	bottom: 10%;
@@ -120,7 +129,7 @@ export default Vue.extend({
 	z-index: 9999;
 }
 .next.show {
-	transform: translateY(0);
+	transform: translateY(5vh);
 	/* opacity: 1; */
 }
 </style>
