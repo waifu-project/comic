@@ -1,6 +1,8 @@
+<img src="./app.png" align="right" width="320">
+
 # 18comic
 
-![](https://18comic.one/media/logo/new_logo.png?v=2020000525)
+<!-- ![](https://18comic.one/media/logo/new_logo.png?v=2020000525) -->
 
 **仅供学习参考**
 
@@ -12,26 +14,16 @@
 
 # 下载♂安装
 
-参见 `releases` 下
+参见 [`releases`]() 下
 
 # 界面
 
-完全借(chao)鉴(xi)了 `picacg`
-
-**实际的页面和下面的效果图有很大出入**
-
 |    |            |   |
-|----------|:-------------:|------:|
-| ![](./design/1.jpg) |  ![](./design/2.jpg) |  ![](./design/3.jpg) |
-| ![](./design/4.jpg) |  ![](./design/5.jpg) |  ![](./design/6.jpg) |
-| ![](./design/7.jpg) |  ![](./design/8.jpg) |  ![](./design/9.jpg) |
-| ![](./design/10.jpg) |  ![](./design/11.jpg) |  ![](./design/12.jpg) |
+|:----------:|:-------------:|:------:|
+| ![](https://cdn.jsdelivr.net/gh/waifu-project/18comic-live/previews/首页.png) 首页 |  ![](https://cdn.jsdelivr.net/gh/waifu-project/18comic-live/previews/主题.png) 主题 |  ![](https://cdn.jsdelivr.net/gh/waifu-project/18comic-live/previews/我的.png) 我的 |
+| ![](https://cdn.jsdelivr.net/gh/waifu-project/18comic-live/previews/漫画详情.png) 详情 |  ![](https://cdn.jsdelivr.net/gh/waifu-project/18comic-live/previews/阅读器.png) 阅读器 |  ![](https://cdn.jsdelivr.net/gh/waifu-project/18comic-live/previews/分流切换.png) 分流切换 |
+| ![](https://cdn.jsdelivr.net/gh/waifu-project/18comic-live/previews/搜索.png) 搜索 |  ![](https://cdn.jsdelivr.net/gh/waifu-project/18comic-live/previews/留言区.png) 留言区 |  ![](https://cdn.jsdelivr.net/gh/waifu-project/18comic-live/previews/设置.png) 设置 |
 
-# Thank you
-
-图标库
-
-- https://www.iconfont.cn/collections/detail?cid=8856
 
 # FAQ
 
@@ -56,6 +48,9 @@
 https://impactor.nullx.me
 ```
 
-4. 有没有彩蛋?
 
-> 在设置页面狂按版本号可开启新世界...
+# Thank you
+
+图标库
+
+- https://www.iconfont.cn/collections/detail?cid=8856
