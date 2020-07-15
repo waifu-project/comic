@@ -59,8 +59,9 @@ export const theme_search_goto_text = '如果你知道某个作品的id话....'
 
 /**
  * 历史记录的最大长度
+ * 20200715 修改为 `240`..
  */
-export const history_views_max_length = 24
+export const history_views_max_length = 240
 
 /**
  * 我的邮箱

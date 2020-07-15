@@ -1,10 +1,12 @@
 <template>
   <view>
     <view class="cu-bar">
-      <view class="action">
-        <text class="cuIcon-titles" :class="`text-${ lineColor }`" />
-        <text class="text-xl text-bold">{{ title }}</text>
-      </view>
+      <slot name="bar" :row="{ lineColor, title, data }">
+        <view class="action">
+          <text class="cuIcon-titles" :class="`text-${ lineColor }`" />
+          <text class="text-xl text-bold">{{ title }}</text>
+        </view>
+      </slot>
     </view>
     <scroll-view scroll-x class="nav" scroll-with-animation>
       <view class="grid col-3 diy-grid">

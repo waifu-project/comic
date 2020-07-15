@@ -17,14 +17,29 @@
         </view>
         <view class="padding-bottom-lg">
           <card v-if="historyViews.length" :data="historyViews" title="最近观看" lineColor="pink">
-            <!-- <template scope="{ row }">
-              <view class="text-gray">
-                <text class="cuIcon-time" />
-                {{ row.reader_time_text }}
+            <template slot="bar" slot-scope="{ row }">
+              <view class="action">
+                <text class="cuIcon-titles" :class="`text-${ row.lineColor }`" />
+                <text class="text-xl text-bold">{{ row.title }}</text>
               </view>
-            </template> -->
+              <view class="action" @tap="clearAllCacheData(1)">
+                {{ row.data.length }}
+                <text class="cuIcon-right" />
+              </view>
+            </template>
           </card>
-          <card v-if="collectLists.length" :data="collectLists" title="已收藏" lineColor="pink" />
+          <card v-if="collectLists.length" :data="collectLists" title="已收藏" lineColor="pink">
+            <template slot="bar" slot-scope="{ row }">
+              <view class="action">
+                <text class="cuIcon-titles" :class="`text-${ row.lineColor }`" />
+                <text class="text-xl text-bold">{{ row.title }}</text>
+              </view>
+              <view class="action" @tap="clearAllCacheData(0)">
+                {{ row.data.length }}
+                <text class="cuIcon-right" />
+              </view>
+            </template>
+          </card>
         </view>
       </wrapper>
     </glass>
@@ -38,7 +53,8 @@ import { bg_default_url } from '@/const'
 import { getWord } from '@/api/share'
 import cssType from 'csstype'
 import Card from '@/components/card.vue'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
+import { extType } from '@/store/modules/comic'
 export default Vue.extend({
   data() {
     return {
@@ -70,6 +86,13 @@ export default Vue.extend({
     await this.getCurrentWord()
   },
   methods: {
+    ...mapMutations('comic', [
+      'CLEAN_HISTORY_VIEWS',
+      'CLEAN_COLLECT_LISTS'
+    ]),
+    /**
+     * 获取 `一言`
+     */
     async getCurrentWord() {
       const data = await getWord()
       const hitokoto = data.hitokoto || ""
@@ -78,6 +101,34 @@ export default Vue.extend({
         hitokoto,
         from
       }
+    },
+    /**
+     * 清除历史记录和收藏
+     */
+    clearAllCacheData(clearType: extType) {
+      const isCollect = clearType == extType.collect
+      let title = isCollect ? '收藏' : '历史记录'
+      title = `这将清空${ title }`
+      const buttons = [
+        "取消",
+        "我确定"
+      ]
+      plus.nativeUI.confirm(title, (args: any)=> {
+        try {
+          const { index } = args
+          if (index == 1) {
+            if (isCollect) {
+              this.CLEAN_COLLECT_LISTS()
+            } else {
+              this.CLEAN_HISTORY_VIEWS()
+            }
+          } else {
+            plus.nativeUI.toast('已取消..')
+          }
+        } catch (error) {
+          throw new Error(error)
+        }
+      }, { buttons, verticalAlign: 'bottom' })
     }
   }
 })

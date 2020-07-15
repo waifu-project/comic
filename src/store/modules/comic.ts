@@ -23,7 +23,7 @@ const state: comicInterface = {
 /**
  * 中间方法类型
  */
-enum extType {
+export enum extType {
 
   /**
    * 收藏
@@ -100,6 +100,18 @@ const mutations: MutationTree<comicInterface> = {
    */
   CHANGE_COLLECT_LISTS(state, data: shareComicFace) {
     state.collect_lists = ext(state.collect_lists, data, extType.collect)
+  },
+  /**
+   * 清空历史记录
+   */
+  CLEAN_HISTORY_VIEWS(state) {
+    state.history_views = []
+  },
+  /**
+   * 清空收藏
+   */
+  CLEAN_COLLECT_LISTS(state) {
+    state.collect_lists = []
   },
   // 修改搜索 `url`
   CHANGE_SEARCH_URL(state, url: string) {
