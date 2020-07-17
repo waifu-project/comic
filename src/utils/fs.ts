@@ -1,6 +1,6 @@
 import url from 'url-parse'
 import { isObject } from './is'
-import { mirror_key, mirror_default_domain } from '@/const/key'
+import { mirror_key, mirror_default_domain, onLoadSearchKey } from '@/const/key'
 import { getMirror } from './mirror'
 
 class fs {
@@ -51,6 +51,9 @@ class fs {
 
 export class io extends fs {
 
+  /**
+   * 设置镜像
+   */
   static setMirror = (value: any): boolean=> {
     const time = Date.now()
     // flag: 临时改变为对象
@@ -61,12 +64,30 @@ export class io extends fs {
     return flag
   }
 
+  /**
+   * 获取镜像站
+   */
   static getMirror = (): any => {
     // flag: 临时改变为对象
     const data = io.getData(mirror_key, {
       value: mirror_default_domain
     })
     return data
+  }
+
+  /**
+   * 是否需要重新获取
+   */
+  static getReload = (): boolean=> {
+    const data: boolean = io.getData(onLoadSearchKey, false)
+    return data
+  }
+
+  /**
+   * 设置重新获取 `flag`
+   */
+  static setReload = (flag = true)=> {
+    io.setData(onLoadSearchKey, flag)
   }
   
 }

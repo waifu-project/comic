@@ -1,6 +1,7 @@
 import { shareComicFace, shareIndexComicData, themeListInterface, themeInterface } from '@/interface';
+import { searchOptions } from '@/interface/tool';
 
-interface searchDataInterface {
+export interface searchDataInterface {
   /**
    * `title-bar` 文字
    */
@@ -10,7 +11,11 @@ interface searchDataInterface {
    */
   url: string
   /**
-   * 页数
+   * 查询字段
+   */
+  query: searchOptions
+  /**
+   * 页数(废弃)
    */
   page?: number
   /**

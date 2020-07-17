@@ -7,8 +7,14 @@
         </view>
       </block>
       <block slot="right">
-        <view>
-          {{ barRightText }}
+        <view @tap="changeSearchOptions" class="padding-right-sm bg-black shadow-blur text-center radius margin-right-xs" :style="{
+          height: `72rpx`,
+          width: `120rpx`,
+          lineHeight: `72rpx`,
+        }">
+          <!-- {{ barRightText }} -->
+          <text class="cuIcon-filter text-lg" />
+          {{ '参数' }}
           </view>
       </block>
     </topbar>
@@ -38,6 +44,11 @@
         </block>
       </wrapper>
     </glass>
+
+    <view class="pageView text-center" :class="{ show: barRightText }">
+      <view class="bar">{{ barRightText }}</view>
+    </view>
+
   </view>
 </template>
 
@@ -54,6 +65,9 @@ import empty from '@/components/empty.vue'
 import { searchOptionTimeEnum, searchOptionTypeEnum } from '@/interface/enum'
 import { router } from '@/utils'
 import { search_empty_text } from '@/const'
+import { comicInterface } from '@/store/types'
+import { searchOptions } from '@/interface/tool'
+import { io } from '@/utils/fs'
 export default Vue.extend({
   data(): searchPageInterface {
     return {
@@ -62,11 +76,6 @@ export default Vue.extend({
       isLoading: true,
       current_page: 1,
       total_page: 1,
-      query: {
-        page: 1,
-        t: searchOptionTimeEnum.all,
-        o: searchOptionTypeEnum.new
-      },
       touchStartTime: 0,
       back2topFlag: false,
       search_empty_text,
@@ -79,6 +88,10 @@ export default Vue.extend({
   },
   computed: {
     ...mapState('comic', {
+      query: (state: any): searchOptions => {
+        const r = state.searchData.query as searchOptions
+        return r
+      },
       barTitle: (state: any): string=> {
         return state.searchData.barTitle
       },
@@ -91,9 +104,10 @@ export default Vue.extend({
     },
     barRightText(): string {
       const isLoading = this.isLoading
-      if (isLoading) return `加载中。`
+      if (isLoading) return `` // `加载中。`
       const c = this.current_page
       const t = this.total_page
+      if (t == 1) return ""
       return `${ c }/${ t }`
     },
     isDoubleClick(): boolean {
@@ -111,6 +125,13 @@ export default Vue.extend({
   async onLoad() {
     await this.getData(false, true)
   },
+  onShow() {
+    const flag = io.getReload()
+    if (flag) {
+      io.setReload(false)
+      this.getData(false, true)
+    }
+  },
   methods: {
     /**
      * 获取数据
@@ -118,20 +139,26 @@ export default Vue.extend({
      * @param {Boolean} [showLoading] - 是否在加载
      */
     async getData(isAppend: boolean = false, showLoading = false) {
-      this.showLoading = showLoading
-      this.isLoading = true
-      const api = this.api
-      const qs = this.query
-      const res = await getSearch(api, qs)
-      this.isLoading = false
-      this.showLoading = false
-      let { lists, isNext, current_page, total_page } = res
-      this.current_page = current_page
-      this.total_page = total_page
-      const oldLists = this.lists
-      if (isAppend) lists = [ ...oldLists, ...lists ]
-      this.lists = lists
-      this.isNext = isNext
+      try {
+        this.showLoading = showLoading
+        this.isLoading = true
+        const api = this.api
+        const qs = this.query
+        if (showLoading) this.query.page = 1
+        const res = await getSearch(api, qs)
+        this.isLoading = false
+        this.showLoading = false
+        let { lists, isNext, current_page, total_page } = res
+        this.current_page = current_page
+        this.total_page = total_page
+        const oldLists = this.lists
+        if (isAppend) lists = [ ...oldLists, ...lists ]
+        this.lists = lists
+        this.isNext = isNext
+      } catch (error) {
+        throw new Error(error)
+      }
+      
     },
     /**
      * 重置查询字段
@@ -191,11 +218,34 @@ export default Vue.extend({
       router.push(`detail/index`, {
         id
       })
+    },
+    /**
+     * 修改搜索参数
+     */
+    changeSearchOptions() {
+      router.push(`filter/index`)
     }
   }
 })
 </script>
 
-<style>
-
+<style scoped>
+.pageView {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  width: 100%;
+  transform: translateY(420px);
+  transition: transform 2s;
+}
+.pageView.show {
+  transform: translateY(0);
+}
+.pageView .bar {
+  display: inline-block;
+  border-radius: 20rpx;
+  background: rgba(0, 0, 0, .4);
+  padding: 12rpx 42rpx;
+}
 </style>

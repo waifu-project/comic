@@ -1,6 +1,7 @@
 import css from 'csstype'
 import { shareComicFace, themeInterface, themeListInterface, topicItemInterface } from '.';
 import { searchOptions, themeMenuItemInterface, mirrorItemInterface } from './tool';
+import { searchOptionTimeEnum, searchOptionTypeEnum } from './enum';
 
 // flag: 旧的流列表数据
 interface flowDataArrayFace {
@@ -123,10 +124,6 @@ export interface searchPageInterface {
    */
   showLoading: boolean
   /**
-   * 查询字段
-   */
-  query: searchOptions
-  /**
    * 当前页数
    */
   current_page: string | number
@@ -233,4 +230,18 @@ export interface detailDataInterface {
    */
   showComicInfoBox: boolean
 
+}
+
+/**
+ * `filter` page data interface
+ */
+export interface filterDataInterface {
+  /**
+   * 时间
+   */
+  time?: null | searchOptionTimeEnum
+  /**
+   * 类型
+   */
+  type?: null | searchOptionTypeEnum
 }

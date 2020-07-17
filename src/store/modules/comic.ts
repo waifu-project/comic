@@ -10,11 +10,18 @@ import { history_views_max_length } from '@/const'
 import { shareComicFace } from '@/interface'
 import { copy } from '@/utils'
 import timediff from  '@/utils/time'
+import { searchOptionTimeEnum, searchOptionTypeEnum } from '@/interface/enum'
+import { searchOptions } from '@/interface/tool'
 
 const state: comicInterface = {
   searchData: {
     barTitle: '',
-    url: ``
+    url: ``,
+    query: {
+      page: 1,
+      t: searchOptionTimeEnum.all,
+      o: searchOptionTypeEnum.new
+    },
   },
   history_views: [],
   collect_lists: []
@@ -120,6 +127,12 @@ const mutations: MutationTree<comicInterface> = {
   // 修改 `bar` 标题
   CHANGE_SEARCH_BAR_TITLE(state, title: string) {
     state.searchData.barTitle = title
+  },
+  /**
+   * 修改 `query` 数据
+   */
+  CHANGE_QUERY_DATA(state, data: searchOptions) {
+    Object.assign(state.searchData.query, data)
   }
 }
 
