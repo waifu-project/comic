@@ -13,7 +13,7 @@
       </block>
     </topbar>
     <glass :blur="14">
-      <wrapper :isLoading="isLoading" ref="wrapper" @scroll="handleScroll" :isScrollbar="true">
+      <wrapper :isLoading="showLoading" ref="wrapper" @scroll="handleScroll" :isScrollbar="true">
         <block v-for="(item, index) in _lists" :key="index">
           <card-preview @clickBox="handleClickCardItem(item)" :data="item" tagPosition="inside" />
         </block>
@@ -69,7 +69,8 @@ export default Vue.extend({
       },
       touchStartTime: 0,
       back2topFlag: false,
-      search_empty_text
+      search_empty_text,
+      showLoading: false
     }
   },
   components: {
@@ -108,19 +109,22 @@ export default Vue.extend({
     }
   },
   async onLoad() {
-    await this.getData()
+    await this.getData(false, true)
   },
   methods: {
     /**
      * 获取数据
      * @param {Boolean} [isAppend] - 是否添加到列表
+     * @param {Boolean} [showLoading] - 是否在加载
      */
-    async getData(isAppend: boolean = false) {
+    async getData(isAppend: boolean = false, showLoading = false) {
+      this.showLoading = showLoading
       this.isLoading = true
       const api = this.api
       const qs = this.query
       const res = await getSearch(api, qs)
       this.isLoading = false
+      this.showLoading = false
       let { lists, isNext, current_page, total_page } = res
       this.current_page = current_page
       this.total_page = total_page
@@ -151,7 +155,8 @@ export default Vue.extend({
       const isNext = this.isNext
       // flag: 如果在加载就不允许
       const isLoading = this.isLoading
-      if (!isNext || isLoading) return
+      const showLoading = this.showLoading
+      if (!isNext || isLoading || showLoading) return
       this.query.page++
       await this.getData(true)
     },

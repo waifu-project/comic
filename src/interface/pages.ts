@@ -119,6 +119,10 @@ export interface searchPageInterface {
    */
   isLoading: boolean
   /**
+   * 是否显示 `loading` 动画
+   */
+  showLoading: boolean
+  /**
    * 查询字段
    */
   query: searchOptions
