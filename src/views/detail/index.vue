@@ -6,9 +6,11 @@
       <block slot="content">{{ topbarTitle }}</block>
       <!-- 暂时不支持下载操作 -->
       <block slot="right">
-        <view v-if="!isLoading" @tap="handleBindShare">
+        <view v-if="!isLoading" @tap="handleBindLink">
           <!-- {{ '分享' }} -->
-          <span class="cuIcon-share margin-right-sm" />
+          <text class="cuIcon-link margin-right-sm" :style="{
+            fontSize: `42rpx`
+          }" />
         </view>
       </block>
     </topbar>
@@ -198,17 +200,13 @@ export default Vue.extend({
         throw new Error(error)
       }
     },
-    async handleBindShare() {
+    async handleBindLink() {
       try {
         if (this.isLoading) return
         const api = getMirror()
         const id = this.id || ""
         let href = `${ api }/album/${ id }`
-        uni.shareWithSystem({
-          type: 'text',
-          summary: this.data.title || "",
-          href
-        }) 
+        plus.runtime.openURL(href)
       } catch (error) {
         throw new Error(error)
       }
