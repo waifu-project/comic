@@ -22,15 +22,18 @@ const getUiStyle = (): boolean=> {
 
 try {
   // TODO
-  if (!isDev) {
-    const now_flag = getUiStyle()
-    store.commit('settings/CHANGE_UI_THEME', now_flag)
+  // 20200724 更新: 总感觉暗色主题有点别扭, 嗯, 就是那种怪怪的感觉
+  if (false) {
+    if (!isDev) {
+      const now_flag = getUiStyle()
+      store.commit('settings/CHANGE_UI_THEME', now_flag)
+    }
+    const _uni = uni as any
+    _uni.onUIStyleChange((res: any)=> {
+      const flag = _b(res.style)
+      store.commit('settings/CHANGE_UI_THEME', flag)
+    })
   }
-  const _uni = uni as any
-  _uni.onUIStyleChange((res: any)=> {
-    const flag = _b(res.style)
-    store.commit('settings/CHANGE_UI_THEME', flag)
-  })
 } catch (error) {
   console.error('监听系统主题变化失败..', error)
 }
