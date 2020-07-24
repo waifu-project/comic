@@ -136,6 +136,9 @@ export default Vue.extend({
     ...mapState('settings', [
       'isDark'
     ]),
+    ...mapState('reader', [
+      'current_id'
+    ]),
     ...mapGetters('reader', [
       'current_index'
     ]),
@@ -230,9 +233,12 @@ export default Vue.extend({
      * TODO: 该方法还需要实现跳转到已读章节..
      */
     async handleActionReader(id: string | number, data: shareComicFace) {
+      let runtimeID = id
+      const x = this.current_id
+      if (x) runtimeID = x
       try {
         await this.$nextTick()
-        ;(this.$refs['card'] as any).handleReader(id, data)
+        ;(this.$refs['card'] as any).handleReader(runtimeID, data)
       } catch (error) {
         throw new Error(error)
       }
