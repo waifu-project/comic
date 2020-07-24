@@ -16,17 +16,17 @@ const hpjs = require('@/plugins/html_parse')
  */
 export const comicTheme2Data = (str: string): themeInterface[] => {
   const $ = cherrio.load(str)
-  const lists = Array.from($('#wrapper .row')).filter(item=> {
+  const lists = Array.from($('#wrapper .row')).filter(item => {
     let checkH4 = cherrio(item).find('h4').length
     let checkListLife = cherrio(item).find('.list-unstyled').length
     return (checkH4 && !checkListLife)
   })
-  const obj = lists.map(item=> {
+  const obj = lists.map(item => {
     const now = cherrio(item)
     const title = now.find('h4').text().trim()
-    const lists = Array.from(now.find('a')).map(subItem=> {
+    const lists = Array.from(now.find('a')).map(subItem => {
       const ele = cherrio(subItem)
-      let url: string =  ele.attr('href') || ""
+      let url: string = ele.attr('href') || ""
       let text: string = ele.text().trim() || ""
       let bg: colorItemInterface = createRandomColor()
       if (bg.name == 'white') bg = createRandomColor()
@@ -47,14 +47,14 @@ export const comicTheme2Data = (str: string): themeInterface[] => {
  * @param  {string} str
  * @returns string[]
  */
-export const comicPic2Data = (str: string): string[]=> {
+export const comicPic2Data = (str: string): string[] => {
   const $ = cherrio.load(str)
   let R = $('#wrapper .row .panel.panel-default .panel-body .row div[id]')
-  const r = Array.from(R).filter(item=> {
+  const r = Array.from(R).filter(item => {
     let id = cherrio(item).attr('id')
     if (id?.endsWith('.jpg')) return item
   })
-  const Rx = r.map(item=> {
+  const Rx = r.map(item => {
     const ele = cherrio(item).find('img[data-page]')
     return pxComicImg(ele)
   })
@@ -66,14 +66,14 @@ export const comicPic2Data = (str: string): string[]=> {
  * @param  {string} str
  * @returns shareComicFace
  */
-export const detail2Data = (str: string): shareComicFace=> {
+export const detail2Data = (str: string): shareComicFace => {
   const $ = cherrio.load(str)
   const id = $('#album_id').val()
   const title = $('.panel-heading .pull-left').text().trim()
   const coverBox = $('#album_photo_cover.col-lg-5')
   let previews: string[] = [], cover: string = ''
   const tempImgs = coverBox.find('img')
-  Array.from(tempImgs).forEach(item=> {
+  Array.from(tempImgs).forEach(item => {
     const ele = cherrio(item)
     const result = pxComicImg(ele)
     if (!result) return
@@ -91,10 +91,10 @@ export const detail2Data = (str: string): shareComicFace=> {
   let review: string | number = 0
   let like_count: string | number = 0
   let comment_count: string | number = 0
-  Array.from($('.col-lg-7 .tag-block')).forEach(item=> {
+  Array.from($('.col-lg-7 .tag-block')).forEach(item => {
     let span = cherrio(item).find('span')
     let flag = span.attr('itemprop')
-    const __lists = Array.from(span.children('a')).map(__item=> {
+    const __lists = Array.from(span.children('a')).map(__item => {
       return $(__item).text().trim()
     })
     // 标签
@@ -120,23 +120,34 @@ export const detail2Data = (str: string): shareComicFace=> {
   if (!isNaN(_likeCount)) like_count = _likeCount
   comment_count = $('.forum-open.btn.btn-primary.dropdown-toggle span').text().trim()
 
-  const episode: episodeInterface[] = Array.from($('.episode ul a')).map(item=> {
+  const episode: episodeInterface[] = Array.from($('.episode ul a')).map(item => {
     const id = getCoverItemID($(item).attr('href'))
-    const temp = cherrio(item).text().trim().split(' ').filter(subItem=> {
+    const now = cherrio(item).text().trim().split(' ')
+    let temp: string[] = now.filter(subItem => {
       if (subItem) {
         if (subItem.endsWith('\n')) subItem = subItem.slice(0, -1)
         return subItem
       }
     })
-    return {
-      id,
-      ep: temp[0],
-      ep_title: temp[1].replace(/[\r\n]/g,""),
-      ep_date: temp[2]
+    if (temp.length == 1) {
+      const arr = temp[0].split('\n')
+      const date = arr.pop() || ""
+      const title = arr.join('')
+      temp = [date, title]
     }
+    const ep = temp[0]
+    let ep_title = temp[1]
+    let ep_date = temp[0]
+    const R: episodeInterface = {
+      id,
+      ep,
+      ep_title,
+      ep_date
+    }
+    return R
   })
 
-  const recommends = Array.from($('.col-xs-6.col-sm-4.col-md-3.col-lg-2.list-col')).map(item=> {
+  const recommends = Array.from($('.col-xs-6.col-sm-4.col-md-3.col-lg-2.list-col')).map(item => {
     return str2Data(item)
   })
 
@@ -180,9 +191,9 @@ export const str2Modal = ($: any): shareIndexModal => {
   html('img').attr('src', fs.Join(__src))
   let resultBody = `
   <h1 style="background: rgba(224, 57, 151, 0.76);color: #fff;font-size: 16px;word-break: keep-all;height: 42px;line-height: 42px;">
-    ${ title }
+    ${ title}
   </h1>
-  ${ html.html() }
+  ${ html.html()}
   `
   const b = hpjs(resultBody)
   modal.body = b
@@ -248,7 +259,7 @@ export const str2Data = (ele: any): shareComicFace => {
 
   let time: string = cItem.find('.video-views.pull-left').text().trim()
   if (new Date(time).toString() === 'Invalid Date') {
-    const tempArr = time.split(' ').filter((item: any)=> {
+    const tempArr = time.split(' ').filter((item: any) => {
       if (item) return item
     })
     time = tempArr.pop() || ""
@@ -290,7 +301,7 @@ export const getCoverItemID = (src: string | undefined): string => {
  * @param  {Cheerio} ele
  * @returns string
  */
-export const pxComicImg = (ele: Cheerio): string=> {
+export const pxComicImg = (ele: Cheerio): string => {
   let x = ele.attr('src') || ""
   let y = ele.attr('data-original') || ""
   return y ? y : x
@@ -299,7 +310,7 @@ export const pxComicImg = (ele: Cheerio): string=> {
 /**
  * 吹水区转数据
  */
-export const topicJSON2Data = (str: string): topicItemInterface=> {
+export const topicJSON2Data = (str: string): topicItemInterface => {
   const $ = cherrio.load(str)
   const avatarEle = $('.media-object.img-circle.col-xs-12.p-0')
   let avatar = avatarEle.attr('src') || ""
@@ -328,7 +339,7 @@ export const topicJSON2Data = (str: string): topicItemInterface=> {
 /**
  * 将原数据转为对象
  */
-export const rawMirror2DataLists = (str: string): mirrorItemInterface[]=> {
+export const rawMirror2DataLists = (str: string): mirrorItemInterface[] => {
   // 2020-07-03 更新: 就先存在本地吧, 暂时没有别的办法了
   return []
   // let rawTemp = str.split('\n')
