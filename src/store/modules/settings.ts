@@ -6,7 +6,8 @@ const state: settingsFace = {
   isDark: false,
   showIndexAD: true,
   firstRun: true,
-  cardCol: cardColEnum.df
+  cardCol: cardColEnum.df,
+  detailKanBanInfoShow: false
 }
 
 const mutations: MutationTree<settingsFace> = {
@@ -47,6 +48,9 @@ const mutations: MutationTree<settingsFace> = {
   },
   CHANGE_CARD_COL(state, col) {
     state.cardCol = col
+  },
+  CHANGE_DETAIL_KANBAN_FLAG(state, flag: boolean) {
+    state.detailKanBanInfoShow = flag
   }
 }
 

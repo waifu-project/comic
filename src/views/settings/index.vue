@@ -32,6 +32,13 @@
           </picker>
         </view>
 
+        <view class="cu-form-group bg-white dark-remove">
+          <view class="title text-black dark-remove">{{ '看板自动打开' }}</view>
+          <view class="action bg-white dark-remove">
+            <switch class="bg-white dark-remove" @change="handleChangeKanBanFlag" :checked="detailKanBanInfoShow" color="var(--pink)"/>
+          </view>
+        </view>
+
       </view>
 
       <view class="cu-bar solid-bottom bar_box padding-bottom-xs margin-top-sm">
@@ -102,7 +109,8 @@ export default Vue.extend({
     ...mapState('settings', [
       'showDev',
       'isDark',
-      'cardCol'
+      'cardCol',
+      'detailKanBanInfoShow'
     ]),
     version() {
       return version
@@ -128,7 +136,8 @@ export default Vue.extend({
     ...mapMutations('settings', [
       'REVERRSE_DEV_FLAG',
       'CHANGE_UI_THEME',
-      'CHANGE_CARD_COL'
+      'CHANGE_CARD_COL',
+      'CHANGE_DETAIL_KANBAN_FLAG'
     ]),
     handleClickOpenDev() {
       this.count ++
@@ -144,6 +153,10 @@ export default Vue.extend({
     handleChangeUI(e:any) {
       const value = e.detail.value
       this.CHANGE_UI_THEME(value)
+    },
+    handleChangeKanBanFlag(e: any) {
+      const { value } = e.detail
+      this.CHANGE_DETAIL_KANBAN_FLAG(value)
     },
     handleChangeIndexCol(event: any) {
       const { value } = event.detail

@@ -126,6 +126,10 @@ export interface settingsFace {
    * 卡片几等分
    */
   cardCol: cardColEnum
+  /**
+   * 详情页面信息板是否打开
+   */
+  detailKanBanInfoShow: boolean
 }
 
 /**

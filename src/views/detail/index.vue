@@ -21,11 +21,13 @@
 
       <!-- :class="{ show: showComicInfoBox }" -->
 
-      <view class="radius bg-white shadow-lg margin-left-sm margin-right-sm margin-top-sm padding" :style="comicBoxStyle">
+      <view class="radius bg-white shadow-lg margin-left-sm margin-right-sm margin-top-sm padding-xs" :style="comicBoxStyle">
         <!-- TODO: 这里是不是应该来一个 `v-for` 循环? -->
         <view v-if="data.desc">
           <text class="info-title"> 简介: </text>
-          <text class="text-cut">{{ data.desc }}</text>
+          <view class="bg-grey padding-sm radius">
+            <text class="desc-class">{{ data.desc }}</text>
+          </view>
         </view>
         <view v-if="data.authors && data.authors.length">
           <!-- TODO: 作者现在只取 `0`.. -->
@@ -134,7 +136,8 @@ export default Vue.extend({
   },
   computed: {
     ...mapState('settings', [
-      'isDark'
+      'isDark',
+      'detailKanBanInfoShow'
     ]),
     ...mapState('reader', [
       'current_id'
@@ -244,6 +247,9 @@ export default Vue.extend({
       }
     }
   },
+  onShow() {
+    this.showComicInfoBox = this.detailKanBanInfoShow
+  },
   async onLoad(ops: any) {
     // console.log('当前 `index`: ', this.current_index)
     let { id } = ops
@@ -267,5 +273,8 @@ export default Vue.extend({
   text-align: right;
   margin-right: 8rpx;
   color: var(--pink)
+}
+.desc-class {
+  display: inline-block;
 }
 </style>
