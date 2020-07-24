@@ -212,9 +212,9 @@ export default Vue.extend({
       try {
         this.isLoading = true
         const data = await getDetail(id)
-        // console.log('data: ', data);
         this.data = data
         this.SET_CURRENT_READER_DATA(data)
+        this.SET_CURRENT_READER_DATA_ID(id && null)
         this.isLoading = false 
       } catch (error) {
         throw new Error(error)
