@@ -70,7 +70,7 @@
 
 
       <!-- 选集 -->
-      <view class="grid margin-bottom-xs margin-top text-center col-4 bg-gray" :class="!isDark ? 'solids-top' : ''">
+      <view class="grid margin-bottom-xs margin-top text-center bg-gray" :class="[ !isDark ? 'solids-top' : '', `col-${ epCol }`]">
         <view class="padding-xs margin-bottom-sm" v-for="(item, index) in data.episode" :key="index">
           <view
             class="shadow bg-cyan padding-sm radius dark-remove flex align-center justify-center"
@@ -139,6 +139,20 @@ export default Vue.extend({
     ...mapGetters('reader', [
       'current_index'
     ]),
+    /**
+     * 选集的`宽度`占比
+     */
+    epCol(): number {
+      // TODO
+      const list = this.data.episode as episodeInterface[]
+      const arr: number[] = list.map(item=> item.ep_title.length)
+      // 参考: https://www.jstips.co/en/javascript/calculate-the-max-min-value-from-an-array
+      const maxWord = Math.max.apply(null, arr)
+      if (maxWord >= 24) return 1
+      if (maxWord >= 12) return 2
+      if (maxWord >= 8) return 3
+      return 4
+    },
     topbarTitle(): string {
       const { title } = this.data
       // 标题的最大长度
