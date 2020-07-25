@@ -206,6 +206,10 @@ export interface settingsDataInterface {
    * 点击次数
    */
   count: number
+  /**
+   * 检测更新 `flag`
+   */
+  checkUpdateIsLoading: boolean
 }
 
 export interface detailDataInterface {

@@ -10,3 +10,11 @@ export const githubStaticProfile: githubUserProfile = {
   username: 'waifu-project',
   repo: '18comic-live'
 }
+
+/**
+ * `github-release`
+ */
+export const githubReleaseProfile: githubUserProfile = {
+  username: 'waifu-project',
+  repo: '18comic'
+}

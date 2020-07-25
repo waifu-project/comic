@@ -41,7 +41,7 @@ export const jquery = (data: jqueryArgsInterface): Promise<any> => {
     const exec = (ele: string)=> new Promise((res=> {
       query.select(ele).boundingClientRect((data: any)=> {
         res(data)
-      }).exec()
+      }).exec(()=>{})
     }))
     return new Promise(async res=> {
       let result: any = null
@@ -139,7 +139,11 @@ export const router = {
     }
   },
   back(delta: number = 1) {
-    uni.navigateBack({ delta })
+    uni.navigateBack({
+      delta,
+      animationType: 'auto',
+      animationDuration: +'500'
+    })
   },
   redirect(url: string) {
     uni.redirectTo({ url: `/views/${ url }` })

@@ -23,7 +23,9 @@ axios.setConfig({
  */
 const dynamicMirror = (req: any) => {
   let _defalut = req.url
-  if (_defalut.search('18comic') >= 0) {
+  const temp = new URL(_defalut)
+  const testFlag = temp.host.search('18comic') >= 0
+  if (testFlag) {
     const baseUrl = getMirror()
     const baseURL = new URL(baseUrl)
     const url = new URL(req.url)

@@ -8,7 +8,7 @@ export default {
   baseUrl
 }
 
-export let version: string = injection.packages.version
+export let version: string = injection.packages.versionCode
 export let readme: string = ''
 
 export const isDev = process.env.NODE_ENV === 'development'

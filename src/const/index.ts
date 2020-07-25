@@ -260,3 +260,13 @@ export const defaultMirrorArr: mirrorItemInterface[] = [
     full_url: "https://18comic2.biz"
   }
 ]
+
+/**
+ * 更新版本是最新版本
+ */
+export const updateIsLastVersion = `已经是最新版本了`
+
+/**
+ * 更新版本网络连接错误
+ */
+export const updateVersionNetWorkError = `更新版本失败, 可能是网络问题(需要翻墙)`

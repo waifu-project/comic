@@ -86,8 +86,11 @@
             "autoclose" : true,
             "delay" : 0
         },
-        "networkTimeout": {
+        "networkTimeout" : {
             "request": 30000
+        },
+        "compatible" : {
+            "ignoreVersion" : true
         }
     },
     "quickapp" : {},

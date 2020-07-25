@@ -49,6 +49,16 @@
       </view>
 
       <view class="cu-list menu" @click="handleClickOpenDev">
+
+        <view class="cu-item dark-remove" :class="{ 'text-gray': checkUpdateIsLoading }" @tap="handleCheckAppUpdate">
+          <view class="content text-black dark-remove">
+            {{ '检查更新(需要翻墙)' }}
+          </view>
+          <view class="action text-gray dark-remove" v-if="checkUpdateIsLoading">
+            {{ '正在检测版本' }}
+          </view>
+        </view>
+
         <view class="cu-item dark-remove">
           <view class="content text-black dark-remove">
             {{ '版本号' }}
@@ -57,6 +67,7 @@
             {{ version }}
           </view>
         </view>
+
       </view>
 
       <block v-if="showDev">
@@ -95,14 +106,16 @@ import Vue from 'vue'
 import * as config from '@/config'
 import { mapState, mapMutations } from 'vuex'
 import { settingsDataInterface } from '@/interface/pages'
-import { settings_click_max_count } from '@/const'
+import { settings_click_max_count, updateIsLastVersion, updateVersionNetWorkError } from '@/const'
 import { router } from '@/utils'
 import { version } from '@/config'
 import { cardColEnum } from '@/store/types'
+import { getAppUpdate, githubReleaseResultCat, githubReleaseStatus } from '@/api/v1/app'
 export default Vue.extend({
   data(): settingsDataInterface {
     return {
-      count: 0
+      count: 0,
+      checkUpdateIsLoading: false
     }
   },
   computed: {
@@ -139,6 +152,30 @@ export default Vue.extend({
       'CHANGE_CARD_COL',
       'CHANGE_DETAIL_KANBAN_FLAG'
     ]),
+    /**
+     * 检查版本更新
+     */
+    async handleCheckAppUpdate() {
+      if (this.checkUpdateIsLoading) return
+      this.checkUpdateIsLoading = true
+      const data: githubReleaseResultCat = await getAppUpdate()
+      const { code, body } = data
+      switch (code) {
+        case githubReleaseStatus.last:
+          plus.nativeUI.alert(updateIsLastVersion)
+          break;
+        case githubReleaseStatus.old:
+          // TODO
+          break;
+        case githubReleaseStatus.unknown:
+          plus.nativeUI.alert(updateVersionNetWorkError)
+          break;
+      }
+      this.checkUpdateIsLoading = false
+    },
+    /**
+     * 打开开发者模式
+     */
     handleClickOpenDev() {
       this.count ++
       const count = this.count
@@ -147,22 +184,37 @@ export default Vue.extend({
         this.count = 0
       }
     },
+    /**
+     * 切换到开发者模式列表
+     */
     handleClickDevList() {
       router.push('dev/index')
     },
+    /**
+     * 改变主题
+     */
     handleChangeUI(e:any) {
       const value = e.detail.value
       this.CHANGE_UI_THEME(value)
     },
+    /**
+     * 设置详情页看板
+     */
     handleChangeKanBanFlag(e: any) {
       const { value } = e.detail
       this.CHANGE_DETAIL_KANBAN_FLAG(value)
     },
+    /**
+     * 设置 `card` 的布局
+     */
     handleChangeIndexCol(event: any) {
       const { value } = event.detail
       const _class = Object.keys(cardColEnum)[value]
       this.CHANGE_CARD_COL(_class)
     },
+    /**
+     * 清除所有设置和记录
+     */
     async handleCleanStorage() {
       const title = "这将会清除所有设置和记录, 请确认"
       const content = "想好了就确认呗,哼.*."
