@@ -111,6 +111,7 @@ import { router } from '@/utils'
 import { version } from '@/config'
 import { cardColEnum } from '@/store/types'
 import { getAppUpdate, githubReleaseResultCat, githubReleaseStatus } from '@/api/v1/app'
+
 export default Vue.extend({
   data(): settingsDataInterface {
     return {
@@ -165,7 +166,11 @@ export default Vue.extend({
           plus.nativeUI.alert(updateIsLastVersion)
           break;
         case githubReleaseStatus.old:
-          // TODO
+          const webview = plus.webview.create()
+          webview.show()
+          setTimeout(()=> {
+            webview.loadData(body)
+          })
           break;
         case githubReleaseStatus.unknown:
           plus.nativeUI.alert(updateVersionNetWorkError)

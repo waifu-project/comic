@@ -1,6 +1,8 @@
+import mdjs from 'marked'
 import { githubReleaseProfile } from "@/config/profile"
 import { get } from '@/utils/axios'
 import { version } from '@/config'
+import cheerio from 'cheerio'
 
 /**
  * 单个 `github-release`
@@ -78,7 +80,34 @@ export const getAppUpdate = async (): Promise<githubReleaseResultCat>=> {
     const lastData = data[0]
     const lastVersionCode = lastData.tag_name
     const lastBody = lastData.body
-    console.log(lastBody)
+    const ctx = mdjs(lastBody)
+    const jquery = cheerio.load(`<div class="markdown-body"></div>`)
+    jquery('head').append(`<meta content="width=device-width, initial-scale=1" name="viewport">`)
+    jquery('.markdown-body').append(ctx)
+    jquery('body').append(`<script type="text/javascript" src="https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.2.js"></script>`)
+    jquery('body').append(`
+    <script type="text/javascript">
+			document.addEventListener('UniAppJSBridgeReady', function() {
+        let links = Array.from(document.querySelectorAll('a'))
+        links.forEach(item=> {
+          item.addEventListener('click', function(e) {
+            try {
+              const link = this.href
+              plus.runtime.openURL(link)
+              e.stopPropagation()
+              e.preventDefault()
+              return false
+            } catch (error) {
+              alert(error)
+              throw new Error(error)
+            }
+          })
+        })
+			});
+		</script>
+
+    `)
+    const body = jquery.html()
     let code: githubReleaseStatus
     if (lastVersionCode == version) {
       code = githubReleaseStatus.last
@@ -88,10 +117,9 @@ export const getAppUpdate = async (): Promise<githubReleaseResultCat>=> {
     const R: githubReleaseResultCat = {
       code
     }
-    if (code == githubReleaseStatus.old) R.body = lastBody
+    if (code == githubReleaseStatus.old) R.body = body
     return R
   } catch (error) {
-    console.error(error)
     return {
       code: githubReleaseStatus.unknown
     }
