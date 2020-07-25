@@ -5,7 +5,7 @@
     </topbar>
     <glass :opacity=".4" :blur="24" :bg="bgImg">
       <wrapper>
-        <view class="bg-img bg-mask bg-black light flex align-center dark-remove" :style="bgMaskImgStyle">
+        <view class="bg-img bg-mask bg-black light flex align-center dark-remove bg-mask-overlay" :style="bgMaskImgStyle">
           <view class="padding-sm text-white dark-remove">
             <view class="padding-xs text-xl text-bold dark-remove">
               {{ sayWord.hitokoto }}
@@ -135,5 +135,14 @@ export default Vue.extend({
 </script>
 
 <style>
-
+/* 参考: https://www.deepin.org/zh/download/ */
+.bg-mask-overlay::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: url(/static/overlay.png);
+}
 </style>
