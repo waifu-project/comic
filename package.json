@@ -1,7 +1,7 @@
 {
   "name": "18comic",
   "version": "0.1.0",
-  "versionCode": "20200709",
+  "versionCode": "v20200726",
   "private": true,
   "scripts": {
     "status": "tokei",
