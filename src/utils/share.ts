@@ -1,10 +1,12 @@
 import url from 'url-parse'
 import cherrio from 'cheerio'
-import { shareComicFace, shareIndexModal, themeInterface, themeListInterface, episodeInterface, topicItemInterface } from '@/interface'
+import { shareComicFace, shareIndexModal, themeInterface, themeListInterface, episodeInterface, topicItemInterface, readerItemInterface } from '@/interface'
 import fs from './fs'
 import { createRandomColor, easyGetDomainSuffix } from '.'
 import { colorItemInterface, mirrorItemInterface } from '@/interface/tool'
 import { theme_default_col } from '@/const'
+import { readerPageNumberEnum } from '@/interface/enum'
+import { isDev } from '@/config'
 // import getURL from 'get-urls'
 
 const hpjs = require('@/plugins/html_parse')
@@ -42,23 +44,69 @@ export const comicTheme2Data = (str: string): themeInterface[] => {
   return obj
 }
 
+const comicPicGetPageMiddleware = (ele: Cheerio): number | null=> {
+  const href = ele.attr('href') || ""
+  const qsIndex = href.lastIndexOf('=')
+  if (qsIndex < 0) return null
+  const numPage = href.substring(qsIndex + 1)
+  if (isNaN(numPage as any)) return null
+  return +numPage
+}
+
 /**
  * @description 格式化图片
  * @param  {string} str
  * @returns string[]
  */
-export const comicPic2Data = (str: string): string[] => {
+export const comicPic2Data = (str: string): readerItemInterface => {
   const $ = cherrio.load(str)
   let R = $('#wrapper .row .panel.panel-default .panel-body .row div[id]')
   const r = Array.from(R).filter(item => {
     let id = cherrio(item).attr('id')
     if (id?.endsWith('.jpg')) return item
   })
-  const Rx = r.map(item => {
+  let Rx = r.map(item => {
     const ele = cherrio(item).find('img[data-page]')
     return pxComicImg(ele)
   })
-  return Rx
+  // const devMaxPicsLength = 10
+  // if (Rx.length > devMaxPicsLength && isDev) Rx = Rx.slice(0, devMaxPicsLength)
+  const pages = $('.pagination.pagination-lg li')
+  const listByPages = Array.from(pages)
+  let nextPage = null
+  let prevPage = null
+  let currPage = 0
+  let pageType = readerPageNumberEnum.frist
+  listByPages.forEach((item, index)=> {
+    const isActive =  $(item).hasClass('active')
+    const a = $(item).find('a')
+    const aText = a.text().trim()
+    if (isActive) {
+      pageType = readerPageNumberEnum.frist
+      const active = +$(item).find('span').text().trim()
+      if (!isNaN(active)) currPage = active
+    }
+    // console.log(a.html())
+    const isPrev = aText == '«'
+    const isNext = aText == '»'
+    const _page = comicPicGetPageMiddleware(a)
+    if (isPrev) prevPage = _page
+    if (isNext) {
+      nextPage = _page
+      pageType = readerPageNumberEnum.more
+    }
+    // console.log('aText: ', aText, 'isPrev: ', isPrev, 'isNext: ', isNext, '_page: ', _page);
+  })
+  debugger
+  const x = {
+    pageType,
+    currPage,
+    nextPage,
+    prevPage,
+    pics: Rx
+  }
+  // console.log('x: ', x);
+  return x
 }
 
 /**

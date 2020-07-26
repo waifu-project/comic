@@ -21,6 +21,12 @@
       </view>
     </view>
     <rich-text :nodes="_nodes" />
+    <view v-if="!isLoading" :style="{ maxWidth: `100%`, overflow: 'hidden' }">
+      <button @tap="handleChangePicPageAction" class="cu-btn block shadow-blur" :class="[ comicData.nextPage ? 'bg-pink lg' : 'bg-grey' ]">
+        <text v-if="comicData.nextPage" class="span">{{ '加载下一页(不是下一话)' }}</text>
+        <text v-else class="span">{{ '没有更多了' }}</text>
+      </button>
+    </view>
   </view>
 </template>
 
@@ -33,12 +39,19 @@ import { shareComicFace } from '@/interface'
 import cssType from 'csstype'
 import { readerDataFace } from '@/interface/pages'
 import { _loadingImage } from '@/config/assets'
+import { readerPageNumberEnum } from '@/interface/enum'
 let hpjs: any = require('@/plugins/html_parse') 
 
 export default Vue.extend({
   data(): readerDataFace {
     return {
-      imgs: [],
+      comicData: {
+        pics: [],
+        pageType: readerPageNumberEnum.frist,
+        currPage: null,
+        nextPage: null,
+        prevPage: null,
+      },
       isLoading: false,
       scrollTop: 0,
       effectW: 70,
@@ -46,6 +59,7 @@ export default Vue.extend({
       effectX: 0,
       effectY: 0,
       effectDisplay: false,
+      currentComicID: ""
     }
   },
   computed: {
@@ -56,6 +70,15 @@ export default Vue.extend({
     ...mapGetters('reader', [
       'current_index'
     ]),
+    imgs: {
+      get(): string[] {
+        const images = this.comicData.pics
+        return images
+      },
+      set(imgs: string[]) {
+        this.comicData.pics = imgs
+      }
+    },
     loadingImae() {
       return _loadingImage
     },
@@ -121,7 +144,7 @@ export default Vue.extend({
     _nodes() {
       try {
         let result = ''
-        this.imgs.forEach(item=> {
+        this.comicData.pics.forEach(item=> {
           result += `
             <img src="${ item }" style="width:100%; height: auto" />
             <br/>
@@ -142,6 +165,7 @@ export default Vue.extend({
     current_id(newVal: string | number) {
       // 跳转拿到下一话后, 回到顶部
       this.toTop()
+      this.resetComicData()
       this.getData(newVal)
     }
   },
@@ -149,11 +173,34 @@ export default Vue.extend({
     ...mapActions('reader', [
       'changeNextReader'
     ]),
-    async getData(id: string | number, page?: number) {
+    /**
+     * 重置 `data`
+     */
+    resetComicData() {
+      this.comicData = {
+        pics: [],
+        pageType: readerPageNumberEnum.frist,
+        currPage: null,
+        nextPage: null,
+        prevPage: null,
+      }
+    },
+    async getData(id: string | number, page: number | string = 1) {
+      this.currentComicID = id.toString()
       this.isLoading = true
-      const data = await getComicPic(id)
+      // console.log('id: ', id);
+      // console.log('page: ', page);
+      const data = await getComicPic(id, page)
+      let oldImgs = this.imgs
+      this.comicData.pageType = data.pageType
+      this.comicData.nextPage = data.nextPage
+      this.comicData.prevPage = data.prevPage
+      this.comicData.currPage = data.currPage
+      let resultImgs = data.pics
+      if (page > 1) resultImgs = [ ...oldImgs, ...resultImgs ]
+      // console.log('resultImgs: ', resultImgs);
+      this.imgs = resultImgs
       this.isLoading = false
-      this.imgs = data
     },
     async handleClickEPAction(flag: boolean) {
       this.changeNextReader(flag)
@@ -177,6 +224,11 @@ export default Vue.extend({
     },
     handleViewTapEnd(e: any) {
       this.effectDisplay = false
+    },
+    handleChangePicPageAction() {
+      const { nextPage } = this.comicData
+      const { currentComicID: id } = this
+      if (nextPage) this.getData(id, nextPage)
     }
   },
   onPageScroll(res) {
@@ -186,6 +238,7 @@ export default Vue.extend({
   async onLoad(ops: any) {
     let { id } = ops
     id = id ? id : 195491
+    this.currentComicID = id
     await this.getData(id)
   }
 })

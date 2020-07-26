@@ -1,5 +1,5 @@
 import css from 'csstype'
-import { shareComicFace, themeInterface, themeListInterface, topicItemInterface } from '.';
+import { shareComicFace, themeInterface, themeListInterface, topicItemInterface, readerItemInterface } from '.';
 import { searchOptions, themeMenuItemInterface, mirrorItemInterface } from './tool';
 import { searchOptionTimeEnum, searchOptionTypeEnum } from './enum';
 
@@ -62,9 +62,19 @@ export interface indexDataFace {
 export interface readerDataFace {
 
   /**
-   * 图片
+   * 漫画内容
    */
-  imgs: string[]
+  comicData: readerItemInterface
+
+  /**
+   * 漫画 `id`
+   */
+  currentComicID: string
+
+  /**
+   * 图片(已废弃)
+   */
+  imgs?: string[]
 
   /**
    * 是否在加载中

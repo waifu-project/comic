@@ -1,4 +1,5 @@
 import { colorItemInterface } from './tool';
+import { readerPageNumberEnum } from './enum';
 
 /**
  * 首页 `modal`
@@ -213,4 +214,30 @@ export interface topicItemInterface {
    * 作品的标题
    */
   title: string
+}
+
+/**
+ * 阅读器当前类型
+ */
+export interface readerItemInterface {
+  /**
+   * 当前页数类型
+   */
+  pageType: readerPageNumberEnum
+  /**
+   * 下一话(500页限制)
+   */
+  nextPage: number | string | null
+  /**
+   * 上一话(500页限制)
+   */
+  prevPage: number | string | null
+  /**
+   * 当前 `page`
+   */
+  currPage: number | string | null
+  /**
+   * 图片
+   */
+  pics: string[]
 }

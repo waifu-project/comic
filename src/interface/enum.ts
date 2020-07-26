@@ -77,3 +77,21 @@ export enum searchOptionTypeEnumString {
    */
   mostLiked = '最多点赞'
 }
+
+/**
+ * 阅读页数枚举
+ */
+export enum readerPageNumberEnum {
+  /**
+   * 第一页
+   */
+  frist,
+  /**
+   * 最后一页
+   */
+  last,
+  /**
+   * 还有更多
+   */
+  more
+}

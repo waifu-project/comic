@@ -1,7 +1,7 @@
 import { get, post } from '@/utils/axios'
 import cherrio from 'cheerio'
 import { str2Data, str2Modal, detail2Data, comicPic2Data, comicTheme2Data, topicJSON2Data } from '@/utils/share'
-import { shareIndexComicData, shareIndexData, themeListInterface, shareComicFace, topicResponseInterface, topicItemInterface } from '@/interface'
+import { shareIndexComicData, shareIndexData, themeListInterface, shareComicFace, topicResponseInterface, topicItemInterface, readerItemInterface } from '@/interface'
 import { createRandomColor } from '@/utils'
 import { searchOptions, searchResponseInterface, mirrorItemInterface } from '@/interface/tool'
 import querystring from '@/utils/qs'
@@ -31,10 +31,27 @@ export const getDetail = async (id: string | number): Promise<shareComicFace>=> 
 }
 
 // 获取某作品的所有图片
-export const getComicPic = async (id: number | string): Promise<any>=> {
+export const getComicPic = async (id: number | string, page: number | string = 1): Promise<readerItemInterface>=> {
   try {
-    const data = await get(`/photo/${ id }`)
-    return comicPic2Data(data)
+    // const baseApi = getMirror()
+    // const apiMerge = `${ baseApi }/photo/${ id }/?read_mode=read-by-full&page=${ page }`
+    // const data = await new Promise(res=> {
+    //   uni.request({
+    //     url: apiMerge,
+    //     success(_res) {
+    //       const ctx = _res.data
+    //       res(ctx)
+    //     },
+    //     fail(err) {
+    //       console.log(err)
+    //       res(false)
+    //     }
+    //   })
+    // })
+    // if (!data) throw new Error("接口获取错误")
+    const apiMerge = `/photo/${ id }/?read_mode=read-by-full&page=${ page }`
+    const data = await get(apiMerge)
+    return comicPic2Data(data as string)
   } catch (error) {
     throw new Error(error)
   }
