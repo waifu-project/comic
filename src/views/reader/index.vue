@@ -240,6 +240,10 @@ export default Vue.extend({
     id = id ? id : 195491
     this.currentComicID = id
     await this.getData(id)
+    setFullScreen(true)
+  },
+  onUnload() {
+    setFullScreen(false)
   }
 })
 </script>
