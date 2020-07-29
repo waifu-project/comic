@@ -1,4 +1,4 @@
-<img src="./app.png" align="right" width="320">
+<img src="https://cdn.jsdelivr.net/gh/waifu-project/18comic/app.png" width="320">
 
 # 18comic
 
