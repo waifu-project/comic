@@ -1,5 +1,6 @@
 import { shareComicFace, shareIndexComicData, themeListInterface, themeInterface } from '@/interface';
 import { searchOptions } from '@/interface/tool';
+import { sayWordInterface } from '@/api/share';
 
 export interface searchDataInterface {
   /**
@@ -77,6 +78,11 @@ export interface cacheInterface {
    * 主题数据
    */
   theme: null | themeConcatInterface
+
+  /**
+   * `home` 一言缓存
+   */
+  homeSayWord: sayWordInterface | null
 
 }
 

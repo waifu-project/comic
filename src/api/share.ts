@@ -1,7 +1,7 @@
 import { get } from '@/utils/axios'
 
 // 参考: https://developer.hitokoto.cn
-interface sayWordInterface {
+export interface sayWordInterface {
   created_at?: string // 创建时间
   creator?: string // 未知
   creator_uid?: number // 创建id

@@ -2,6 +2,7 @@ import css from 'csstype'
 import { shareComicFace, themeInterface, themeListInterface, topicItemInterface, readerItemInterface } from '.';
 import { searchOptions, themeMenuItemInterface, mirrorItemInterface } from './tool';
 import { searchOptionTimeEnum, searchOptionTypeEnum } from './enum';
+import { sayWordInterface } from '@/api/share';
 
 // flag: 旧的流列表数据
 interface flowDataArrayFace {
@@ -258,4 +259,18 @@ export interface filterDataInterface {
    * 类型
    */
   type?: null | searchOptionTypeEnum
+}
+
+export interface homePageInterface {
+
+  /**
+   * 一句话
+   */
+  sayWord: sayWordInterface
+
+  /**
+   * 随机背景图
+   */
+  bgImg: string
+
 }

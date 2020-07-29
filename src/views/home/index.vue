@@ -6,12 +6,12 @@
     <glass :opacity=".4" :blur="24" :bg="bgImg">
       <wrapper>
         <view class="bg-img bg-mask bg-black light flex align-center dark-remove bg-mask-overlay" :style="bgMaskImgStyle">
-          <view class="padding-sm text-white dark-remove">
+          <view class="padding-sm text-white dark-remove" v-if="word.hitokoto">
             <view class="padding-xs text-xl text-bold dark-remove">
-              {{ sayWord.hitokoto }}
+              {{ word.hitokoto }}
             </view>
             <view class="padding-xs text-df dark-remove">
-              - {{ sayWord.from }}
+              - {{ word.from }}
             </view>
           </view>
         </view>
@@ -50,13 +50,14 @@
 import Vue from 'vue'
 import { getWidthAndHeight } from '@/utils'
 import { bg_default_url } from '@/const'
-import { getWord } from '@/api/share'
+import { getWord, sayWordInterface } from '@/api/share'
 import cssType from 'csstype'
 import Card from '@/components/card.vue'
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapState } from 'vuex'
 import { extType } from '@/store/modules/comic'
+import { homePageInterface } from '@/interface/pages'
 export default Vue.extend({
-  data() {
+  data(): homePageInterface {
     return {
       sayWord: {
         hitokoto: '',
@@ -73,6 +74,9 @@ export default Vue.extend({
       'historyViews',
       'collectLists'
     ]),
+    ...mapState('cache', [
+      'homeSayWord'
+    ]),
     bgMaskImgStyle(): cssType.Properties {
       const { height: _h } = getWidthAndHeight()
       const h = Math.floor(_h * 0.333)
@@ -80,6 +84,12 @@ export default Vue.extend({
         backgroundImage: `url(${ bg_default_url })`,
         height: `${ h }px`
       }
+    },
+    word(): sayWordInterface {
+      const w = this.sayWord
+      if (w.hitokoto) return w
+      if (this.homeSayWord) return this.homeSayWord
+      return { hitokoto: '', from: '' }
     }
   },
   async onLoad() {
@@ -90,6 +100,9 @@ export default Vue.extend({
       'CLEAN_HISTORY_VIEWS',
       'CLEAN_COLLECT_LISTS'
     ]),
+    ...mapMutations('cache', [
+      'CHANGE_HOME_SAY_WORD'
+    ]),
     /**
      * 获取 `一言`
      */
@@ -97,10 +110,12 @@ export default Vue.extend({
       const data = await getWord()
       const hitokoto = data.hitokoto || ""
       const from = data.from || ""
-      this.sayWord = {
+      const x: sayWordInterface = {
         hitokoto,
         from
       }
+      this.sayWord = x
+      this.CHANGE_HOME_SAY_WORD(x)
     },
     /**
      * 清除历史记录和收藏
