@@ -1,6 +1,5 @@
 <template>
-  <view @touchstart="handleViewTap" @touchmove="handleViewTap" @touchend="handleViewTapEnd">
-    <view class="effect shadow-blur" :style="effectStyle" />
+  <view>
     <topbar :blur="24" :barImg="barImg" :isBack="true" :backEvent="!leftActionFlag" @left="handleClickEPAction(false)">
       <block slot="backText">{{ leftTitle }}</block>
       <block slot="content">{{ title }}</block>
@@ -88,23 +87,6 @@ export default Vue.extend({
         width: `${ ctx.windowWidth }px`,
         height: `${ ctx.windowHeight }px`,
         background: `#fff`,
-      }
-    },
-    effectStyle(): cssType.Properties {
-      return {
-        position: 'fixed',
-        top: `${ this.effectY }px`,
-        left: `${ this.effectX }px`,
-        pointerEvents: `none`,
-        width: `${ this.effectW }px`,
-        height: `${ this.effectH }px`,
-        zIndex: 9999,
-        border: `2px solid var(-pinkLight)`,
-        background: `rgba(224, 57, 151, .8)`,
-        borderRadius: `50%`,
-        opacity: this.effectDisplay ? 1 : 0,
-        userSelect: 'none',
-        transition: 'opacity .3s'
       }
     },
     /**
@@ -210,20 +192,6 @@ export default Vue.extend({
         scrollTop: 0, //距离页面顶部的距离
         duration: 300
       })
-    },
-    handleViewTap(e: any) {
-      try {
-        const _data = e.touches[0]
-        const { clientX, clientY } = _data
-        this.effectX = clientX - (this.effectW * .5)
-        this.effectY = clientY - (this.effectH * .5)
-        this.effectDisplay = true
-      } catch (error) {
-        throw new Error(error)
-      }
-    },
-    handleViewTapEnd(e: any) {
-      this.effectDisplay = false
     },
     handleChangePicPageAction() {
       const { nextPage } = this.comicData
