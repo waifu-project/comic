@@ -115,7 +115,7 @@ export interface settingsFace {
   /**
    * 是否显示开发者菜单
    */
-  showDev:  boolean
+  showDev: boolean
   /**
    * 是否开始暗色主题
    */

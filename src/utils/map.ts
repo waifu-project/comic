@@ -8,8 +8,8 @@ import { copy } from '.';
  * @param  {shareComicFace[]} lists
  * @returns shareComicFace
  */
-export const _coverSearchItem = (lists: shareComicFace[]): shareComicFace[]=> {
-  return lists.map(item=> {
+export const _coverSearchItem = (lists: shareComicFace[]): shareComicFace[] => {
+  return lists.map(item => {
     let { title } = item
     // flag: 标题只取 `18` 个词
     const maxWordLength = 18
@@ -22,7 +22,7 @@ export const _coverSearchItem = (lists: shareComicFace[]): shareComicFace[]=> {
     // debugger
     item.title = title
     const maxTagLength = 4
-    const tags = item.tags.filter(tag=> { 
+    const tags = item.tags.filter(tag => {
       if (tag.length <= maxTagLength) return true
     })
     item.tags = tags.slice(0, maxTagLength)
@@ -33,7 +33,7 @@ export const _coverSearchItem = (lists: shareComicFace[]): shareComicFace[]=> {
 /**
  * 创建静态资源(CDN)
  */
-export const createStaticByCDN = (path: string): string=> {
+export const createStaticByCDN = (path: string): string => {
   const res = { ...githubStaticProfile, path }
   return ghCDN(res)
 }
@@ -56,7 +56,7 @@ interface pushDiyInterface {
 /**
  * 重组数据
  */
-export const _push = (args: pushDiyInterface)=> {
+export const _push = (args: pushDiyInterface) => {
   const { lists, maxLen, data } = args
   const _list = copy(lists)
   const _now_len = _list.length

@@ -249,7 +249,7 @@ class Request {
         return this.request(options)
     }
 
-    _success = function(that, _config, res, resolve, reject) {
+    _success = function (that, _config, res, resolve, reject) {
         if (res.statusCode >= 200 && res.statusCode <= 302) { // http ok
             var result = res.data // 全局的拦截器
             var parseFileJson = _config.contentType === 'file' && typeof result === 'string' && (_config.dataType ===
@@ -275,7 +275,7 @@ class Request {
         that._fail(that, _config, res, resolve, reject)
     }
 
-    _fail = function(that, _config, res, resolve, reject) {
+    _fail = function (that, _config, res, resolve, reject) {
         if (_config.debug) {
             // console.error('response failure: ', res)
         }
@@ -289,7 +289,7 @@ class Request {
         _config.fail ? _config.fail(result) : reject(result)
     }
 
-    _prepare = function(that, _config, obj = {}) {
+    _prepare = function (that, _config, obj = {}) {
         if (that.interceptor.prepare && typeof that.interceptor.prepare === 'function') {
             that.interceptor.prepare(_config, obj)
             return
@@ -314,7 +314,7 @@ class Request {
         }
     }
 
-    _complete = function(that, _config, res, obj = {}) {
+    _complete = function (that, _config, res, obj = {}) {
         if (that.interceptor.complete && typeof that.interceptor.complete === 'function') {
             that.interceptor.complete(_config, obj, res)
             return
@@ -332,7 +332,7 @@ class Request {
                 diff = 0
             }
 
-            setTimeout(function() {
+            setTimeout(function () {
                 uni.hideLoading()
             }, diff)
         }

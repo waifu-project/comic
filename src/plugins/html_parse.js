@@ -218,12 +218,12 @@ function HTMLParser(html, handler) {
       var pos = 0;
     } // Find the closest opened tag of the same type
     else {
-        for (var pos = stack.length - 1; pos >= 0; pos--) {
-          if (stack[pos] == tagName) {
-            break;
-          }
+      for (var pos = stack.length - 1; pos >= 0; pos--) {
+        if (stack[pos] == tagName) {
+          break;
         }
       }
+    }
 
     if (pos >= 0) {
       // Close all the open elements, up the stack
@@ -260,9 +260,9 @@ function parseAttrs(attrs) {
     var name = attr.name;
 
     if (pre[name]) {
-			pre[name] = pre[name] + " " + value;
+      pre[name] = pre[name] + " " + value;
     } else {
-			pre[name] = value;
+      pre[name] = value;
     }
 
     return pre;

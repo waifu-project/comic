@@ -26,7 +26,7 @@ export interface shareIndexData {
 /**
  * `card` 用到的数据
  */
-export  interface shareIndexComicData {
+export interface shareIndexComicData {
   /**
    * 标题
    */

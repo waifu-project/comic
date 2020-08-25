@@ -13,7 +13,7 @@ export const setMirror = (ext: string = mirror_default_domain) => {
 /**
  * 获取镜像 `url`
  */
-export const getMirror = (): string=> {
+export const getMirror = (): string => {
   try {
     const _domain = io.getMirror()
     const value = _domain.value as string
@@ -28,8 +28,8 @@ export const getMirror = (): string=> {
  * 创建镜像的静态资源 
  * @param path 路径
  */
- export const createMirrorStaticFile = (path: string): string=> {
+export const createMirrorStaticFile = (path: string): string => {
   if (path[0] == '/') path = path.substring(1)
   const _domain = getMirror()
-  return `${ _domain }/${ path }`
+  return `${_domain}/${path}`
 }

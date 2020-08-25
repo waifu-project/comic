@@ -5,12 +5,12 @@
 import store from '@/store'
 import { isDev } from '@/config'
 
-const _b = (s: string): boolean => 'dark'== s
+const _b = (s: string): boolean => 'dark' == s
 
 /**
  * 拿到当前颜色主题
  */
-const getUiStyle = (): boolean=> {
+const getUiStyle = (): boolean => {
   try {
     const wrapper = plus.navigator as any
     const style = wrapper.getUiStyle();
@@ -29,7 +29,7 @@ try {
       store.commit('settings/CHANGE_UI_THEME', now_flag)
     }
     const _uni = uni as any
-    _uni.onUIStyleChange((res: any)=> {
+    _uni.onUIStyleChange((res: any) => {
       const flag = _b(res.style)
       store.commit('settings/CHANGE_UI_THEME', flag)
     })

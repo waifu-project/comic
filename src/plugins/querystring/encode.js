@@ -21,7 +21,7 @@
 
 'use strict';
 
-var stringifyPrimitive = function(v) {
+var stringifyPrimitive = function (v) {
   switch (typeof v) {
     case 'string':
       return v;
@@ -37,7 +37,7 @@ var stringifyPrimitive = function(v) {
   }
 };
 
-module.exports = function(obj, sep, eq, name) {
+module.exports = function (obj, sep, eq, name) {
   sep = sep || '&';
   eq = eq || '=';
   if (obj === null) {
@@ -45,10 +45,10 @@ module.exports = function(obj, sep, eq, name) {
   }
 
   if (typeof obj === 'object') {
-    return Object.keys(obj).map(function(k) {
+    return Object.keys(obj).map(function (k) {
       var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
       if (Array.isArray(obj[k])) {
-        return obj[k].map(function(v) {
+        return obj[k].map(function (v) {
           return ks + encodeURIComponent(stringifyPrimitive(v));
         }).join(sep);
       } else {
@@ -60,5 +60,5 @@ module.exports = function(obj, sep, eq, name) {
 
   if (!name) return '';
   return encodeURIComponent(stringifyPrimitive(name)) + eq +
-         encodeURIComponent(stringifyPrimitive(obj));
+    encodeURIComponent(stringifyPrimitive(obj));
 };

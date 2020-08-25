@@ -22,7 +22,7 @@ export type searchOptionTimeType =
 /**
  * 搜索类型
  */
-export type searchOptionsTypeByType = 
+export type searchOptionsTypeByType =
   /**
    * 最新
    */

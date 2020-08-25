@@ -40,19 +40,19 @@ const dynamicMirror = (req: any) => {
 /**
  * 登录中间件
  */
-const loginMiddleware = (req: any)=> {
+const loginMiddleware = (req: any) => {
   try {
     const user: userFace = (store.state as any).user
     const { hasLogin, token } = user
     if (hasLogin && token) {
-      req['header']['cookie'] = `ipm5=${ token };`
+      req['header']['cookie'] = `ipm5=${token};`
     }
   } catch (error) {
     throw new Error(error)
   }
 }
 
-axios.interceptor.request = (req: any)=> {
+axios.interceptor.request = (req: any) => {
   dynamicMirror(req)
   loginMiddleware(req)
   return req
@@ -65,19 +65,19 @@ axios.interceptor.response = (res: any) => {
 
 export default axios
 
-export const get = (url: string): Promise<any>=> new Promise(res=> {
-  _get(url).then(null, (fastData: any)=> {
+export const get = (url: string): Promise<any> => new Promise(res => {
+  _get(url).then(null, (fastData: any) => {
     const { data } = fastData
     res(data)
   })
 })
 
-export const post = (data: postBodyFace): Promise<any>=> new Promise(res=> {
-  _post(data).then(null, (fastData: any)=> {
+export const post = (data: postBodyFace): Promise<any> => new Promise(res => {
+  _post(data).then(null, (fastData: any) => {
     const { data } = fastData
     res(data)
   })
 })
 
-export const _get = (url: string)=> axios.get({ url })
-export const _post = (data: postBodyFace)=> axios.post(data)
+export const _get = (url: string) => axios.get({ url })
+export const _post = (data: postBodyFace) => axios.post(data)

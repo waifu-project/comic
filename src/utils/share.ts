@@ -44,7 +44,7 @@ export const comicTheme2Data = (str: string): themeInterface[] => {
   return obj
 }
 
-const comicPicGetPageMiddleware = (ele: Cheerio): number | null=> {
+const comicPicGetPageMiddleware = (ele: Cheerio): number | null => {
   const href = ele.attr('href') || ""
   const qsIndex = href.lastIndexOf('=')
   if (qsIndex < 0) return null
@@ -77,8 +77,8 @@ export const comicPic2Data = (str: string): readerItemInterface => {
   let prevPage = null
   let currPage = 0
   let pageType = readerPageNumberEnum.frist
-  listByPages.forEach((item, index)=> {
-    const isActive =  $(item).hasClass('active')
+  listByPages.forEach((item, index) => {
+    const isActive = $(item).hasClass('active')
     const a = $(item).find('a')
     const aText = a.text().trim()
     if (isActive) {

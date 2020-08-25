@@ -14,7 +14,7 @@ class fs {
 
   static checkLocalStorage(): boolean {
     try {
-      localStorage.setItem('x','1')
+      localStorage.setItem('x', '1')
       localStorage.removeItem('x')
       return true
     } catch (error) {
@@ -22,14 +22,14 @@ class fs {
       return false
     }
   }
-  
+
   static setData(key: string, value: any): boolean {
     try {
       if (isObject(value)) value = JSON.stringify(value)
       uni.setStorageSync(key, value)
       return true
     } catch (error) {
-      console.error(`set item by ${ key } is error: `, error)
+      console.error(`set item by ${key} is error: `, error)
       return false
     }
   }
@@ -54,7 +54,7 @@ export class io extends fs {
   /**
    * 设置镜像
    */
-  static setMirror = (value: any): boolean=> {
+  static setMirror = (value: any): boolean => {
     const time = Date.now()
     // flag: 临时改变为对象
     const flag = io.setData(mirror_key, {
@@ -78,7 +78,7 @@ export class io extends fs {
   /**
    * 是否需要重新获取
    */
-  static getReload = (): boolean=> {
+  static getReload = (): boolean => {
     const data: boolean = io.getData(onLoadSearchKey, false)
     return data
   }
@@ -86,10 +86,10 @@ export class io extends fs {
   /**
    * 设置重新获取 `flag`
    */
-  static setReload = (flag = true)=> {
+  static setReload = (flag = true) => {
     io.setData(onLoadSearchKey, flag)
   }
-  
+
 }
 
 export default fs

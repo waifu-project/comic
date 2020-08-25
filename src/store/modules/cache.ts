@@ -24,7 +24,7 @@ const mutations: MutationTree<cacheInterface> = {
    * 主题数据
    */
   CHANGE_THEME_DATA(state, data: themeConcatInterface) {
-    state.theme  = data
+    state.theme = data
   },
   /**
    * 添加一言缓存

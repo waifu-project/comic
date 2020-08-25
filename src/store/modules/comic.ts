@@ -9,7 +9,7 @@ import { MutationTree, GetterTree } from 'vuex'
 import { history_views_max_length } from '@/const'
 import { shareComicFace } from '@/interface'
 import { copy } from '@/utils'
-import timediff from  '@/utils/time'
+import timediff from '@/utils/time'
 import { searchOptionTimeEnum, searchOptionTypeEnum } from '@/interface/enum'
 import { searchOptions } from '@/interface/tool'
 
@@ -41,7 +41,7 @@ export enum extType {
    * 历史
    */
   history,
-  
+
 }
 
 /**
@@ -49,14 +49,14 @@ export enum extType {
  * @param {shareComicFace[]} [fullLists] - 拿到的总数组
  * @param {shareComicFace} [data] - 当前存储的数组
  */
-const ext = (fullLists: shareComicFace[], data: shareComicFace, type: extType): shareComicFace[]=> {
+const ext = (fullLists: shareComicFace[], data: shareComicFace, type: extType): shareComicFace[] => {
   const list: shareComicFace[] = copy(fullLists)
   const isCollect = type == extType.collect
   let idx = -1
   for (let index = 0; index < list.length; index++) {
     const element = list[index];
     if (element.id === data.id) {
-      idx = index 
+      idx = index
       break
     }
   }
@@ -84,7 +84,7 @@ const ext = (fullLists: shareComicFace[], data: shareComicFace, type: extType): 
  * 中间处理方法(get获取)
  */
 const ext_get = (data: shareComicFace[]): shareComicFace[] => {
-  const lists = data.map(item=> {
+  const lists = data.map(item => {
     const text = item.reader_time
     if (text) {
       item['reader_time_text'] = timediff(text) || ""
@@ -155,7 +155,7 @@ export const getters: GetterTree<comicInterface, any> = {
   checkFavorite(...args): boolean {
     const lists = args[0].collect_lists
     const id = args[2].reader.currentData.id
-    const flag = lists.some(item=> item.id === id)
+    const flag = lists.some(item => item.id === id)
     return flag
   }
 }

@@ -4,10 +4,10 @@ export const setTitle = (title: string) => {
   })
 }
 
-export const setFullScreen = (flag: boolean = true): void=> {
+export const setFullScreen = (flag: boolean = true): void => {
   try {
     plus.navigator.setFullscreen(flag)
   } catch (error) {
-    throw new Error(`设置错误: ${ error }`)
+    throw new Error(`设置错误: ${error}`)
   }
 }

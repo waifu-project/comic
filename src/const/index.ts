@@ -76,7 +76,7 @@ try {
 /**
  * 官方的 `trello` 的 `id`
  */
-export const trello_board_id =  'McDZAm8C'
+export const trello_board_id = 'McDZAm8C'
 
 /**
  * 颜色列表
@@ -188,18 +188,18 @@ export const theme_menus: themeMenuItemInterface[] = [
 /**
  * 创建提示性`文字`
  */
-const createSpanTips = (ctx: string): string=> {
-  return `<span style="color: #e03997">\`${ ctx }\`</span>`
+const createSpanTips = (ctx: string): string => {
+  return `<span style="color: #e03997">\`${ctx}\`</span>`
 }
 
 export const guideDatas: guideDataItemInterface[] = [
   {
     title: '作者寄语🔞',
-    content: `完全免费! 代码开源, 没有多余套路. 所有数据均来自网络, 侵权必删, ${ createSpanTips('仅供学习参考') }`
+    content: `完全免费! 代码开源, 没有多余套路. 所有数据均来自网络, 侵权必删, ${createSpanTips('仅供学习参考')}`
   },
   {
     title: '碎碎念💐',
-    content: `1. 如果一直访问不了, 请尝试切换镜像站或者${ createSpanTips('vpn') }, 切换镜像站请到设置里, 连续点击${ createSpanTips('版本号') }, 然后选择${ createSpanTips('switch/flow') }在切换镜像即可 `,
+    content: `1. 如果一直访问不了, 请尝试切换镜像站或者${createSpanTips('vpn')}, 切换镜像站请到设置里, 连续点击${createSpanTips('版本号')}, 然后选择${createSpanTips('switch/flow')}在切换镜像即可 `,
     isEnd: true
   },
 ]

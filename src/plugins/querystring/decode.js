@@ -28,7 +28,7 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-module.exports = function(qs, sep, eq, options) {
+module.exports = function (qs, sep, eq, options) {
   sep = sep || '&';
   eq = eq || '=';
   var obj = {};
@@ -53,8 +53,8 @@ module.exports = function(qs, sep, eq, options) {
 
   for (var i = 0; i < len; ++i) {
     var x = qs[i].replace(regexp, '%20'),
-        idx = x.indexOf(eq),
-        kstr, vstr, k, v;
+      idx = x.indexOf(eq),
+      kstr, vstr, k, v;
 
     if (idx >= 0) {
       kstr = x.substr(0, idx);
