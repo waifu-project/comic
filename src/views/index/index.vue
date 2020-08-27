@@ -26,6 +26,7 @@
 					<block v-for="(item, index) in lists" :key="index">
 						<Card :title="item.title" :data="item.lists" />
 					</block>
+					<reload-button @click="handleReloadData" />
 				</view>
 
 			</wrapper>
@@ -51,9 +52,11 @@ import Card from '@/components/card.vue'
 import { getIndexData } from '@/api/v1'
 import { mapState, mapMutations } from 'vuex'
 import { indexDataFace } from '@/interface/pages'
+import reloadButton from '@/components/reload-button.vue'
 export default Vue.extend({
 	components: {
-		Card
+		Card,
+		reloadButton
 	},
 	data(): indexDataFace {
 		return {
@@ -135,6 +138,9 @@ export default Vue.extend({
 			} catch (error) {
 				throw new Error(error)
 			}
+		},
+		handleReloadData() {
+			this.useIndexData()
 		}
 	},
 })

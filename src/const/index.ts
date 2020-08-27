@@ -276,3 +276,8 @@ export const updateIsLastVersion = `已经是最新版本了`
  * 更新版本网络连接错误
  */
 export const updateVersionNetWorkError = `更新版本失败, 可能是网络问题(需要翻墙)`
+
+/**
+ * 重新加载按钮的文字
+ */
+export const reloadButtonText = "刷新(*╹▽╹*)"

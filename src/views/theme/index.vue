@@ -77,6 +77,8 @@
           </view>
         </block>
 
+        <reload-button @click="handleReloadData" />
+
       </wrapper>
     </glass>
 
@@ -111,7 +113,11 @@ import { themePageDataInterface } from '@/interface/pages'
 import { createSearchUrl } from '@/utils/qs'
 import { themeMenuItemInterface } from '@/interface/tool'
 import { themeConcatInterface } from '@/store/types'
+import reloadButton from '@/components/reload-button.vue'
 export default Vue.extend({
+  components: {
+    reloadButton
+  },
   data(): themePageDataInterface {
     return {
       goto_text: theme_search_goto_text,
@@ -233,6 +239,9 @@ export default Vue.extend({
           router.push(link)
           break;
       }
+    },
+    handleReloadData() {
+      this.getData()
     }
   }
 })
