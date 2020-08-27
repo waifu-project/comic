@@ -114,6 +114,7 @@ import { createSearchUrl } from '@/utils/qs'
 import { themeMenuItemInterface } from '@/interface/tool'
 import { themeConcatInterface } from '@/store/types'
 import reloadButton from '@/components/reload-button.vue'
+import { createRandomID } from '@/utils/map'
 export default Vue.extend({
   components: {
     reloadButton
@@ -232,10 +233,13 @@ export default Vue.extend({
         case 'goto':
           this.gotoModal = true
           break;
-      
+        case 'random_comic':
+          const randomID = createRandomID()
+          router.push(link, {
+            id: randomID,
+          })
+          break;
         default:
-          // TODO
-          console.log('这里来了...', (new Date).toString())
           router.push(link)
           break;
       }

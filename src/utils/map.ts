@@ -66,3 +66,27 @@ export const _push = (args: pushDiyInterface)=> {
   _list.push(data)
   return _list
 }
+
+/**
+ * 获取指定范围随机数
+ * https://www.cnblogs.com/starof/p/4988516.html
+ */
+function randomNum(minNum: number,maxNum: number): string {
+  const x = Math.random()
+  const y = x * ( maxNum - minNum + 1 ) + minNum
+  const b = Number.parseInt(`${ y }`)
+  return `${ b }`
+} 
+
+/**
+ * 生成随机id
+ * 生成的可能有错误
+ * 2020-08-28
+ */
+export const createRandomID = (): string=> {
+  // 因为没有接口, 所以只能把最大值写死了...
+  const maxID20200828 = 211914
+  // 从 `2` 开始算起, 因为测试 `1` 会跳转到 `4`, 不知道这是什么操作..
+  const minID20200828 = 2
+  return randomNum(minID20200828, maxID20200828)
+}

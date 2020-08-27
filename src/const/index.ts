@@ -169,6 +169,11 @@ export const theme_menus: themeMenuItemInterface[] = [
     key: 'goto',
   },
   {
+    title: "随机看",
+    link: 'detail/index',
+    key: 'random_comic',
+  },
+  {
     title: "留言板",
     link: 'topic/index',
     key: 'bbs',
@@ -178,11 +183,13 @@ export const theme_menus: themeMenuItemInterface[] = [
     link: 'blogs/index',
     key: 'blogs'
   },
-  {
-    title: '插件开发',
-    link: 'webview/index',
-    key: 'plugin_development'
-  }
+  // TODO 2020-08-28
+  // 我陈某就是死, 从这里跳下去, 我也不会做这个功能(flag已立)
+  // {
+  //   title: '插件开发',
+  //   link: 'webview/index',
+  //   key: 'plugin_development'
+  // }
 ]
 
 /**
@@ -280,4 +287,9 @@ export const updateVersionNetWorkError = `更新版本失败, 可能是网络问
 /**
  * 重新加载按钮的文字
  */
-export const reloadButtonText = "刷新(*╹▽╹*)"
+export const reloadButtonText = `刷新(*╹▽╹*)`
+
+/**
+ * 详情id不存在
+ */
+export const detailIDNotExist = `该漫画不存在`

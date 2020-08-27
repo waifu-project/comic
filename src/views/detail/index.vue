@@ -91,6 +91,12 @@
 
     </wrapper>
 
+    <dialog-box :show.sync="showModal" @action="handlePrev" :buttons="[ {text: '我知道了', id: 0 } ]">
+      <view class="text-bold text-xxs margin">
+        {{ detailIDNotExist }}
+      </view>
+    </dialog-box>
+
   </view>
 </template>
 
@@ -105,6 +111,8 @@ import { detailDataInterface } from '@/interface/pages'
 import { episodeInterface, shareComicFace } from '@/interface'
 import { getMirror } from '@/utils/mirror'
 import cssType from 'csstype'
+import { detailIDNotExist } from '@/const'
+import { router } from '@/utils'
 
 export default Vue.extend({
   components: {
@@ -115,6 +123,7 @@ export default Vue.extend({
     return {
       id: '',
       data: {
+        isExist: true,
         id: '',
         title: '', // 标签
         cover: '', // 封面图
@@ -135,6 +144,12 @@ export default Vue.extend({
     }
   },
   computed: {
+    showModal(): boolean {
+      return !this.data.isExist
+    },
+    detailIDNotExist() {
+      return detailIDNotExist
+    },
     ...mapState('settings', [
       'isDark',
       'detailKanBanInfoShow'
@@ -245,6 +260,9 @@ export default Vue.extend({
       } catch (error) {
         throw new Error(error)
       }
+    },
+    handlePrev(item: any) {
+      router.tab(`theme/index`)
     }
   },
   onShow() {

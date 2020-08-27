@@ -37,7 +37,11 @@
 * @date 2020年05月25日17:22:43
 * @param {String} [bg]
 * @example 调用示例
-*  <glass :bg="" :blur="12" :dark="false"></glass>
+* <dialog-box :show.sync="showModal" @action="handlePrev" :buttons="[ {text: '我知道了', id: 0 } ]">
+*   <view class="text-bold text-xxs margin">
+*     {{ detailIDNotExist }}
+*   </view>
+* </dialog-box>
  */
 import Vue from 'vue'
 import cssType from 'csstype'

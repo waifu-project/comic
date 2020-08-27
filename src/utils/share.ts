@@ -116,6 +116,9 @@ export const comicPic2Data = (str: string): readerItemInterface => {
  */
 export const detail2Data = (str: string): shareComicFace => {
   const $ = cherrio.load(str)
+  const pageTitle = $("title").text()
+  const postmanRunText = `禁漫天堂`
+  const isExist = pageTitle != postmanRunText
   const id = $('#album_id').val()
   const title = $('.panel-heading .pull-left').text().trim()
   const coverBox = $('#album_photo_cover.col-lg-5')
@@ -200,6 +203,7 @@ export const detail2Data = (str: string): shareComicFace => {
   })
 
   return {
+    isExist,
     id,
     cover, // 封面图
     title, // 标题
@@ -318,6 +322,7 @@ export const str2Data = (ele: any): shareComicFace => {
   // debugger
 
   return {
+    isExist: true,
     id,
     cover,
     title,

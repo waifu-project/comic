@@ -91,6 +91,11 @@ export interface episodeInterface {
  */
 export interface shareComicFace {
   /**
+   * TODO
+   * 该id是否存在
+   */
+  isExist?: boolean
+  /**
    * 设备id
    */
   id: string | number
