@@ -20,7 +20,15 @@ export const getWord = async (): Promise<sayWordInterface>=> {
     const data: sayWordInterface = await get('https://v1.hitokoto.cn/')
     return data
   } catch (error) {
-    console.error(error)
-    return {}
+    // console.error(error)
+    /**
+     * 网抑云: https://music.163.com/song?id=462523121&userid=266341607
+     * 附言: 这首电子音乐意境很高
+     */
+    const defaultSayWord: sayWordInterface = {
+      hitokoto: "登高极目知天地之大，置己苍茫知寸身之微。",
+      from: "网抑云"
+    }
+    return defaultSayWord
   }
 }
