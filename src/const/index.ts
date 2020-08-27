@@ -205,14 +205,20 @@ export const guideDatas: guideDataItemInterface[] = [
 ]
 
 /**
+ * QQ群
+ */
+export const joinQQGroup = "https://jq.qq.com/?_wv=1027&k=KaVypDjS"
+
+/**
  * 注入的 `pages.json` 文件
  */
 export const devInsData: devInsDataInterface = injection.pagejson
 
 /**
- * 默认的镜像站
- * 先手动去维护
+ * 2020-08-27 更新
+ * 网址发布页: http://jmcomic.xyz
  */
+
 /*
 
 JM主站
@@ -224,13 +230,13 @@ https://18comic.org
 中國用戶 〈有新網址會隨時更新〉
 
 JM中國主站
-https://18comic.fun
-
-分流1
 https://18comic1.biz
 
-分流2
+分流1
 https://18comic2.biz
+
+分流2
+https://18comic3.biz
 
 */
 export const defaultMirrorArr: mirrorItemInterface[] = [
@@ -247,17 +253,17 @@ export const defaultMirrorArr: mirrorItemInterface[] = [
   {
     title: 'JM中國主站',
     ext: 'fun',
-    full_url: 'https://18comic.fun'
+    full_url: 'https://18comic1.biz'
   },
   {
     title: "分流1",
     ext: "biz",
-    full_url: "https://18comic1.biz"
+    full_url: "https://18comic2.biz"
   },
   {
     title: "分流2",
     ext: "biz",
-    full_url: "https://18comic2.biz"
+    full_url: "https://18comic3.biz"
   }
 ]
 

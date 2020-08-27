@@ -48,7 +48,13 @@
         </view>
       </view>
 
-      <view class="cu-list menu" @click="handleClickOpenDev">
+      <view class="cu-list menu">
+
+        <view class="cu-item dark-remove" @tap="handleOpenMirror">
+          <view class="content text-black dark-remove">
+            {{ '切换镜像站' }}
+          </view>
+        </view>
 
         <view class="cu-item dark-remove" :class="{ 'text-gray': checkUpdateIsLoading }" @tap="handleCheckAppUpdate">
           <view class="content text-black dark-remove">
@@ -59,7 +65,23 @@
           </view>
         </view>
 
-        <view class="cu-item dark-remove">
+        <view class="cu-item dark-remove" @tap="handleJoinQQGroup">
+          <view class="content text-black dark-remove">
+            {{ '加入QQ交流群' }}
+          </view>
+        </view>
+
+        <!-- TODO -->
+        <view class="cu-item dark-remove" v-if="false">
+          <view class="content text-black dark-remove">
+            {{ '推荐VPN' }}
+          </view>
+          <view class="action text-gray dark-remove">
+            {{ version }}
+          </view>
+        </view>
+
+        <view class="cu-item dark-remove" @click="handleClickOpenDev">
           <view class="content text-black dark-remove">
             {{ '版本号' }}
           </view>
@@ -106,7 +128,7 @@ import Vue from 'vue'
 import * as config from '@/config'
 import { mapState, mapMutations } from 'vuex'
 import { settingsDataInterface } from '@/interface/pages'
-import { settings_click_max_count, updateIsLastVersion, updateVersionNetWorkError } from '@/const'
+import { settings_click_max_count, updateIsLastVersion, updateVersionNetWorkError, joinQQGroup } from '@/const'
 import { router } from '@/utils'
 import { version } from '@/config'
 import { cardColEnum } from '@/store/types'
@@ -247,6 +269,22 @@ export default Vue.extend({
           throw new Error(error)
         }
       }
+    },
+    /*
+    * 加入QQ群
+    */
+    handleJoinQQGroup() {
+      try {
+        plus.runtime.openURL(joinQQGroup)
+      } catch (error) {
+        throw new Error(error) 
+      }
+    },
+    /**
+     * 切换镜像站
+     */
+    handleOpenMirror() {
+      router.push("views/switch/flow", {}, true)
     }
   }
 })

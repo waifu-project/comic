@@ -17,6 +17,7 @@
       <view class="cu-modal show bg-unset" v-if="setup == 1">
         <view class="cu-dialog bg-unset text-black" v-if="!isLoading">
           <view class="text-xxl">{{ '请选择分流' }}</view>
+          <view class="text-sm text-pink text-bold" v-if="(current_mirror_index != null && flows[current_mirror_index])">{{ flows[current_mirror_index]['full_url'] }}</view>
           <view class="text-sm margin-bottom-lg text-pink">{{ '墙裂建议开启`vpn`之后在使用该应用' }}</view>
           <view class="padding flex flex-direction">
             <button
@@ -163,7 +164,13 @@ export default Vue.extend({
      */
     handleClickLink(type: string) {
       if (type === 'back') {
-        router.back()
+        let routes = getCurrentPages(); // 获取当前打开过的页面路由数组
+        let curRoute = routes[routes.length - 2].route || "" //获取当前页面路由
+        if (curRoute.indexOf("settings") != -1) {
+          router.tab('settings/index')
+        } else {
+          router.back()
+        }
       } else if (type === 'home') {
         router.tab('index/index')
       }
