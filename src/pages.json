@@ -97,6 +97,13 @@
 				"navigationBarTitleText": "筛选"
 			},
 			"description": "搜索参数"
+		},
+		{
+			"path": "views/blogs/index",
+			"style": {
+				"navigationStyle": "custom"
+			},
+			"description": "涨姿势"
 		}
 	],
 	"tabBar": {
@@ -139,8 +146,12 @@
 		"backgroundColor": "#F8F8F8"
 	},
 	"condition": {
-		"current": 1,
+		"current": 0,
 		"list": [
+			{
+				"name": "涨姿势",
+				"path": "views/blogs/index"
+			},
 			{
 				"name": "登录页",
 				"path": "views/login/index"

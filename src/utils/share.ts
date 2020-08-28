@@ -1,6 +1,6 @@
 import url from 'url-parse'
 import cherrio from 'cheerio'
-import { shareComicFace, shareIndexModal, themeInterface, themeListInterface, episodeInterface, topicItemInterface, readerItemInterface } from '@/interface'
+import { shareComicFace, shareIndexModal, themeInterface, themeListInterface, episodeInterface, topicItemInterface, readerItemInterface, blogItemInterface } from '@/interface'
 import fs from './fs'
 import { createRandomColor, easyGetDomainSuffix } from '.'
 import { colorItemInterface, mirrorItemInterface } from '@/interface/tool'
@@ -418,4 +418,24 @@ export const rawMirror2DataLists = (str: string): mirrorItemInterface[] => {
   //   }
   // })
   // return resultArr
+}
+
+/**
+ * 博客单个`item`转为数据
+ */
+export const blogItem2Data = (ctx: CheerioElement): blogItemInterface=> {
+  const ele = cherrio(ctx)
+  const h3 = ele.find('h3')
+  const time = h3.next().text().trim()
+  const title = h3.text().trim()
+  const bg = ele.find('.col-xs-5.p-0 img').attr('src') || ""
+  const content = ele.find('.blog_content.col-xs-7').text().trim()
+  const id = cherrio(ele.find('a[href]')[0]).attr('href') || ""
+  return {
+    id,
+    title,
+    time,
+    bg,
+    content
+  }
 }

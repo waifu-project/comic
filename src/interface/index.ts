@@ -264,3 +264,43 @@ export interface waifuItem {
    */
   name: string
 }
+
+/**
+ * 博客单个`item`
+ */
+export interface blogItemInterface {
+  /**
+   * id, 直接拿到是一个拼接的, 例如: `/blog/2333`
+   */
+  id: string
+  /**
+   * 时间
+   */
+  time: string
+  /**
+   * 标题
+   */
+  title: string
+  /**
+   * 背景
+   */
+  bg: string
+  /**
+   * 内容
+   */
+  content: string
+}
+
+/**
+ * `blog` 返回数据
+ */
+export interface blogResInterface {
+  /**
+   * 是否有下一页
+   */
+  isNext: boolean
+  /**
+   * 数据
+   */
+  lists: blogItemInterface[]
+}

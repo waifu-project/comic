@@ -1,5 +1,5 @@
 import css from 'csstype'
-import { shareComicFace, themeInterface, themeListInterface, topicItemInterface, readerItemInterface } from '.';
+import { shareComicFace, themeInterface, themeListInterface, topicItemInterface, readerItemInterface, blogItemInterface } from '.';
 import { searchOptions, themeMenuItemInterface, mirrorItemInterface } from './tool';
 import { searchOptionTimeEnum, searchOptionTypeEnum } from './enum';
 import { sayWordInterface } from '@/api/share';
@@ -213,6 +213,25 @@ export interface topicDataInterface {
    * 是否结束
    */
   isEnd: boolean
+  /**
+   * 是否加载中
+   */
+  isLoading: boolean
+}
+
+export interface blogDataInterface {
+  /**
+   * 消息体
+   */
+  lists: blogItemInterface[]
+  /**
+   * 作为分页
+   */
+  page: number
+  /**
+   * 是否结束
+   */
+  isNext: boolean
   /**
    * 是否加载中
    */

@@ -1,7 +1,7 @@
 import { get, post } from '@/utils/axios'
 import cherrio from 'cheerio'
-import { str2Data, str2Modal, detail2Data, comicPic2Data, comicTheme2Data, topicJSON2Data } from '@/utils/share'
-import { shareIndexComicData, shareIndexData, themeListInterface, shareComicFace, topicResponseInterface, topicItemInterface, readerItemInterface, waifuItem } from '@/interface'
+import { str2Data, str2Modal, detail2Data, comicPic2Data, comicTheme2Data, topicJSON2Data, blogItem2Data } from '@/utils/share'
+import { shareIndexComicData, shareIndexData, themeListInterface, shareComicFace, topicResponseInterface, topicItemInterface, readerItemInterface, waifuItem, blogItemInterface, blogResInterface } from '@/interface'
 import { createRandomColor } from '@/utils'
 import { searchOptions, searchResponseInterface, mirrorItemInterface } from '@/interface/tool'
 import querystring from '@/utils/qs'
@@ -337,5 +337,21 @@ export const getWaifuer = async (): Promise<waifuItem[]>=> {
   } catch (error) {
     console.error(error)
     return []
+  }
+}
+
+/**
+ * 获取 `blog`
+ */
+export const getBlog = async (page: number | string = 1): Promise<blogResInterface>=> {
+  const res = await get(`/blogs?page=${ page }`)
+  const $ = cherrio.load(res)
+  const lists: blogItemInterface[] = Array.from($('.col-md-12')).map(item=> blogItem2Data(item))
+  const active = $('.hidden-xs .pagination .active')
+  const next = Array.from(active.next())
+  const isNext = next.length >= 1
+  return {
+    isNext,
+    lists
   }
 }
