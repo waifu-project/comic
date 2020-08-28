@@ -201,11 +201,14 @@ export interface themePageDataInterface {
 }
 
 export interface topicDataInterface {
+  /**
+   * 消息体
+   */
   messages: topicItemInterface[]
   /**
    * 作为分页
    */
-  count: number
+  page: number
 }
 
 export interface settingsDataInterface {

@@ -62,7 +62,7 @@ export default Vue.extend({
   data(): topicDataInterface {
     return {
       messages: [],
-      count: 10
+      page: 1
     }
   },
   computed: {
@@ -72,13 +72,13 @@ export default Vue.extend({
     handleScroll(data: any) {
       const { position } = data
       if (position === 'bottom') {
-        this.count += 10
+        this.page += 1
         this.getData(true)
       }
     },
     async getData(isAppend: boolean = false) {
-      const count = this.count
-      const data = await getForumMore(count)
+      const page = this.page
+      const data = await getForumMore(page)
       const old = this.messages
       let result = data
       if (isAppend) result = [ ...old, ...data ]
@@ -89,6 +89,14 @@ export default Vue.extend({
       router.push(`detail/index`, {
         id
       })
+    },
+    async handleClickBarText() {
+      try {
+        await this.$nextTick()
+        ;(this.$refs['wrapper'] as any).goTop()
+      } catch (error) {
+        throw new Error(error)
+      }
     }
   },
   onLoad() {

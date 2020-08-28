@@ -166,15 +166,12 @@ export const getSearch = async (qs: string, options: searchOptions): Promise<sea
 /**
  * 获取留言区内容
  */
-export const getForumMore = async (count: number | string = 10): Promise<topicItemInterface[]>=> {
+export const getForumMore = async (page: number | string = 1): Promise<topicItemInterface[]>=> {
   try {
     const data: topicResponseInterface = await post({
       url: '/ajax/forum_more',
       data: {
-        btn_more: `btn_more`,
-        search: '',
-        count,
-        aid: '',
+        page,
       },
       contentType: 'form'
     })
