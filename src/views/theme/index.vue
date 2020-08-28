@@ -41,8 +41,8 @@
         </view>
         <view class="padding">
           <view class="grid col-4 grid-square">
-            <view class="bg-img bg-mask text-white shadow-blur" :style="{
-              backgroundImage: `url(${ blur_default_url })`
+            <view class="bg-img bg-red bg-mask text-white shadow-blur" :style="{
+              backgroundImage: `url(${ item.bg })`
             }" v-for="(item, index) in xData" :key="item.key"
             @tap="handleClickDiyItem(item, index)" >
               <view :style="{
@@ -105,7 +105,7 @@
 import Vue from 'vue'
 import { getTheme, getPopularThemes } from '@/api/v1'
 import { blur_default_url, theme_item_max_word, theme_search_main_placeholder, theme_search_goto_placeholder, theme_search_goto_text } from '@/const'
-import { mapMutations, mapState } from 'vuex'
+import { mapMutations, mapState, mapActions } from 'vuex'
 import { themeListInterface, themeInterface } from '@/interface'
 import { router } from '@/utils'
 import { theme_menus } from '@/const'
@@ -124,7 +124,6 @@ export default Vue.extend({
       goto_text: theme_search_goto_text,
       goto_placeholder: theme_search_goto_placeholder,
       placeholder: theme_search_main_placeholder,
-      xData: theme_menus,
       data: [],
       popularThemes: [],
       blur_default_url,
@@ -136,6 +135,9 @@ export default Vue.extend({
   },
   async onLoad() {
     try {
+      if (this.waifus == null) {
+        this.fetchWaifuer()
+      }
       const theme: null | themeConcatInterface = this.theme
       if (!!theme) {
         const { data, popular } = theme
@@ -150,8 +152,22 @@ export default Vue.extend({
   },
   computed: {
     ...mapState('cache', [
-      'theme'
+      'theme',
+      'waifus',
     ]),
+    xData() {
+      let waifus = this.waifus as (string[] | null)
+      let defaultBg = `https://cdn.nlark.com/yuque/0/2019/png/280374/1552996358352-assets/web-upload/cc3b1807-c684-4b83-8f80-80e5b8a6b975.png`
+      if (waifus == null) waifus = [ defaultBg ]
+      return theme_menus.map((item, index)=> {
+        const x = (waifus as string[])
+        let bg = x[0]
+        if (x.length > 1) bg = (x[index] as any)['pic']
+        item['bg'] = bg
+        console.log('bg: ', bg);
+        return item
+      })
+    },
     uData(): themeInterface[] {
       const data = this.data || []
       // flag: 如果文字大于 `theme_item_max_word`, 就改为 2 列
@@ -173,6 +189,9 @@ export default Vue.extend({
     ]),
     ...mapMutations('cache', [
       'CHANGE_THEME_DATA'
+    ]),
+    ...mapActions('cache', [
+      'fetchWaifuer'
     ]),
     async getData() {
       this.isLoading = true

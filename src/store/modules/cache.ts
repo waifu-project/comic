@@ -3,14 +3,16 @@
  */
 
 import { cacheInterface, themeConcatInterface } from "../types";
-import { MutationTree } from 'vuex';
-import { shareIndexComicData } from '@/interface';
+import { MutationTree, ActionTree } from 'vuex';
+import { shareIndexComicData, waifuItem } from '@/interface';
 import { sayWordInterface } from '@/api/share';
+import { getWaifuer } from '@/api/v1';
 
 const state: cacheInterface = {
   index: null,
   theme: null,
-  homeSayWord: null
+  homeSayWord: null,
+  waifus: null,
 }
 
 const mutations: MutationTree<cacheInterface> = {
@@ -31,10 +33,28 @@ const mutations: MutationTree<cacheInterface> = {
    */
   CHANGE_HOME_SAY_WORD(state, data: sayWordInterface) {
     state.homeSayWord = data
+  },
+  /**
+   * 老婆们
+   */
+  CHANGE_WAIFU(state, data: waifuItem[]) {
+    state.waifus = data
+  }
+}
+
+const actions: ActionTree<cacheInterface, any> = {
+  /**
+   * 获取老婆们
+   */
+  async fetchWaifuer(ctx) {
+    const { commit } = ctx
+    const data = await getWaifuer()
+    commit('CHANGE_WAIFU', data)
   }
 }
 
 export default {
+  actions,
   state,
   mutations,
   namespaced: true

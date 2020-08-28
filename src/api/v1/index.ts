@@ -1,12 +1,13 @@
 import { get, post } from '@/utils/axios'
 import cherrio from 'cheerio'
 import { str2Data, str2Modal, detail2Data, comicPic2Data, comicTheme2Data, topicJSON2Data } from '@/utils/share'
-import { shareIndexComicData, shareIndexData, themeListInterface, shareComicFace, topicResponseInterface, topicItemInterface, readerItemInterface } from '@/interface'
+import { shareIndexComicData, shareIndexData, themeListInterface, shareComicFace, topicResponseInterface, topicItemInterface, readerItemInterface, waifuItem } from '@/interface'
 import { createRandomColor } from '@/utils'
 import { searchOptions, searchResponseInterface, mirrorItemInterface } from '@/interface/tool'
 import querystring from '@/utils/qs'
 import { defaultMirrorArr } from '@/const'
 import { getMirror } from '@/utils/mirror'
+import { createStaticByCDN } from '@/utils/map'
 
 // 点赞某作品
 export const loveVoteAlbum = (album_id: string | number)=> {
@@ -313,4 +314,19 @@ export const handleLogin = async (data: loginInterface): Promise<string> => {
   //   throw new Error(error)
   // }
   // return
+}
+
+/**
+ * 获取老婆们
+ */
+export const getWaifuer = async (): Promise<waifuItem[]>=> {
+  try {
+    const url = createStaticByCDN(`waifu/data.json`)
+    console.log('url: ', url);
+    const data = await get(url)
+    return data
+  } catch (error) {
+    console.error(error)
+    return []
+  }
 }

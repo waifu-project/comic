@@ -171,10 +171,6 @@ export interface themePageDataInterface {
    */
   data: themeInterface[]
   /**
-   * 自定义的主题菜单
-   */
-  xData: themeMenuItemInterface[]
-  /**
    * 最热主题
    */
   popularThemes: themeListInterface[]

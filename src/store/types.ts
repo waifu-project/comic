@@ -1,4 +1,4 @@
-import { shareComicFace, shareIndexComicData, themeListInterface, themeInterface } from '@/interface';
+import { shareComicFace, shareIndexComicData, themeListInterface, themeInterface, waifuItem } from '@/interface';
 import { searchOptions } from '@/interface/tool';
 import { sayWordInterface } from '@/api/share';
 
@@ -83,6 +83,11 @@ export interface cacheInterface {
    * `home` 一言缓存
    */
   homeSayWord: sayWordInterface | null
+
+  /**
+   * 老婆们s
+   */
+  waifus: waifuItem[] | null
 
 }
 

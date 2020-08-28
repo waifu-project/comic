@@ -246,3 +246,21 @@ export interface readerItemInterface {
    */
   pics: string[]
 }
+
+/**
+ * 老婆...
+ */
+export interface waifuItem {
+  /**
+   * 排名
+   */
+  scrope: string
+  /**
+   * 图片
+   */
+  pic: string
+  /**
+   * 名称
+   */
+  name: string
+}
