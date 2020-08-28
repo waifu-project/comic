@@ -163,10 +163,16 @@ export const getSearch = async (qs: string, options: searchOptions): Promise<sea
   })
 })
 
+interface topicItemResInterface {
+  items: topicItemInterface[],
+  isEnd: boolean
+}
+
 /**
  * 获取留言区内容
  */
-export const getForumMore = async (page: number | string = 1): Promise<topicItemInterface[]>=> {
+export const getForumMore = async (page: number | string = 1): Promise<topicItemResInterface>=> {
+  const x = { isEnd: true, items: [] }
   try {
     const data: topicResponseInterface = await post({
       url: '/ajax/forum_more',
@@ -176,12 +182,18 @@ export const getForumMore = async (page: number | string = 1): Promise<topicItem
       contentType: 'form'
     })
     const { message } = data
+    if (message == null) {
+      return x
+    }
     const result = message.map(item=> topicJSON2Data(item))
     // debugger
-    return result
+    return {
+      items: result,
+      isEnd: false
+    }
   } catch (error) {
     console.error(error)
-    return []
+    return x
   }
 }
 

@@ -62,7 +62,9 @@ export default Vue.extend({
   data(): topicDataInterface {
     return {
       messages: [],
-      page: 1
+      page: 1,
+      isEnd: false,
+      isLoading: false,
     }
   },
   computed: {
@@ -71,17 +73,30 @@ export default Vue.extend({
   methods: {
     handleScroll(data: any) {
       const { position } = data
-      if (position === 'bottom') {
+      if (position === 'bottom' && !this.isEnd && !this.isLoading) {
         this.page += 1
         this.getData(true)
       }
     },
     async getData(isAppend: boolean = false) {
+      this.isLoading = true
       const page = this.page
       const data = await getForumMore(page)
+      const { items: messages, isEnd } = data
       const old = this.messages
-      let result = data
-      if (isAppend) result = [ ...old, ...data ]
+      this.isLoading = false
+      // TODO
+      /**
+       * 2020-08-28
+       * 当 `page` 到 `2229` 时, `messages` => `null`
+       * 由此判断, 为 `null` 时, 就不存在下一页
+       */
+      if (isEnd) {
+        this.isEnd = true
+        return
+      }
+      let result = messages
+      if (isAppend) result = [ ...old, ...result ]
       this.messages = result
     },
     handleClickCardItem(data: any) {

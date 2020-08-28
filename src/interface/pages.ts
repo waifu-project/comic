@@ -209,6 +209,14 @@ export interface topicDataInterface {
    * 作为分页
    */
   page: number
+  /**
+   * 是否结束
+   */
+  isEnd: boolean
+  /**
+   * 是否加载中
+   */
+  isLoading: boolean
 }
 
 export interface settingsDataInterface {
