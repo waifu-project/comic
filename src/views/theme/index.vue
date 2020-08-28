@@ -164,7 +164,6 @@ export default Vue.extend({
         let bg = x[0]
         if (x.length > 1) bg = (x[index] as any)['pic']
         item['bg'] = bg
-        console.log('bg: ', bg);
         return item
       })
     },
