@@ -13,7 +13,7 @@
       </block>
     </topbar>
     <glass :blur="14">
-      <wrapper ref="wrapper" @scroll="handleScroll" :isScrollbar="true">
+      <wrapper ref="wrapper" @scroll="handleScroll" :isScrollbar="true" :isLoading="loadingState">
         <view class="cu-card dynamic">
           <view class="cu-item shadow x" v-for="(item, index) in messages" :key="index">
             <view class="cu-list menu-avatar">
@@ -68,7 +68,10 @@ export default Vue.extend({
     }
   },
   computed: {
-    
+    loadingState(): boolean {
+      const lists = this.messages
+      return lists.length == 0 && this.isLoading == true
+    }
   },
   methods: {
     handleScroll(data: any) {

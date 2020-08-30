@@ -13,7 +13,7 @@
       </block>
     </topbar>
     <glass :blur="14">
-      <wrapper ref="wrapper" @scroll="handleScroll" :isScrollbar="true">
+      <wrapper ref="wrapper" @scroll="handleScroll" :isScrollbar="true" :isLoading="loadingState">
 
         <view class="cu-card case" @tap="handleTapItem(item.id)" v-for="(item, index) in lists" :key="index">
           <view class="cu-item shadow">
@@ -47,6 +47,12 @@ export default Vue.extend({
       page: 1,
       isNext: false,
       isLoading: false,
+    }
+  },
+  computed: {
+    loadingState(): boolean {
+      const lists = this.lists
+      return lists.length == 0 && this.isLoading == true
     }
   },
   onLoad() {
