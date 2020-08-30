@@ -66,7 +66,7 @@ const createRelasesApi = (user?: string, repo?: string): string=> {
   let [ u, r ] = runGithub
   if (user) u = user
   if (repo) r = repo
-  const api = `https://api.github.com/repos/${ u }/${ r }/releases`
+  const api = `https://api.github.com/repos/${ u }/${ r }/releases/latest`
   return api
 }
 
@@ -76,10 +76,9 @@ const createRelasesApi = (user?: string, repo?: string): string=> {
 export const getAppUpdate = async (): Promise<githubReleaseResultCat>=> {
   try {
     const api = createRelasesApi()
-    const data: githubReleaseItemInterface[] = await get(api)
-    const lastData = data[0]
-    const lastVersionCode = lastData.tag_name
-    const lastBody = lastData.body
+    const data: githubReleaseItemInterface = await get(api)
+    const lastVersionCode = data.tag_name
+    const lastBody = data.body
     const ctx = mdjs(lastBody)
     const jquery = cheerio.load(`<div class="markdown-body"></div>`)
     jquery('head').append(`<meta content="width=device-width, initial-scale=1" name="viewport">`)
