@@ -33,7 +33,7 @@
 		<view class="margin-tb-sm text-center next" :class="{ show: isEnd }">
 			<button class="cu-btn round bg-red" :style="{
 				width: `420rpx`
-			}" @tap="openApp">{{ '进入应用' }}</button>
+			}" @tap="openApp">{{ '我接受' }}</button>
 		</view>
 	</view>
 </template>

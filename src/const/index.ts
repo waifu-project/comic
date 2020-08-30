@@ -202,11 +202,11 @@ const createSpanTips = (ctx: string): string=> {
 export const guideDatas: guideDataItemInterface[] = [
   {
     title: '作者寄语🔞',
-    content: `完全免费! 代码开源, 没有多余套路. 所有数据均来自网络, 侵权必删, ${ createSpanTips('仅供学习参考') }`
+    content: `完全免费! 代码开源, 没有多余套路. 所有数据均来自网络, 侵权必删, ${ createSpanTips('仅供学习参考') }, 如果一直访问不了, 请尝试切换镜像站`,
   },
   {
-    title: '碎碎念💐',
-    content: `1. 如果一直访问不了, 请尝试切换镜像站或者${ createSpanTips('vpn') }, 切换镜像站请到设置里, 连续点击${ createSpanTips('版本号') }, 然后选择${ createSpanTips('switch/flow') }在切换镜像即可 `,
+    title: '警告🔞',
+    content: `前方高能!!!\n部分内容可能对您的心理及心理造成难以恢复的伤害。本应用作者不会对由本应用造成的任何后果负责。\n\n未成年人应在监护人指导下使用本应用。`,
     isEnd: true
   },
 ]
