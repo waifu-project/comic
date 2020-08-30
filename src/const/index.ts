@@ -19,6 +19,12 @@ export let empty_default_url = "https://i.loli.net/2020/06/09/LnB24yeIwxs8p1g.pn
 empty_default_url = createStaticByCDN('resources/empty.png')
 
 /**
+ * `18comic` logo
+ * raw url: https://18comic.vip/static/resources/images/Cover/%E5%A4%A9%E5%A0%82.jpg
+ */
+export const ng18comicLogo = createStaticByCDN('resources/18comic.jpg')
+
+/**
  * 主题默认列
  */
 export const theme_default_col = 3

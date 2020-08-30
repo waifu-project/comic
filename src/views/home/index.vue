@@ -16,6 +16,11 @@
           </view>
         </view>
         <view class="padding-bottom-lg">
+          <view class="text-center text-pink margin-top-lg padding-top-lg" v-if="!historyViews.length && !collectLists.length">
+            <image :src="ng18comicLogo" mode="aspectFit" /> <br>
+            <!-- TODO -->
+            <!-- <text class="home-empty-text">{{ '看啥呢, 还不赶快去看本子, 这里空荡荡的, 禁漫娘觉得很孤单' }}</text> -->
+          </view>
           <card v-if="historyViews.length" :data="historyViews" title="最近观看" lineColor="pink">
             <template slot="bar" slot-scope="{ row }">
               <view class="action">
@@ -49,7 +54,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { getWidthAndHeight } from '@/utils'
-import { bg_default_url } from '@/const'
+import { bg_default_url, ng18comicLogo } from '@/const'
 import { getWord, sayWordInterface } from '@/api/share'
 import cssType from 'csstype'
 import Card from '@/components/card.vue'
@@ -70,6 +75,9 @@ export default Vue.extend({
     Card
   },
   computed: {
+    ng18comicLogo() {
+      return ng18comicLogo
+    },
     ...mapGetters('comic', [
       'historyViews',
       'collectLists'
@@ -159,5 +167,13 @@ export default Vue.extend({
   right: 0;
   bottom: 0;
   background: url(/static/overlay.png);
+}
+.home-empty-text {
+  display: inline-block;
+  padding: 18rpx 8rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  box-sizing:border-box;
+  margin-top: -12rpx;
 }
 </style>
