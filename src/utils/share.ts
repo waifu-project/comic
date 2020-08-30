@@ -159,19 +159,19 @@ export const detail2Data = (str: string): shareComicFace => {
   desc = cherrio(dataInfo[0]).text().trim()
   // fixbug: 这个网站应该是分简体和繁体的
   if (desc.startsWith('叙述') || desc.startsWith('敘述')) desc = desc.substring(3)
-  page_count = cherrio(dataInfo[1]).text().trim()
+  page_count = cherrio(dataInfo[2]).text().trim()
   if (page_count.startsWith('页数') || page_count.startsWith('頁數')) {
     page_count = page_count.substring(3)
   }
-  let tempMoreInfo = cherrio(dataInfo[2])
-  date = tempMoreInfo.children('span[content]').attr('content') || ""
+  // debugger
+  let tempMoreInfo = cherrio(dataInfo[3])
+  date = tempMoreInfo.children('span[itemprop="datePublished"]').attr('content') || ""
   review = Number.parseInt(tempMoreInfo.children('span[itemscope]').text().trim())
   like_count = tempMoreInfo.find('.p-t-5.p-b-5').text().trim()
   const _likeCount = Number.parseInt(like_count)
   if (!isNaN(_likeCount)) like_count = _likeCount
-  comment_count = $('.forum-open.btn.btn-primary.dropdown-toggle span').text().trim()
-
-  const episode: episodeInterface[] = Array.from($('.episode ul a')).map(item => {
+  comment_count = $('.forum-open.btn.btn-primary.dropdown-toggle #total_video_comments').text().trim()
+  const episode: episodeInterface[] = Array.from($('.panel.panel-default.visible-lg.hidden-xs .episode ul.btn-toolbar a[href]')).map(item => {
     const id = getCoverItemID($(item).attr('href'))
     const now = cherrio(item).text().trim().split(' ')
     let temp: string[] = now.filter(subItem => {

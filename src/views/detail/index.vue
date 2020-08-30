@@ -21,18 +21,19 @@
 
       <!-- :class="{ show: showComicInfoBox }" -->
 
-      <view class="radius bg-white shadow-lg margin-left-sm margin-right-sm margin-top-sm padding-xs" :style="comicBoxStyle">
+      <view class="radius bg-white shadow-lg" :style="comicBoxStyle">
         <!-- TODO: 这里是不是应该来一个 `v-for` 循环? -->
         <view v-if="data.desc">
-          <text class="info-title"> 简介: </text>
-          <view class="bg-grey padding-sm radius">
+          <view class="bg-cyan padding-sm">
             <text class="desc-class">{{ data.desc }}</text>
           </view>
         </view>
         <view v-if="data.authors && data.authors.length">
           <!-- TODO: 作者现在只取 `0`.. -->
           <text class="info-title"> 作者: </text>
-          {{ data.authors[0] }}
+          <text @click="handleClickAuthor(item)" class="author-class bg-pink" v-for="(item, index) in data.authors" :key="index">
+            {{ item }}
+          </text>
         </view>
         <view v-if="data.page_count">
           <text class="info-title"> 页数: </text>
@@ -54,6 +55,10 @@
           <text class="info-title"> 评论数: </text>
           {{ data.comment_count }}
         </view>
+        <view v-if="data.date">
+          <text class="info-title"> 日期: </text>
+          {{ data.date }}
+        </view>
       </view>
 
       <!-- 操作栏 -->
@@ -67,7 +72,6 @@
         <view class="flex flex-treble radius flex-direction padding-left-sm padding-right-sm">
           <button class="cu-btn round bg-pink lg dark-remove" @click="handleActionReader(data.id, data)">开始阅读</button>
         </view>
-        <!-- <view class="flex-twice"></view> -->
       </view>
 
 
@@ -113,6 +117,7 @@ import { getMirror } from '@/utils/mirror'
 import cssType from 'csstype'
 import { detailIDNotExist } from '@/const'
 import { router } from '@/utils'
+import { createSearchUrl } from '@/utils/qs'
 
 export default Vue.extend({
   components: {
@@ -210,6 +215,10 @@ export default Vue.extend({
     }
   },
   methods: {
+    ...mapMutations('comic', [
+      'CHANGE_SEARCH_URL',
+      'CHANGE_SEARCH_BAR_TITLE'
+    ]),
     ...mapMutations('reader', [
       'SET_CURRENT_READER_DATA_ID',
       'SET_CURRENT_READER_DATA'
@@ -263,6 +272,12 @@ export default Vue.extend({
     },
     handlePrev(item: any) {
       router.tab(`theme/index`)
+    },
+    handleClickAuthor(item: string) {
+      const url = createSearchUrl(item)
+      this.CHANGE_SEARCH_URL(url)
+      this.CHANGE_SEARCH_BAR_TITLE(item)
+      router.push('search/index')
     }
   },
   onShow() {
@@ -287,12 +302,19 @@ export default Vue.extend({
 }
 .info-title {
   display: inline-block;
-  width: 120rpx;
-  text-align: right;
+  /* width: 120rpx; */
+  /* text-align: right; */
   margin-right: 8rpx;
   color: var(--pink)
 }
 .desc-class {
   display: inline-block;
+}
+.author-class {
+  display: inline-block;
+  border: 2px solid var(--pink);
+  padding: 4px;
+  margin: 6px;
+  border-radius: 3px;
 }
 </style>
