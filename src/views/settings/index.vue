@@ -65,6 +65,12 @@
           </view>
         </view>
 
+        <view class="cu-item dark-remove" @tap="handleOpenSource">
+          <view class="content text-black dark-remove">
+            {{ '开源地址' }}
+          </view>
+        </view>
+
         <view class="cu-item dark-remove" @tap="handleJoinQQGroup">
           <view class="content text-black dark-remove">
             {{ '加入QQ交流群' }}
@@ -128,7 +134,7 @@ import Vue from 'vue'
 import * as config from '@/config'
 import { mapState, mapMutations } from 'vuex'
 import { settingsDataInterface } from '@/interface/pages'
-import { settings_click_max_count, updateIsLastVersion, updateVersionNetWorkError, joinQQGroup } from '@/const'
+import { settings_click_max_count, updateIsLastVersion, updateVersionNetWorkError, joinQQGroup, openSourceRepo } from '@/const'
 import { router } from '@/utils'
 import { version } from '@/config'
 import { cardColEnum } from '@/store/types'
@@ -285,6 +291,16 @@ export default Vue.extend({
      */
     handleOpenMirror() {
       router.push("views/switch/flow", {}, true)
+    },
+    /**
+     * 开源地址
+     */
+    handleOpenSource() {
+      try {
+        plus.runtime.openURL(openSourceRepo)
+      } catch (error) {
+        throw new Error(error) 
+      }
     }
   }
 })

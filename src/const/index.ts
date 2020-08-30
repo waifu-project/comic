@@ -299,3 +299,8 @@ export const reloadButtonText = `刷新(*╹▽╹*)`
  * 详情id不存在
  */
 export const detailIDNotExist = `该漫画不存在`
+
+/**
+ * 开源地址
+ */
+export const openSourceRepo = `https://github.com/waifu-project/18comic`
