@@ -51,7 +51,7 @@
           <text class="info-title"> 浏览量: </text>
           {{ data.review }}
         </view>
-        <view v-if="data.comment_count">
+        <view v-if="data.comment_count" @click="triggerCatComment">
           <text class="info-title"> 评论数: </text>
           {{ data.comment_count }}
         </view>
@@ -107,7 +107,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapMutations } from 'vuex'
-import { getIndexData, getDetail } from '@/api/v1'
+import { getIndexData, getDetail, getComicComment } from '@/api/v1'
 import Card from '@/components/card.vue'
 import CardPreview from '@/components/card-preview.vue'
 import { mapState, mapGetters } from 'vuex'
@@ -117,7 +117,8 @@ import { getMirror } from '@/utils/mirror'
 import cssType from 'csstype'
 import { detailIDNotExist } from '@/const'
 import { router } from '@/utils'
-import { createSearchUrl } from '@/utils/qs'
+import { createSearchUrl, decode } from '@/utils/qs'
+import { commentWebviewID } from '@/const/key'
 
 export default Vue.extend({
   components: {
@@ -278,6 +279,57 @@ export default Vue.extend({
       this.CHANGE_SEARCH_URL(url)
       this.CHANGE_SEARCH_BAR_TITLE(item)
       router.push('search/index')
+    },
+    async triggerCatComment() {
+      const id = this.data.id
+      if (!id) return
+      const data = await getComicComment(id)
+      try {
+        const webview = plus.webview.create("", commentWebviewID)
+        webview.loadData(data)
+        webview.show(`slide-in-bottom` as any)
+        /**
+         * `uniapp` 与 `webview` 通信
+         * 参照: https://github.com/xieyushi/uniappwebviewconnect
+         * 目前只找到一种方法, 实现起来不太优雅. 但是还要啥自行车啊!
+         * 2020-08-31
+         * by d1y<chenhonzhou@gmail.com>
+         */
+        webview.overrideUrlLoading({
+          mode:'reject'
+        }, async res=> {
+          if (!res) return
+          interface runface {
+            url: string
+          }
+          interface runUrlface {
+            id: string | number
+            page: number
+          }
+          // TODO 返回的`url`应为: https://x.dev?id=110&page=1
+          try {
+            const { url } = res as runface
+            const ctx = url.replace("https://x.dev?", "")
+            const face = decode(ctx) as runUrlface
+            const { id, page } = face
+            const data = await getComicComment(id, page)
+            webview.evalJS(`window.page += 1`)
+            webview.evalJS(`$("#runtime-id").remove()`)
+            const rx = JSON.stringify(data)
+            webview.evalJS(`$('#comments').append(${ rx })`)
+            // if (data && data.length > 1) {
+            //   console.log('触发....')
+            //   // webview.evalJS(`$('#comments').append(${ rx })`)
+            //   webview.evalJS(`$('body').append("")`)
+            //   // webview.evalJS(`$('body').append(${ rx })`)
+            // }
+          } catch (error) {
+            throw new Error(error)
+          }
+        })
+      } catch (error) {
+        throw new Error(error)
+      }
     }
   },
   onShow() {

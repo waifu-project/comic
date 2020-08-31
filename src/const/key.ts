@@ -17,3 +17,8 @@ export const onLoadSearchKey = 'reload_flag_key'
  * 更新创建的 `webview` id
  */
 export const updateWebviewID = 'updateWebview'
+
+/**
+ * 评论 `webview` id
+ */
+export const commentWebviewID = 'commentWebview'

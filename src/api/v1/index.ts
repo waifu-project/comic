@@ -6,8 +6,9 @@ import { createRandomColor } from '@/utils'
 import { searchOptions, searchResponseInterface, mirrorItemInterface } from '@/interface/tool'
 import querystring from '@/utils/qs'
 import { defaultMirrorArr } from '@/const'
-import { getMirror } from '@/utils/mirror'
+import { getMirror, createMirrorStaticFile } from '@/utils/mirror'
 import { createStaticByCDN } from '@/utils/map'
+import { commentWebviewID } from '@/const/key'
 
 // 点赞某作品
 export const loveVoteAlbum = (album_id: string | number)=> {
@@ -353,5 +354,108 @@ export const getBlog = async (page: number | string = 1): Promise<blogResInterfa
   return {
     isNext,
     lists
+  }
+}
+
+/**
+ * 创建 `css` 链接
+ */
+const createCssLink = (src: string): string=> {
+  return `<link rel="stylesheet" href="${ src }">`
+}
+
+const prefixImgUrl = ($: CheerioStatic)=> {
+  $('img').each((index, ele)=> {
+    const oldSrc = $(ele).attr("src") || ""
+    $(ele).attr("src", createMirrorStaticFile(oldSrc))
+  });
+}
+
+/**
+ * 获取漫画评论
+ */
+export const getComicComment = async (id: string | number, page = 1): Promise<string>=> {
+  try {
+    const data = await post({
+      url: `/ajax/album_pagination`,
+      data: {
+        video_id: +id,
+        page,
+        series: 1,
+      },
+      contentType: `form`
+    })
+    const r = (data as string)
+    if (page == 1) {
+      const $ = cherrio.load(``)
+      const color = createMirrorStaticFile(`templates/frontend/airav/css/colors.css?v=122020000824-1`)
+      const style = createMirrorStaticFile(`templates/frontend/airav/css/style.css?v=2020000824-1`)
+      // TODO: 尝试引入 CDN 链接...
+      const bootstrap = createMirrorStaticFile(`templates/frontend/airav/css/bootstrap.css?v=2020000824-1`)
+      $('head').append(`<meta content="width=device-width, initial-scale=1" name="viewport">`)
+      $('head').append(`<script src="https://cdn.jsdelivr.net/npm/jquery"></script>`)
+      $('head').append(createCssLink(bootstrap), createCssLink(color), createCssLink(style))
+      const backText = "返回"
+      const backID = "close"
+      $('body').append(`
+      <div id="Comic_Top_Nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <a href="#" id="${ backID }" class="btn btn-primary navbar-btn m-l-15 m-r-15">
+             ${ backText }
+            </a>
+          </div>
+        </div>
+      </div>
+      `)
+      $('body').append(`
+        <div class="tab-pane m-b-15 active" id="comments"></div>
+      `)
+      $('#comments').append(r)
+      prefixImgUrl($)
+      const checkText = "查看更多"
+      // api: http://www.html5plus.org/doc/zh_cn/xhr.html
+      $('body').append(`
+        <script type="text/javascript">
+          window.page = 2
+          window.id = "${ id }"
+          $('a').click(function(e) {
+            const nextText = $(this).text().trim()
+            if (nextText == "${ checkText }") {
+              $(this).attr("id", "runtime-id")
+              try {
+                const url = "https://x.dev?id=${ id }&page=" + page
+                let a = document.createElement("a")
+                a.href = url
+                a.click()
+              } catch (error) {
+                throw new Error(error)
+              }
+            }
+            e.stopPropagation();
+            e.preventDefault();
+            return false
+          })
+          $('#${ backID }').click(function(e) {
+            try {
+              const current = plus.webview.getWebviewById("${ commentWebviewID }")
+              current.close()
+              return false
+            } catch (error) {
+              throw new Error(error)
+            }
+          })
+        </script>
+      `)
+      return $.html()
+    } else {
+      const append = cherrio.load(r, {
+        xmlMode: true
+      })
+      prefixImgUrl(append)
+      return append.html()
+    }
+  } catch (error) {
+    throw new Error(error)
   }
 }
