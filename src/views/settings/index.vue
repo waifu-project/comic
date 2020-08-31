@@ -56,6 +56,13 @@
           </view>
         </view>
 
+        <!-- TODO -->
+        <!-- <view class="cu-item dark-remove" @tap="handleOpenMirror">
+          <view class="content text-black dark-remove">
+            {{ '检测接口可用' }}
+          </view>
+        </view> -->
+
         <view class="cu-item dark-remove" :class="{ 'text-gray': checkUpdateIsLoading }" @tap="handleCheckAppUpdate">
           <view class="content text-black dark-remove">
             {{ '检查更新(需要翻墙)' }}
@@ -139,6 +146,7 @@ import { router } from '@/utils'
 import { version } from '@/config'
 import { cardColEnum } from '@/store/types'
 import { getAppUpdate, githubReleaseResultCat, githubReleaseStatus } from '@/api/v1/app'
+import { updateWebviewID } from '@/const/key'
 
 export default Vue.extend({
   data(): settingsDataInterface {
@@ -194,7 +202,7 @@ export default Vue.extend({
           plus.nativeUI.alert(updateIsLastVersion)
           break;
         case githubReleaseStatus.old:
-          const webview = plus.webview.create()
+          const webview = plus.webview.create("", updateWebviewID)
           webview.show()
           setTimeout(()=> {
             webview.loadData(body)

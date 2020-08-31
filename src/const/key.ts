@@ -12,3 +12,8 @@ export const mirror_default_domain = 'https://18comic.fun'
  * 搜索页面是否重新加载
  */
 export const onLoadSearchKey = 'reload_flag_key'
+
+/**
+ * 更新创建的 `webview` id
+ */
+export const updateWebviewID = 'updateWebview'

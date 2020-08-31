@@ -3,6 +3,7 @@ import { githubReleaseProfile } from "@/config/profile"
 import { get } from '@/utils/axios'
 import { version } from '@/config'
 import cheerio from 'cheerio'
+import { updateWebviewID } from '@/const/key'
 
 /**
  * 单个 `github-release`
@@ -81,8 +82,40 @@ export const getAppUpdate = async (): Promise<githubReleaseResultCat>=> {
     const lastBody = data.body
     const ctx = mdjs(lastBody)
     const jquery = cheerio.load(`<div class="markdown-body"></div>`)
+    const closeText = `关闭`
+    const closeID = `close-action`
     jquery('head').append(`<meta content="width=device-width, initial-scale=1" name="viewport">`)
+    jquery('head').append(`
+    <style type="text/css">
+    .markdown-body {
+      padding: 24px 4px 4px;
+    }
+    </style>
+    `)
     jquery('.markdown-body').append(ctx)
+    jquery('body').append(`
+      <div style="text-align: center">
+        <button style="
+        position: relative;
+        display: inline-block;
+        padding: 5px 80px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        border: 1px solid;
+        border-radius: 6px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;" id="${ closeID }">${ closeText }</button>
+      </div>
+    `)
     jquery('body').append(`<script type="text/javascript" src="https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.2.js"></script>`)
     jquery('body').append(`
     <script type="text/javascript">
@@ -102,6 +135,15 @@ export const getAppUpdate = async (): Promise<githubReleaseResultCat>=> {
             }
           })
         })
+        try {
+          let closeEle = document.getElementById("${ closeID }")
+          closeEle.addEventListener('click', ()=> {
+            const current = plus.webview.getWebviewById("${ updateWebviewID }")
+            current.close()
+          })
+        } catch (error) {
+          throw new Error(error)          
+        }
 			});
 		</script>
 
