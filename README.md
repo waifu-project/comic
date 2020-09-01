@@ -55,8 +55,10 @@ https://impactor.nullx.me
 
 - https://www.iconfont.cn/collections/detail?cid=8856
 
-# QQ群
+# chat
 
-有兴趣的话可以加`QQ`群交流沟通
+有兴趣的话可以加`QQ`裙交流沟通
 
 ![](https://cdn.jsdelivr.net/gh/waifu-project/18comic/qq_group.png)
+
+tg裙: https://t.me/send_18comic
