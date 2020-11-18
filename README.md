@@ -1,8 +1,6 @@
-<img src="https://cdn.jsdelivr.net/gh/waifu-project/18comic/app.png" width="320">
-
 # 18comic
 
-<!-- ![](https://18comic.one/media/logo/new_logo.png?v=2020000525) -->
+![](https://18comic.one/media/logo/new_logo.png?v=2020000525)
 
 **仅供学习参考**
 
@@ -15,6 +13,8 @@
 # 下载♂安装
 
 参见 [`releases`]() 下
+
+<img src="./app.png" width="120">
 
 # 界面
 
@@ -56,9 +56,5 @@ https://impactor.nullx.me
 - https://www.iconfont.cn/collections/detail?cid=8856
 
 # chat
-
-有兴趣的话可以加`QQ`裙交流沟通
-
-![](https://cdn.jsdelivr.net/gh/waifu-project/18comic/qq_group.png)
 
 tg裙: https://t.me/send_18comic
