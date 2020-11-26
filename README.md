@@ -10,6 +10,14 @@
 
 ![](https://img.shields.io/badge/style-hello--world-green?logo=visual-studio-code&style=for-the-badge&label=vscode)
 
+
+> TIP: 刚才有个朋友给我发来几个截图, 我一看, 哦, 原来是有些人拿出去买搞收费, 我说怎么回事, 这东西不是免费的吗, 我劝年轻人耗子尾汁, 好好反思, 以后不要搞这种小聪明, 小聪明啊, 谢谢朋友们!
+
+<img src="https://i.loli.net/2020/11/26/te5hMk3sN7gz2PC.png" width="120" />
+<img src="https://i.loli.net/2020/11/26/MsfyK1uEXQxwYWj.png" width="160" />
+
+
+
 # 下载♂安装
 
 参见 [`releases`]() 下
